@@ -1,6 +1,11 @@
 //main game loop of the program
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
+#include "game.hpp"
+#include "entity.hpp"
+#include "map.hpp"
+
+
 int main()
 {
     // Create the main window

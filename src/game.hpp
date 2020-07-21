@@ -3,6 +3,7 @@
 #include "entity.hpp"
 #include "player.hpp"
 #include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
 
 
 class   Game{

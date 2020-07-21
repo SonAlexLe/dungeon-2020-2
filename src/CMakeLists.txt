@@ -1,11 +1,10 @@
 cmake_minimum_required(VERSION 3.0)
-project(DDDDungeons)
+project("Dungeongame")
 include_directories("src")
 
-set(EXECUTABLE_NAME {DDDDungeons})
+set(EXECUTABLE_NAME "DDDDungeons")
 
-file(GLOB SOURCES src/*.cpp)
-add_executable(${EXECUTABLE_NAME} ${SOURCES})
+add_executable(${EXECUTABLE_NAME} )
 set(CMAKE_BUILD_TYPE Debug)
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})

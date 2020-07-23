@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/u/88/talstal1/unix/Documents/dungeon-2020-2/src/game.cpp
+game.hpp
+/u/88/talstal1/unix/Documents/dungeon-2020-2/src/game.hpp
+
+include/entity.hpp
+
+include/game.hpp
+map.hpp
+include/map.hpp
+entity.hpp
+include/entity.hpp
+player.hpp
+include/player.hpp
+SFML/Graphics.hpp
+-
+SFML/Window.hpp
+-
+
+include/map.hpp
+
+include/player.hpp
+

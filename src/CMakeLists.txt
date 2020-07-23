@@ -1,15 +1,8 @@
-cmake_minimum_required(VERSION 3.0)
-project("Dungeongame")
-include_directories("src")
+cmake_minimum_required(VERSION 2.8.9)
+project(dungeons)
 
-set(EXECUTABLE_NAME "DDDDungeons")
+include_directories(include)
 
-add_executable(${EXECUTABLE_NAME} )
-set(CMAKE_BUILD_TYPE Debug)
+set(SOURCES main.cpp entity.cpp game.cpp graphics.cpp item.cpp map.cpp player.cpp)
 
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
-find_package(SFML 2 REQUIRED network audio graphics window system)
-if(SFML_FOUND)
-    include_directories(${SFML_INCLUDE_DIR})
-    target_link_libraries(${EXECUTABLE_NAME} ${SFML_LIBRARIES} ${SFML_DEPENDENCIES})
-endif()
+add_executable(DDDdungeons ${SOURCES})

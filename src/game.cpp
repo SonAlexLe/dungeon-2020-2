@@ -7,24 +7,24 @@ Game::~Game()
 
 void Game::init() //add arguments?? 
 {
-    sf::RenderWindow    window(sf::VideoMode(800, 600),    "SFML window");
+    sf::RenderWindow    window(sf::VideoMode(800, 600),    "TEST GAME");
     dungeon_    =   Map();
     score_  =   0;
+    difficulty_ =   0;
     p1_     =   Player();
-    window_ =   window;
-
+    window_ = &window;
 }
 
 void    Game::input()
 {
     sf::Event event;
-    while   window_.pollEvent(event)
+    while(window_->pollEvent(event))
     {
-        switch(event)
+        switch(event.type)
         {
             case    sf::Event::Closed:
             //handle window close
-                window_.close();
+                window_->close();
                 isRunning_  =    false;
                 break;
             case    sf::Event::KeyEvent:

@@ -13,6 +13,7 @@ void Game::init() //add arguments??
     difficulty_ =   0;
     p1_     =   Player();
     window_ = &window;
+    clock_.restart();
 }
 
 void    Game::input()
@@ -51,14 +52,24 @@ void    Game::input()
 
 void    Game::update()
 {
+    for(auto i : p1_.room.denizens)
+    {
+        i.update(clock_.getElapsedTime()-lastUpdate_);
+    }
+    p1_.update(clock_.getElapsedTime()-lastUpdate_);
+    
+    lastUpdate_ = clock_.getElapsedTime();
+
     //go through all the active entities in the current room and move them up to their speed.
     //enemy AI should happen here
-    //check for projectile collision
+    //check fore entity & projectile collision
+    //
 }
 
 void    Game::render()
 {
     /* draw the background, room, player and all other entities */ 
+    
 }
 
 void    Game::clean()

@@ -28,8 +28,11 @@ private:
      
     int score_;
     int difficulty_;
+
     sf::RenderWindow    *window_;
     Map dungeon_;
     Player  p1_;
+    sf::Clock clock_;
+    sf::Time lastUpdate_;
     //add possible additional player...
 };

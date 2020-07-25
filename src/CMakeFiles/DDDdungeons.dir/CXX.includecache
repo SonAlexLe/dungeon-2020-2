@@ -10,6 +10,24 @@
 game.hpp
 /u/88/talstal1/unix/Documents/dungeon-2020-2/src/game.hpp
 
+/u/88/talstal1/unix/Documents/dungeon-2020-2/src/item.cpp
+
+/u/88/talstal1/unix/Documents/dungeon-2020-2/src/main.cpp
+SFML/Audio.hpp
+-
+SFML/Graphics.hpp
+-
+game.hpp
+/u/88/talstal1/unix/Documents/dungeon-2020-2/src/game.hpp
+entity.hpp
+/u/88/talstal1/unix/Documents/dungeon-2020-2/src/entity.hpp
+map.hpp
+/u/88/talstal1/unix/Documents/dungeon-2020-2/src/map.hpp
+player.hpp
+/u/88/talstal1/unix/Documents/dungeon-2020-2/src/player.hpp
+
+/u/88/talstal1/unix/Documents/dungeon-2020-2/src/map.cpp
+
 include/entity.hpp
 
 include/game.hpp

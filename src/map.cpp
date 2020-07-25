@@ -1,2 +1,3 @@
 //map generation
-//todo: version of generateMap() which returns a square room
+//todo: version of generateMap() which returns a single square room
+

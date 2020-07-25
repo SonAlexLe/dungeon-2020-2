@@ -4,6 +4,7 @@
 #include "player.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+#include <SFML/System.hpp>
 
 
 class   Game
@@ -32,7 +33,7 @@ private:
     sf::RenderWindow    *window_;
     Map dungeon_;
     Player  p1_;
-    sf::Clock clock_;
-    sf::Time lastUpdate_;
+    sf::Clock   clock_;
+    sf::Time    lastUpdate_;
     //add possible additional player...
 };

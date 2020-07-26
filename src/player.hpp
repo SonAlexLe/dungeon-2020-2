@@ -1,6 +1,6 @@
 #pragma once
 
-//placeholder
+//placeholder, please include empty constructor for testing purposes
 
 class Player : public Entity
 {

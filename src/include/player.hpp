@@ -5,7 +5,7 @@
 class Player : public Entity
 {
 public:
-    Player() : a_(0) {}
+    Player(double x, double y) : Entity(x, y) {}
 
 
 private:

@@ -10,6 +10,7 @@ public:
     void update(sf::Time dt);
 
 private:
+    //consider using the specialized form sf::Vector2f -L
     sf::Vector2<double> velocity_;
     sf::Vector2<double> currPos_;
 };

@@ -7,7 +7,7 @@
 #include <SFML/System.hpp>
 
 
-class   Game
+class Game
 {
 public:
     Game();

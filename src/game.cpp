@@ -79,8 +79,7 @@ void    Game::update()
     //enemy AI should happen here
     //check fore entity & projectile collision
     //
-}
-
+} 
 void    Game::render()
 {
     window_->clear();

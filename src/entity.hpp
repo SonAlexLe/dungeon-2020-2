@@ -1,11 +1,12 @@
 #pragma once
+#include <SFML/System.hpp>
 
 class Entity
 {
 public:
-    Entity::Entity(double x, double y) : currPos_(x, y) {}
+    Entity(double x, double y) : currPos_(x, y) {}
     virtual ~Entity();
-
+//todo: make update virtual
     void update(sf::Time dt);
 
 private:

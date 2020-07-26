@@ -1,17 +1,17 @@
 //main game loop of the program
-#include    <SFML/Audio.hpp>
-#include    <SFML/Graphics.hpp>
-#include    "game.hpp"
-#include    "entity.hpp"
-#include    "map.hpp"
-#include    "player.hpp"
+#include <SFML/Audio.hpp>
+#include <SFML/Graphics.hpp>
+#include "game.hpp"
+#include "entity.hpp"
+#include "map.hpp"
+#include "player.hpp"
 
 
 
 
 int main()
 {
-    Game    game;
+    Game game;
 
     game.init();
 

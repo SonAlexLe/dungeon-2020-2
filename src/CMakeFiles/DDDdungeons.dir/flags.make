@@ -6,5 +6,5 @@ CXX_FLAGS =
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/u/88/talstal1/unix/Documents/dungeon-2020-2/src/include 
+CXX_INCLUDES = 
 

@@ -84,6 +84,7 @@ void Game::render()
 {
     window_->clear();
 
+
     /* draw the background, room, player and all other entities */ 
     window_->display();
 }

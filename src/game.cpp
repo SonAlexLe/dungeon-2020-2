@@ -88,6 +88,7 @@ void Game::render()
     sf::RectangleShape room(sf::Vector2f(p1_.GetRoom().GetWidth()*scale*1900, p1_.GetRoom().GetHeight()*scale*1080));
     sf::CircleShape player(10);
     player.setPosition(p1_.GetPosition());
+    
     /* draw the background, room, player and all other entities */ 
     window_->display();
 }

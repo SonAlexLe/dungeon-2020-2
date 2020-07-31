@@ -67,13 +67,19 @@ void Game::input()
 
 void    Game::update()
 {
-    for(auto i : p1_.GetRoom().GetDenizens())
+    sf::Time time = clock_.getElapsedTime();
+    sf::Time elapsed = time - lastUpdate_;
+    p1_.update(elapsed);
+    for(auto i : p1_.GetRoom()->GetEnemies())
     {
-        i.update(clock_.getElapsedTime() - lastUpdate_);
+        i.update(elapsed);
     }
-    p1_.update(clock_.getElapsedTime() - lastUpdate_);
-    
-    lastUpdate_ = clock_.getElapsedTime();
+    for(auto i : p1_.GetRoom()->GetProjectiles())
+    {
+        i.update(elapsed);
+    }
+
+    lastUpdate_ = time;
 
     //go through all the active entities in the current room and move them up to their speed.
     //enemy AI should happen here

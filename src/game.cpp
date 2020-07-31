@@ -10,7 +10,7 @@ void Game::init() //add arguments??
 {
     //game should also open all required sprites to memory, throw errors if files are not found.
     sf::RenderWindow window(sf::VideoMode(800, 600), "TEST GAME");
-    dungeon_ = Map();
+    dungeon_ = Map(0);
     score_ = 0;
     difficulty_ = 0;
     p1_ = Player();
@@ -43,20 +43,20 @@ void Game::input()
                 }
                 else
                 {
-                    p1_.input(event.key);
+                    p1_.input(event.key,true);
                 }
                 break;
 
             case sf::Event::KeyReleased:
-                p1_.input(event.key);
+                p1_.input(event.key,false);
                 break;
 
             case sf::Event::MouseButtonPressed:
-                p1_.click(event);
+                p1_.click(event,true);
                 break;
 
             case sf::Event::MouseButtonReleased:
-                p1_.release(event);
+                p1_.click(event,false);
                 break;
 
             default:

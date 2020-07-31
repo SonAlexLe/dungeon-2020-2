@@ -1,3 +1,0 @@
-/u/88/talstal1/unix/Documents/dungeon-2020-2/src/CMakeFiles/rebuild_cache.dir
-/u/88/talstal1/unix/Documents/dungeon-2020-2/src/CMakeFiles/edit_cache.dir
-/u/88/talstal1/unix/Documents/dungeon-2020-2/src/CMakeFiles/DDDdungeons.dir

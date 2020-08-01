@@ -4,13 +4,13 @@
 class Entity
 {
 public:
-    Entity(double x, double y) : currPos_(x, y) {}
+    Entity();
+    Entity(double x, double y);
     virtual ~Entity();
 //todo: make update virtual
-    void update(sf::Time dt);
-
+    virtual void update(sf::Time dt);
 private:
     //consider using the specialized form sf::Vector2f -L
-    sf::Vector2<double> velocity_;
-    sf::Vector2<double> currPos_;
+    sf::Vector2f velocity_;
+    sf::Vector2f currPos_;
 };

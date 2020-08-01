@@ -89,7 +89,7 @@ void    Game::update()
 void Game::render()
 {
     window_->clear(sf::Color::Black);
-    double scale = min(window_->getSize().y/1080,window_->getSize().x/1900);
+    double scale = std::min(window_->getSize().y/1080,window_->getSize().x/1900);
     //placeholder
     sf::RectangleShape room(sf::Vector2f(p1_.GetRoom().GetWidth()*scale*1900, p1_.GetRoom().GetHeight()*scale*1080));
     sf::CircleShape player(10);

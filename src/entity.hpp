@@ -2,6 +2,7 @@
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 #include "room.hpp"
+#include <string>
 
 class Room;
 
@@ -24,6 +25,8 @@ public:
     sf::Vector2f GetPosition();
 
     void SetPosition(sf::Vector2f pos);
+
+    virtual const std::string& GetSprite() const;
 
 protected:
 

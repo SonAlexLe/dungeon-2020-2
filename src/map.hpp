@@ -23,6 +23,7 @@ public:
     - Fill rooms (One idea is to have text files for preconstructed room layouts that will be read randomly)
     - Add special rooms (boss, shop, item rooms, etc)
     */
+    Map() {}   
     Map(int difficulty) : difficulty_(difficulty) {}
 
     ~Map();

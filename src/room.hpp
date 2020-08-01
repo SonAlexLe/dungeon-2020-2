@@ -2,6 +2,7 @@
 #include "entity.hpp"
 #include <list>
 
+class Entity;
 
 class Room {
 public:
@@ -25,6 +26,10 @@ public:
     // Obstacles can be unpassable map geometry. Hazards(lava/spikes) could also be in obstacles or could be considered enemies without movement
     std::list<Entity*> GetObstacles();
 
+    int GetWidth();
+
+    int GetHeight();
+
 
 protected:
 
@@ -39,5 +44,9 @@ protected:
     std::list<Entity*> projectiles_;
 
     std::list<Entity*> obstacles_;
+
+    int width_;
+    
+    int height_;
 
 };

@@ -72,11 +72,11 @@ void    Game::update()
     p1_.update(elapsed);
     for(auto i : p1_.GetRoom()->GetEnemies())
     {
-        i.update(elapsed);
+        i->update(elapsed);
     }
     for(auto i : p1_.GetRoom()->GetProjectiles())
     {
-        i.update(elapsed);
+        i->update(elapsed);
     }
 
     lastUpdate_ = time;
@@ -91,7 +91,7 @@ void Game::render()
     window_->clear(sf::Color::Black);
     double scale = std::min(window_->getSize().y/1080,window_->getSize().x/1900);
     //placeholder
-    sf::RectangleShape room(sf::Vector2f(p1_.GetRoom().GetWidth()*scale*1900, p1_.GetRoom().GetHeight()*scale*1080));
+    sf::RectangleShape room(sf::Vector2f(p1_.GetRoom()->GetWidth()*scale*1900, p1_.GetRoom()->GetHeight()*scale*1080));
     sf::CircleShape player(10);
     player.setPosition(p1_.GetPosition());
     

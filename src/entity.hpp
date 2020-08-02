@@ -1,16 +1,39 @@
 #pragma once
 #include <SFML/System.hpp>
+#include <SFML/Window.hpp>
+#include "room.hpp"
+#include <string>
+
+class Room;
 
 class Entity
 {
 public:
-    Entity(double x, double y) : currPos_(x, y) {}
+
+    Entity();
+
+    Entity(double x, double y);
+
     virtual ~Entity();
-//todo: make update virtual
+
     void update(sf::Time dt);
 
-private:
-    //consider using the specialized form sf::Vector2f -L
-    sf::Vector2<double> velocity_;
-    sf::Vector2<double> currPos_;
+    void SetRoom(Room* room);
+
+    Room* GetRoom();
+
+    sf::Vector2f GetPosition();
+
+    void SetPosition(sf::Vector2f pos);
+
+    virtual const std::string& GetSprite() const;
+
+protected:
+
+    sf::Vector2f velocity_;
+
+    sf::Vector2f currPos_;
+
+    Room* room_;
+
 };

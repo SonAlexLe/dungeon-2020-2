@@ -1,28 +1,89 @@
 #pragma once
 #include "player.hpp"
-//todo: player needs to be able to move around (and must have a 2d location)
-//inherits from Creature
+#define MAX_X 25.f
+#define MAX_Y 25.f // squared
+#define ACCEL_RATE 2.f
+#define ACCEL_RATE_NEG -ACCEL_RATE
+#define DECCEL_RATE 1.f
+
 Player::Player() {}
 
 Player::Player(double x, double y) : Entity(x, y) {}
 
 /**
- * should update have any other params?
- * How do these cases work exactly? turn the player in 1 of the 4 compass directions?
- * i think acceleration should be ignored for now
- * can the player move in any of the 360deg directions? or only 4 compass directions?
-*/
-void Player::update(sf::Time df, std::vector<sf::Event::KeyEvent> keys, bool isPressed) {
+ * Formulas used: (for each component of the vector)
+ * v = v0 + at
+ * dx = 1/2*t*(v+v0)
+ */ 
+void Player::update(sf::Time dt, std::map<sf::Keyboard::Key, bool>& keys, std::map<sf::Mouse::Button, bool>& mousebutts) {
+    sf::Vector2f v0(velocity_);
     for(auto i : keys) {
-        switch(i.code) {
-            case sf::Keyboard::W:
-                break;
-            case sf::Keyboard::A:
-                break;
-            case sf::Keyboard::S:
-                break;
-            case sf::Keyboard::D:
-                break;
+        if (i.second) {
+            switch(i.first) {
+                case sf::Keyboard::W:
+                    velocity_.y += ACCEL_RATE_NEG * dt.asSeconds();
+                    break;
+                case sf::Keyboard::A:
+                    velocity_.x += ACCEL_RATE_NEG * dt.asSeconds();
+                    break;
+                case sf::Keyboard::S:
+                    velocity_.y += ACCEL_RATE * dt.asSeconds();
+                    break;
+                case sf::Keyboard::D:
+                    velocity_.x += ACCEL_RATE * dt.asSeconds();
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            switch(i.first) {
+                case sf::Keyboard::W:
+                    if (velocity_.y > -MAX_Y) velocity_.y += ACCEL_RATE_NEG * dt.asSeconds();
+                    else velocity_.y = -MAX_Y;
+                    break;
+                case sf::Keyboard::A:
+                    if (velocity_.x > -MAX_X) velocity_.x += ACCEL_RATE_NEG * dt.asSeconds();
+                    else velocity_.x = -MAX_X;
+                    break;
+                case sf::Keyboard::S:
+                    if (velocity_.y < MAX_Y) velocity_.y += ACCEL_RATE * dt.asSeconds();
+                    else velocity_.y = MAX_Y;
+                    break;
+                case sf::Keyboard::D:
+                    if (velocity_.x < MAX_X) velocity_.x += ACCEL_RATE * dt.asSeconds();
+                    else velocity_.x = MAX_X;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    if (velocity_.y < -MAX_Y) velocity_.y = -MAX_Y;
+    if (velocity_.x < -MAX_X) velocity_.x = -MAX_X;
+    if (velocity_.y > MAX_Y) velocity_.y = MAX_Y;
+    if (velocity_.x > MAX_X) velocity_.x = MAX_X;
+    currPos_ += 0.5f * dt.asSeconds() * (velocity_ + v0);
+
+    for(auto i : mousebutts) {
+        if(i.second) {
+            switch(i.first) {
+                case sf::Mouse::Left:
+                    break;
+                case sf::Mouse::Right:
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            switch(i.first) {
+                case sf::Mouse::Left:
+                    break;
+                case sf::Mouse::Right:
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

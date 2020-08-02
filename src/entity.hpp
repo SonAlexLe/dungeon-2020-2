@@ -30,8 +30,6 @@ public:
 
 protected:
 
-    sf::Vector2f velocity_;
-
     sf::Vector2f currPos_;
 
     Room* room_;

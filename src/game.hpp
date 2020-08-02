@@ -7,7 +7,6 @@
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 
-
 class Game
 {
 public:
@@ -36,5 +35,7 @@ private:
     Player p1_;
     sf::Clock clock_;
     sf::Time lastUpdate_;
+    std::map<sf::Keyboard::Key,bool> inputs_;
+    std::map<sf::Mouse::Button,bool> mousestate_;
     //add possible additional player...
 };

@@ -35,28 +35,19 @@ void Game::input()
             //pass keyboard input to the player object, needs to be updated if second player is implemented
             //note, the event only handles key down / key up, meaning that pressing a key must start the player moving
             //until the key is released, ie. the key up event is passed to the player!! 
-                if(event.key.code == sf::Keyboard::Escape)
-                {
-                    //code to pause the game
-                    //pausing should stop the game from rendering and stop the game logic, making only a pause menu render.
-                    //clicking continue in game or pressing esc again resumes the game
-                }
-                else
-                {
-                    p1_.input(event.key,true);
-                }
+                inputs_[event.key] = true;
                 break;
 
             case sf::Event::KeyReleased:
-                p1_.input(event.key,false);
+                inputs_[event.key] = false;
                 break;
 
             case sf::Event::MouseButtonPressed:
-                p1_.click(event,true);
+                mousestate_[event.mouseButton] = true;
                 break;
 
             case sf::Event::MouseButtonReleased:
-                p1_.click(event,false);
+                mousestate_[event.mouseButton] = false;
                 break;
 
             default:
@@ -69,7 +60,7 @@ void    Game::update()
 {
     sf::Time time = clock_.getElapsedTime();
     sf::Time elapsed = time - lastUpdate_;
-    p1_.update(elapsed);
+    p1_.update(inputs_,mousestate_,elapsed);
     for(auto i : p1_.GetRoom()->GetEnemies())
     {
         i.update(elapsed);

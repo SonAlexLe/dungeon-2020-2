@@ -15,7 +15,7 @@ Player::Player(double x, double y) : Entity(x, y) {}
  * v = v0 + at
  * dx = 1/2*t*(v+v0)
  */ 
-void Player::update(sf::Time dt, std::map<sf::Keyboard::Key, bool>& keys, std::map<sf::Mouse::Button, bool>& mousebutts) {
+void Player::update(std::map<sf::Keyboard::Key, bool>& keys, std::map<sf::Mouse::Button, bool>& mousebutts, sf::Time dt) {
     sf::Vector2f v0(velocity_);
     for(auto i : keys) {
         if (i.second) {

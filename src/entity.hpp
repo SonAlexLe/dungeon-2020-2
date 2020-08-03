@@ -26,7 +26,7 @@ public:
 
     void SetPosition(sf::Vector2f pos);
 
-    virtual const std::string& GetSprite() const;
+    virtual const std::string GetSprite() const;
 
 protected:
 

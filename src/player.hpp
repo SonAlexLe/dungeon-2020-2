@@ -12,7 +12,7 @@ public:
 
     Player(double x, double y);
 
-    void update(sf::Time dt, std::map<sf::Keyboard::Key, bool>& keys, std::map<sf::Mouse::Button, bool>& mousebutts);
+    void update(std::map<sf::Keyboard::Key, bool>& keys, std::map<sf::Mouse::Button, bool>& mousebutts, sf::Time dt);
 
 private:
 

@@ -16,4 +16,4 @@ sf::Vector2f Entity::GetPosition() { return currPos_; }
 
 void Entity::SetPosition(sf::Vector2f pos) { currPos_ = pos; }
 
-const std::string& Entity::GetSprite() const { return "entity.png"; }
+const std::string Entity::GetSprite() const { return "entity.png"; }

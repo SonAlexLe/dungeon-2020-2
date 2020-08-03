@@ -10,9 +10,10 @@ public:
     Room();
 
     // Destructor needs to handle emptying all containers
-    ~Room();
+    ~Room() {}
 
     // Each room has containers for each type of entity contained in it and interfaces for accessing each container
+    // Since all these objects share a base class you could just have one container for all of them but travesing this container would be very tedious.
 
     std::list<Entity*> GetPlayer();
 
@@ -26,14 +27,15 @@ public:
     // Obstacles can be unpassable map geometry. Hazards(lava/spikes) could also be in obstacles or could be considered enemies without movement
     std::list<Entity*> GetObstacles();
 
-    int GetWidth();
+    double GetWidth();
 
-    int GetHeight();
-
+    double GetHeight();
 
 protected:
 
     // Types for containers need to be updated once different types of entities are implemented
+
+    std::pair<double, double> size_;
 
     std::list<Entity*> player_;
 

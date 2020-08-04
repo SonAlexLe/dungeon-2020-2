@@ -2,7 +2,7 @@
 
 #pragma once
 #include <SFML/Graphics/Sprite.hpp>
-#include <Time.hpp>
+#include <ctime>
 #include "item.hpp"
 
 class Weapon : public Item

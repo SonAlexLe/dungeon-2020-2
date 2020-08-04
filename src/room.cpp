@@ -2,7 +2,7 @@
 #include "room.hpp"
 
 
-Room::Room() : size_.first(100.0), size_second(100.0) {}
+Room::Room() : size_({100, 100}) {}
 
 std::list<Entity*> Room::GetPlayer() {
     return player_;

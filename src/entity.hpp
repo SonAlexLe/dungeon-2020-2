@@ -12,21 +12,23 @@ public:
 
     Entity();
 
-    Entity(double x, double y);
+    Entity(float x, float y);
 
     virtual ~Entity();
 
-    void update(sf::Time dt);
+    virtual void update(sf::Time dt) =0;
+
+    virtual const std::string GetSpriteName() const =0;
+
+    virtual void load() =0;
 
     void SetRoom(Room* room);
 
     Room* GetRoom();
 
-    sf::Vector2f GetPosition();
+    sf::Vector2f& GetPosition();
 
     void SetPosition(sf::Vector2f pos);
-
-    virtual const std::string GetSprite() const;
 
 protected:
 

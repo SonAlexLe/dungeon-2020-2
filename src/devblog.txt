@@ -1,0 +1,8 @@
+CHANGES FROM LAST COMMIT:
+    - Implemented projectile firing by clicking LMB
+    - Added Monster and Projectile classes
+    - Slight edits to item.cpp and item.hpp
+    - Player, Monster, and Projectile now have load() method
+    for loading sprites
+    - Added some sprites in Sprites folder
+    - And more changes that I cannot remember

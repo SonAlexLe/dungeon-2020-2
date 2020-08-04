@@ -2,11 +2,12 @@
 #pragma once
 
 #include <string>
-#include "entity.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
+#include "entity.hpp"
+#include "player.hpp"
 
 enum ItemTypes { //Types to differentiate the items.
     DEFAULT = 0,
@@ -27,8 +28,10 @@ public:
     int getValue() const;
     void setUnequipped();
     void setEquipped();
-    virtual void load() = 0;
     void draw(sf::RenderWindow* window);
+    // inherited
+    void update(sf::Time dt);
+    // load() is also inherited from Entity
 
 protected:
     sf::Texture texture_; 

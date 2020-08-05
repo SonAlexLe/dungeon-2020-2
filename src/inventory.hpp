@@ -4,21 +4,19 @@
 #pragma once
 
 #include "player.hpp"
-#include "weapon.hpp"
-#include "armor.hpp"
+#include "inventoryItem.hpp"
 #include "item.hpp"
 
 class Inventory{
 public:
     Inventory(Player* player) : player_(player)
     {
-        weapon_ = new Weapon(0, 0, "Stick", 1, player, 1); //Creates a basic weapon for the player.
-        weapon_->setEquipped();
+        weapon_ = nullptr;
         armor_ = nullptr;
     }
     ~Inventory(){}
-    void addWeapon(Weapon* weapon);
-    void addArmor(Armor* armor);
+    void addWeapon(inventoryItem* weapon);
+    void addArmor(inventoryItem* armor);
     
     int getArmorValue(){
         return armor_->getValue();
@@ -28,6 +26,6 @@ public:
     }
 private:
     Player* player_;
-    Armor* armor_;
-    Weapon* weapon_;
+    inventoryItem* armor_;
+    inventoryItem* weapon_;
 };

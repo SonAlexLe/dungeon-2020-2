@@ -1,40 +1,28 @@
- 
-//can also manifest as an entity on the ground, that can be then picked up if it collides with a player.
+
 #include "item.hpp"
 
-std::string Item::getName() const{
-    return name_;
-}
-
-int Item::getType() const{
-    return type_;
-}
-
-int Item::getValue() const{
-    return armorDmgValue_;
-}
-void Item::setUnequipped(){
-    equipped_ = false;
-}
-void Item::setEquipped(){
-    equipped_ = true;
-}
 void Item::update(sf::Time dt){
-    if(equipped_ == false && this->sprite_.getGlobalBounds().intersects(this->player_->sprite_.getGlobalBounds()) && dt){ //Checks for collision with the player.
-        switch (type_){
+    if(item_->getStatus() == false && this->sprite_.getGlobalBounds().intersects(this->player_->sprite_.getGlobalBounds())){ //Checks for collision with the player.
+        switch (item_->getType()){
         case 1:
-            this->player_->inventory->addWeapon(this);
+            this->player_->inventory->addWeapon(item_);
             break;
         case 2:
-            this->player_->inventory->addArmor(this);
+            this->player_->inventory->addArmor(item_);
             break;
         }
-    equipped_ = true;
+    item_->setEquipped();
     }
 }
 
 void Item::draw(sf::RenderWindow* window){ //Now only draws the sprite but it also should draw the name of the item under it.
-    if(this->equipped_ == false){ //Draw function should only draw the object if it's not equipped.
+    if(item_->getStatus() == false){ //Draw function should only draw the object if it's not equipped.
         window->draw(this->sprite_);
     }
+}
+
+void Item::load() //Loads the picture form the given filename.
+{
+    this->texture_.loadFromFile(filename_, sf::IntRect(this->currPos_.x, this->currPos_.y, 10, 10));
+    this->sprite_.setTexture(this->texture_);
 }

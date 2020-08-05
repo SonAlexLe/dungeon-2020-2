@@ -6,6 +6,7 @@ Game::Game() : difficulty_(0), score_(0)
     sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(800, 600), "TEST GAME");
     dungeon_ = Map(difficulty_);
     p1_ = Player(dungeon_.GetStartRoom());
+    inventory_ = new Inventory(p1_);
     window_ = window;
     clock_.restart();
 }

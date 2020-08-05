@@ -5,6 +5,7 @@
 #include "entity.hpp"
 #include "map.hpp"
 #include "player.hpp"
+#include "inventory.hpp"
 
 
 

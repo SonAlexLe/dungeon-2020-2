@@ -20,7 +20,7 @@ void Item::setEquipped(){
     equipped_ = true;
 }
 void Item::update(sf::Time dt){
-    if(equipped_ == false && this->sprite_.getGlobalBounds().intersects(this->player_->GetSprite().getGlobalBounds()) && dt){ //Checks for collision with the player.
+    if(equipped_ == false && this->sprite_.getGlobalBounds().intersects(this->player_->GetSprite().getGlobalBounds())){ //Checks for collision with the player.
         switch (type_){
         case 1:
             this->player_->GetInventory()->addWeapon(this);

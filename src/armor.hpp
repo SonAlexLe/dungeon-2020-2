@@ -10,7 +10,7 @@ public:
     
     void load() //Creates a texture that shows the weapon on the ground. //Loads the picture form a file named "armorOnTheGround.png".
     {
-        this->texture_.loadFromFile(armorOnTheGround.png, sf::IntRect(this->currPos_.x, this->currPos_.y, 20, 20)); 
+        this->texture_.loadFromFile("armorOnTheGround.png", sf::IntRect(this->currPos_.x, this->currPos_.y, 20, 20)); 
         this->sprite_.setTexture(this->texture_);
     }
 };

@@ -7,7 +7,7 @@
 #include "weapon.hpp"
 #include "armor.hpp"
 #include "item.hpp"
-
+class Player;
 class Inventory{
 public:
     Inventory(Player* player) : player_(player)

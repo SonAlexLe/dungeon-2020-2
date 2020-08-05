@@ -5,7 +5,7 @@ Game::Game() : difficulty_(0), score_(0)
 {
     sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(800, 600), "TEST GAME");
     dungeon_ = Map(difficulty_);
-    p1_ = Player(dungeon_.GetStartRoom());
+    p1_ = new Player(dungeon_.GetStartingRoom());
     inventory_ = new Inventory(p1_);
     window_ = window;
     clock_.restart();
@@ -61,12 +61,12 @@ void    Game::update()
 {
     sf::Time time = clock_.getElapsedTime();
     sf::Time elapsed = time - lastUpdate_;
-    p1_.update(inputs_,mousestate_,elapsed);
-    for(auto i : p1_.GetRoom()->GetEnemies())
+    p1_->update(inputs_,mousestate_,elapsed);
+    for(auto i : p1_->GetRoom()->GetEnemies())
     {
         i->update(elapsed);
     }
-    for(auto i : p1_.GetRoom()->GetProjectiles())
+    for(auto i : p1_->GetRoom()->GetProjectiles())
     {
         i->update(elapsed);
     }
@@ -83,9 +83,9 @@ void Game::render()
     window_->clear(sf::Color::Black);
     double scale = std::min(window_->getSize().y/1080,window_->getSize().x/1900);
     //placeholder
-    sf::RectangleShape room(sf::Vector2f(p1_.GetRoom()->GetWidth()*scale*1900, p1_.GetRoom()->GetHeight()*scale*1080));
+    sf::RectangleShape room(sf::Vector2f(p1_->GetRoom()->GetWidth()*scale*1900, p1_->GetRoom()->GetHeight()*scale*1080));
     sf::CircleShape player(10);
-    player.setPosition(p1_.GetPosition());
+    player.setPosition(p1_->GetPosition());
     
     /* draw the background, room, player and all other entities */ 
     window_->display();

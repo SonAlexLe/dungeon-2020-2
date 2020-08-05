@@ -13,11 +13,13 @@ Player::Player() {
     velocity_ = sf::Vector2f(0, 0);
 }
 
+Player::Player(Room* room) : room_(room) {}
+
 Player::Player(float x, float y) : Entity(x, y) { velocity_ = sf::Vector2f(0, 0); }
 
 sf::Sprite& Player::GetSprite() { return sprite_; }
 
-const std::string Player::GetSpriteName() { return "player.png"; }
+const std::string Player::GetSpriteName() const { return "player.png"; }
 
 //should be run at startup, maybe whenever a new player is initialized?
 //same with other entities that have sprites

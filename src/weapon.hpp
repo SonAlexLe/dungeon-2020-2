@@ -16,6 +16,8 @@ public:
     {
         attackInterval = sf::seconds(0.1 * value);
     }
+
+    const std::string GetSpriteName() const { return "weaponOnTheGround.png"; }
     
     void load() //Loads the picture form a file named "weaponOnTheGround.png".
     {

@@ -14,7 +14,7 @@ enum ItemTypes { //Types to differentiate the items.
     weapon,
     armor
 };
-
+class Player;
 class Item : public Entity{ //Inherits from the entity class.
 public:
     Item(double x, double y, const std::string name, const int type, Player* player, int value)

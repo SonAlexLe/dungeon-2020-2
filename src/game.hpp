@@ -34,8 +34,8 @@ private:
 
     sf::RenderWindow *window_;
     Map dungeon_;
-    Player p1_;
-    Inventory inventory_;
+    Player *p1_;
+    Inventory *inventory_;
     sf::Clock clock_;
     sf::Time lastUpdate_;
     std::map<sf::Keyboard::Key,bool> inputs_;

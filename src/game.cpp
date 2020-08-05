@@ -1,21 +1,22 @@
 #include "game.hpp"
 #include "graphics.cpp"
 
-Game::Game()
-{}
+Game::Game() : difficulty_(0), score_(0) 
+{
+    sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(800, 600), "TEST GAME");
+    dungeon_ = Map(difficulty_);
+    p1_ = Player(dungeon_.GetStartRoom());
+    window_ = window;
+    clock_.restart();
+}
 Game::~Game()
-{}
+{
+    delete window_;
+}
 
 void Game::init() //add arguments?? 
 {
     //game should also open all required sprites to memory, throw errors if files are not found.
-    sf::RenderWindow window(sf::VideoMode(800, 600), "TEST GAME");
-    dungeon_ = Map(0);
-    score_ = 0;
-    difficulty_ = 0;
-    p1_ = Player();
-    window_ = &window;
-    clock_.restart();
 }
 
 void Game::input()
@@ -27,7 +28,6 @@ void Game::input()
         {
             case sf::Event::Closed:
             //handle window close
-                window_->close();
                 isRunning_ = false;
                 break;
 
@@ -92,5 +92,6 @@ void Game::render()
 
 void Game::clean()
 {
+    window_->close();
     //memory cleanup on game close, will be created later...
 }

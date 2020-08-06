@@ -1,7 +1,10 @@
 #include "room.hpp"
 
 
-Room::Room() : size_({100, 100}) {}
+Room::Room(){
+    std::pair<double,double> size(100, 100);
+    size_ = size;
+}
 
 std::list<Entity*> Room::GetPlayer() {
     return player_;

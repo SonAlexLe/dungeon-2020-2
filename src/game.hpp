@@ -3,8 +3,7 @@
 #include "map.hpp"
 #include "entity.hpp"
 #include "player.hpp"
-#include "inventory.hpp"
-#include "inventory.hpp"
+//#include "inventory.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
@@ -23,7 +22,9 @@ public:
     void update();
     void render();
     void clean();
-    bool isRunning();
+    bool isRunning() {
+        return isRunning_;
+    }
 
 
 private:
@@ -35,10 +36,8 @@ private:
     sf::RenderWindow *window_;
     Map dungeon_;
     Player *p1_;
-    Inventory *inventory_;
+    //Inventory *inventory_;
     sf::Clock clock_;
     sf::Time lastUpdate_;
-    std::map<sf::Keyboard::Key,bool> inputs_;
-    std::map<sf::Mouse::Button,bool> mousestate_;
     //add possible additional player...
 };

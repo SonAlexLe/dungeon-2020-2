@@ -3,27 +3,27 @@
 #include <SFML/Graphics.hpp>
 #include <map>
 #include "entity.hpp"
-#include "inventory.hpp"
-#include "projectile.hpp"
+//#include "inventory.hpp"
+//#include "projectile.hpp"
 #include "room.hpp"
-class Inventory;
+//class Inventory;
 class Player : public Entity
 {
 public:
 
-    Player();
+    Player() = delete;
 
     Player(Room* room); 
 
-    Player(float x, float y);
+    //Player(float x, float y);
 
-    void update(std::map<sf::Keyboard::Key, bool>& keys, std::map<sf::Mouse::Button, bool>& mousebutts, sf::Time dt);
+    //void update(std::map<sf::Keyboard::Key, bool>& keys, std::map<sf::Mouse::Button, bool>& mousebutts, sf::Time dt);
 
-    void update(sf::Time dt) {} // empty function, does not do anything for now
+    void update(sf::Time dt); // empty function, does not do anything for now
 
-    Inventory* GetInventory() { return inventory_; }
+    //Inventory* GetInventory() { return inventory_; }
 
-    void SetInventory(Inventory* inventory) { inventory_ = inventory; }
+    //void SetInventory(Inventory* inventory) { inventory_ = inventory; }
 
     const std::string GetSpriteName() const;
 
@@ -31,17 +31,29 @@ public:
 
     void load();
 
+    //input handling methods, by Leo
+    void accUp(bool);
+    void accLeft(bool);
+    void accDown(bool);
+    void accRight(bool);
+
 private:
 
     sf::Vector2f velocity_;
 
     sf::Sprite sprite_;
 
-    Inventory* inventory_;
+    //Inventory* inventory_;
 
     // for testing purpose
-    Projectile projectile_;
+   // Projectile projectile_;
 
     Room* room_;
+
+    //input handling, by Leo
+    bool accUp_ = false;
+    bool accLeft_ = false;
+    bool accRight_ = false;
+    bool accDown_ = false;
 
 };

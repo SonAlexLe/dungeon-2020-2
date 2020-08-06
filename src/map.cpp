@@ -1,7 +1,6 @@
 //map generation
 //todo: version of generateMap() which returns a single square room
 
-#pragma once
 #include "map.hpp"
 
 Map::Map(int difficulty) : difficulty_(difficulty) {

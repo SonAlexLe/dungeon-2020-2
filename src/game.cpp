@@ -6,7 +6,7 @@ Game::Game() : difficulty_(0), score_(0)
     sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(800, 600), "TEST GAME");
     dungeon_ = Map(difficulty_);
     p1_ = new Player(dungeon_.GetStartingRoom());
-    inventory_ = new Inventory(p1_);
+    //inventory_ = new Inventory(p1_);
     window_ = window;
     clock_.restart();
 }
@@ -15,10 +15,12 @@ Game::~Game()
     delete window_;
 }
 
+
 void Game::init() //add arguments?? 
 {
     //game should also open all required sprites to memory, throw errors if files are not found.
 }
+
 
 void Game::input()
 {
@@ -36,13 +38,47 @@ void Game::input()
             //pass keyboard input to the player object, needs to be updated if second player is implemented
             //note, the event only handles key down / key up, meaning that pressing a key must start the player moving
             //until the key is released, ie. the key up event is passed to the player!! 
-                inputs_[event.key] = true;
+                switch (event.key.code)
+                {
+                case sf::Keyboard::W:
+                    p1_->accUp(true);
+                    break;
+                case sf::Keyboard::A:
+                    p1_->accLeft(true);
+                    break;
+                case sf::Keyboard::S:
+                    p1_->accDown(true);
+                    break;
+                case sf::Keyboard::D:
+                    p1_->accRight(true);
+                    break;
+                default:
+                //could add other keys here...
+                    break;
+                }
                 break;
 
             case sf::Event::KeyReleased:
-                inputs_[event.key] = false;
+                switch (event.key.code)
+                {
+                case sf::Keyboard::W:
+                    p1_->accUp(false);
+                    break;
+                case sf::Keyboard::A:
+                    p1_->accLeft(false);
+                    break;
+                case sf::Keyboard::S:
+                    p1_->accDown(false);
+                    break;
+                case sf::Keyboard::D:
+                    p1_->accRight(false);
+                    break;
+                default:
+                //could add other keys here...
+                    break;
+                }
                 break;
-
+/*  ignoring mouse for now
             case sf::Event::MouseButtonPressed:
                 mousestate_[event.mouseButton] = true;
                 break;
@@ -50,7 +86,7 @@ void Game::input()
             case sf::Event::MouseButtonReleased:
                 mousestate_[event.mouseButton] = false;
                 break;
-
+*/
             default:
                 break;
         }
@@ -61,7 +97,7 @@ void    Game::update()
 {
     sf::Time time = clock_.getElapsedTime();
     sf::Time elapsed = time - lastUpdate_;
-    p1_->update(inputs_,mousestate_,elapsed);
+    p1_->update(elapsed);
     for(auto i : p1_->GetRoom()->GetEnemies())
     {
         i->update(elapsed);

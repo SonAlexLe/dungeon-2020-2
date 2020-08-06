@@ -6,6 +6,8 @@
 //default sprite for entity should be "entity.png"
 Entity::Entity() {}
 
+Entity::~Entity() {}
+
 Entity::Entity(float x, float y) : currPos_(x, y) {}
 
 void Entity::SetRoom(Room* room) { room_ = room; }

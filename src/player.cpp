@@ -1,5 +1,5 @@
-#pragma once
 #include "player.hpp"
+#include <algorithm>
 #define MAX_X 25.f
 #define MAX_Y 25.f // squared
 #define ACCEL_RATE 2.f
@@ -8,14 +8,14 @@
 
 //initial velocity is 0, default constructor
 //TODO: change intitial position of projectile is 0, 0
-Player::Player() {
+/*Player::Player() {
     projectile_ = Projectile(0, 0, "projectile", 1, this, 10);
     velocity_ = sf::Vector2f(0, 0);
 }
-
+*/
 Player::Player(Room* room) : room_(room) {}
 
-Player::Player(float x, float y) : Entity(x, y) { velocity_ = sf::Vector2f(0, 0); }
+//Player::Player(float x, float y) : Entity(x, y) { velocity_ = sf::Vector2f(0, 0); }
 
 sf::Sprite& Player::GetSprite() { return sprite_; }
 
@@ -37,26 +37,47 @@ void Player::load() {
  * currently only LMB will fire a projectile
  * for now, the velocity of the projectile is two times the player's
  */ 
-void Player::update(std::map<sf::Keyboard::Key, bool>& keys, std::map<sf::Mouse::Button, bool>& mousebutts, sf::Time dt) {
+void Player::update(sf::Time dt) {
     sf::Vector2f v0(velocity_);
-    for(auto i : keys) {
-        if (i.second) { // speeding up if a key is pressed
-            switch(i.first) {
-                case sf::Keyboard::W:
-                    velocity_.y += ACCEL_RATE_NEG * dt.asSeconds();
-                    break;
-                case sf::Keyboard::A:
-                    velocity_.x += ACCEL_RATE_NEG * dt.asSeconds();
-                    break;
-                case sf::Keyboard::S:
-                    velocity_.y += ACCEL_RATE * dt.asSeconds();
-                    break;
-                case sf::Keyboard::D:
-                    velocity_.x += ACCEL_RATE * dt.asSeconds();
-                    break;
-                default:
-                    break;
-            }
+
+    if(accUp_){
+        velocity_.y += std::max(ACCEL_RATE_NEG * dt.asSeconds(), MAX_Y - velocity_.y);
+    }
+    else{
+        if(velocity_.y < 0) {
+            velocity_.y += std::min(ACCEL_RATE * dt.asSeconds(), -velocity_.y);
+        }
+    }
+
+    if(accLeft_){
+        velocity_.x += std::max(ACCEL_RATE_NEG * dt.asSeconds(), MAX_X - velocity_.x);
+    }
+    else{
+        if(velocity_.x < 0) {
+            velocity_.x += std::min(ACCEL_RATE * dt.asSeconds(), -velocity_.x);
+        }
+    }
+    
+
+    if(accDown_){
+        velocity_.y += std::min(ACCEL_RATE * dt.asSeconds(), MAX_Y - velocity_.y);
+    }
+    else {
+        if(velocity_.y > 0) {
+            velocity_.x += std::min(ACCEL_RATE_NEG * dt.asSeconds(), -velocity_.y);
+        }
+    }
+
+
+    if(accRight_){
+        velocity_.x += std::min(ACCEL_RATE * dt.asSeconds(), MAX_X - velocity_.x);
+    }
+    else{
+        if(velocity_.x > 0) {
+            velocity_.x += std::min(ACCEL_RATE_NEG * dt.asSeconds(), -velocity_.x);
+        }
+    }
+/* obsolete code, included above                
         } else { // slowing down if a key is not pressed
             switch(i.first) {
                 case sf::Keyboard::W:
@@ -80,14 +101,17 @@ void Player::update(std::map<sf::Keyboard::Key, bool>& keys, std::map<sf::Mouse:
             }
         }
     }
+    */
+   /* below code has been included in the if else statements above
     // velocity cannot be too high
     if (velocity_.y < -MAX_Y) velocity_.y = -MAX_Y;
     if (velocity_.x < -MAX_X) velocity_.x = -MAX_X;
     if (velocity_.y > MAX_Y) velocity_.y = MAX_Y;
     if (velocity_.x > MAX_X) velocity_.x = MAX_X;
+    */
     // updating the position
     currPos_ += 0.5f * dt.asSeconds() * (velocity_ + v0);
-
+/* for now ignore mouse input
     for(auto i : mousebutts) {
         if(i.second) { // if a mouse button is pressed
             switch(i.first) {
@@ -109,6 +133,25 @@ void Player::update(std::map<sf::Keyboard::Key, bool>& keys, std::map<sf::Mouse:
             }
         }
     }
+    */
     //also updates the projectile's position
-    projectile_.SetPosition(projectile_.GetPosition() + projectile_.GetVelocity());
+    //projectile_.SetPosition(projectile_.GetPosition() + projectile_.GetVelocity());
+}
+
+//input handling methods, by Leo
+void Player::accUp(bool isdown)
+{
+    accUp_ = isdown;
+}
+void Player::accLeft(bool isdown)
+{
+    accLeft_ = isdown;
+}
+void Player::accDown(bool isdown)
+{
+    accDown_ = isdown;
+}
+void Player::accRight(bool isdown)
+{
+    accRight_ = isdown;
 }

@@ -1,7 +1,10 @@
 
 #pragma once
+#include "config.hpp"
 #include <SFML/Graphics.hpp>
 #include <map>
+#include <algorithm>
+#include <iostream>
 #include "entity.hpp"
 //#include "inventory.hpp"
 //#include "projectile.hpp"

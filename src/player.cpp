@@ -1,6 +1,4 @@
 #include "player.hpp"
-#include <algorithm>
-#include <iostream>
 #define MAX_X 25.f
 #define MAX_Y 25.f // squared
 #define ACCEL_RATE 30.f
@@ -41,7 +39,9 @@ void Player::load() {
  */ 
 void Player::update(sf::Time dt) {
     sf::Vector2f v0(velocity_);
-    std::cout << v0.x << " : " << v0.y << std::endl;
+    if(DEBUGGING){
+        std::cout << v0.x << " : " << v0.y << std::endl;
+    }
     if(accUp_){
         velocity_.y += std::min(ACCEL_RATE_NEG * dt.asSeconds(), MAX_Y - velocity_.y);
     }
@@ -143,7 +143,9 @@ void Player::update(sf::Time dt) {
     */
     //also updates the projectile's position
     //projectile_.SetPosition(projectile_.GetPosition() + projectile_.GetVelocity());
-    std::cout << accUp_<< " " <<accDown_<<" " << accLeft_<<" "<<accRight_<<" "<< std::endl;
+    if(DEBUGGING){
+        std::cout << accUp_<< " " <<accDown_<<" " << accLeft_<<" "<<accRight_<<" "<< std::endl;
+    }
 }
 
 //input handling methods, by Leo

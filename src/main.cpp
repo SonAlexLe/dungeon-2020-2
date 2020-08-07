@@ -1,6 +1,7 @@
 //main game loop of the program
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
+#include "config.hpp"
 #include "game.hpp"
 #include "entity.hpp"
 #include "map.hpp"
@@ -14,12 +15,16 @@ int main()
 {
     sf::RenderWindow window(sf::VideoMode(800, 600), "TEST GAME");
     Game game(&window);
-    std::cout << "Window open" << std::endl;
+    if(DEBUGGING){
+        std::cout << "Window open" << std::endl;
+    }
     game.init();
-    int n = 0;
+    long long n = 0;
     while(game.isRunning())
     {
-        std::cout << n << std::endl;
+        if(DEBUGGING){
+            std::cout << n << std::endl;
+        }
         game.input();
         game.update();
         game.render();

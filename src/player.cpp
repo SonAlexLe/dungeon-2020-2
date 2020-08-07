@@ -3,9 +3,9 @@
 #include <iostream>
 #define MAX_X 25.f
 #define MAX_Y 25.f // squared
-#define ACCEL_RATE 20.f
+#define ACCEL_RATE 30.f
 #define ACCEL_RATE_NEG -ACCEL_RATE
-#define DECCEL_RATE 1.f
+#define DECCEL_RATE 20.f
 
 //initial velocity is 0, default constructor
 //TODO: change intitial position of projectile is 0, 0
@@ -45,22 +45,41 @@ void Player::update(sf::Time dt) {
     if(accUp_){
         velocity_.y += std::min(ACCEL_RATE_NEG * dt.asSeconds(), MAX_Y - velocity_.y);
     }
+    else{
+        if(velocity_.y < 0){
+            velocity_.y += DECCEL_RATE * dt.asSeconds();
+        }
+    }
     
 
     if(accLeft_){
         velocity_.x += std::min(ACCEL_RATE_NEG * dt.asSeconds(), MAX_X - velocity_.x);
     }
-    
+    else{
+        if(velocity_.x < 0){
+            velocity_.x += DECCEL_RATE * dt.asSeconds();
+        }
+    }
     
 
     if(accDown_){
         velocity_.y += std::min(ACCEL_RATE * dt.asSeconds(), MAX_Y - velocity_.y);
+    }
+    else{
+        if(velocity_.y > 0){
+            velocity_.y -= DECCEL_RATE * dt.asSeconds();
+        }
     }
     
 
 
     if(accRight_){
         velocity_.x += std::min(ACCEL_RATE * dt.asSeconds(), MAX_X - velocity_.x);
+    }
+    else{
+        if(velocity_.x > 0){
+            velocity_.x -= DECCEL_RATE * dt.asSeconds();
+        }
     }
     
 /* obsolete code, included above                
@@ -96,6 +115,8 @@ void Player::update(sf::Time dt) {
     if (velocity_.x > MAX_X) velocity_.x = MAX_X;
     */
     // updating the position
+    if(velocity_.y < 0.1 && velocity_.y > -0.1){velocity_.y = 0;}
+    if(velocity_.x < 0.1 && velocity_.x > -0.1){velocity_.x = 0;}
     currPos_ += 0.5f * dt.asSeconds() * (velocity_ + v0);
 /* for now ignore mouse input
     for(auto i : mousebutts) {
@@ -122,7 +143,7 @@ void Player::update(sf::Time dt) {
     */
     //also updates the projectile's position
     //projectile_.SetPosition(projectile_.GetPosition() + projectile_.GetVelocity());
-    std::cout << "Player update succesful" << std::endl;
+    std::cout << accUp_<< " " <<accDown_<<" " << accLeft_<<" "<<accRight_<<" "<< std::endl;
 }
 
 //input handling methods, by Leo

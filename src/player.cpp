@@ -1,8 +1,9 @@
 #include "player.hpp"
 #include <algorithm>
+#include <iostream>
 #define MAX_X 25.f
 #define MAX_Y 25.f // squared
-#define ACCEL_RATE 2.f
+#define ACCEL_RATE 20.f
 #define ACCEL_RATE_NEG -ACCEL_RATE
 #define DECCEL_RATE 1.f
 
@@ -40,44 +41,28 @@ void Player::load() {
  */ 
 void Player::update(sf::Time dt) {
     sf::Vector2f v0(velocity_);
-
+    std::cout << v0.x << " : " << v0.y << std::endl;
     if(accUp_){
-        velocity_.y += std::max(ACCEL_RATE_NEG * dt.asSeconds(), MAX_Y - velocity_.y);
+        velocity_.y += std::min(ACCEL_RATE_NEG * dt.asSeconds(), MAX_Y - velocity_.y);
     }
-    else{
-        if(velocity_.y < 0) {
-            velocity_.y += std::min(ACCEL_RATE * dt.asSeconds(), -velocity_.y);
-        }
-    }
+    
 
     if(accLeft_){
-        velocity_.x += std::max(ACCEL_RATE_NEG * dt.asSeconds(), MAX_X - velocity_.x);
+        velocity_.x += std::min(ACCEL_RATE_NEG * dt.asSeconds(), MAX_X - velocity_.x);
     }
-    else{
-        if(velocity_.x < 0) {
-            velocity_.x += std::min(ACCEL_RATE * dt.asSeconds(), -velocity_.x);
-        }
-    }
+    
     
 
     if(accDown_){
         velocity_.y += std::min(ACCEL_RATE * dt.asSeconds(), MAX_Y - velocity_.y);
     }
-    else {
-        if(velocity_.y > 0) {
-            velocity_.x += std::min(ACCEL_RATE_NEG * dt.asSeconds(), -velocity_.y);
-        }
-    }
+    
 
 
     if(accRight_){
         velocity_.x += std::min(ACCEL_RATE * dt.asSeconds(), MAX_X - velocity_.x);
     }
-    else{
-        if(velocity_.x > 0) {
-            velocity_.x += std::min(ACCEL_RATE_NEG * dt.asSeconds(), -velocity_.x);
-        }
-    }
+    
 /* obsolete code, included above                
         } else { // slowing down if a key is not pressed
             switch(i.first) {
@@ -137,6 +122,7 @@ void Player::update(sf::Time dt) {
     */
     //also updates the projectile's position
     //projectile_.SetPosition(projectile_.GetPosition() + projectile_.GetVelocity());
+    std::cout << "Player update succesful" << std::endl;
 }
 
 //input handling methods, by Leo

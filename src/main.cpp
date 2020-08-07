@@ -7,21 +7,23 @@
 #include "player.hpp"
 #include "inventory.hpp"
 
-
+#include <iostream>
 
 
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(800, 600), "TEST GAME");
     Game game(&window);
-
+    std::cout << "Window open" << std::endl;
     game.init();
-
+    int n = 0;
     while(game.isRunning())
     {
+        std::cout << n << std::endl;
         game.input();
         game.update();
         game.render();
+        n++;
     }
     game.clean();
 

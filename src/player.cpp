@@ -13,7 +13,8 @@
     velocity_ = sf::Vector2f(0, 0);
 }
 */
-Player::Player(Room* room) : room_(room) {}
+Player::Player(Room* room) : room_(room), Entity(0,0), 
+accDown_(false), accUp_(false), accLeft_(false), accRight_(false) {}
 
 //Player::Player(float x, float y) : Entity(x, y) { velocity_ = sf::Vector2f(0, 0); }
 

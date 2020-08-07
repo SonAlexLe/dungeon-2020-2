@@ -51,9 +51,9 @@ private:
     Room* room_;
 
     //input handling, by Leo
-    bool accUp_ = false;
-    bool accLeft_ = false;
-    bool accRight_ = false;
-    bool accDown_ = false;
+    bool accUp_;
+    bool accLeft_;
+    bool accRight_;
+    bool accDown_;
 
 };

@@ -1,14 +1,13 @@
 #include "game.hpp"
 #include "graphics.cpp"
 
-Game::Game() : difficulty_(0), score_(0) 
+Game::Game(sf::RenderWindow *window) : score_(0), difficulty_(0), window_(window) 
 {
-    sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(800, 600), "TEST GAME");
     dungeon_ = Map(difficulty_);
     p1_ = new Player(dungeon_.GetStartingRoom());
     //inventory_ = new Inventory(p1_);
-    window_ = window;
     clock_.restart();
+    isRunning_ = true;
 }
 Game::~Game()
 {

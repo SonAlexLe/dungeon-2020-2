@@ -11,7 +11,7 @@
 class Game
 {
 public:
-    Game();
+    Game(sf::RenderWindow*);
     //Game cannot be copied
     Game(const Game&) = delete;
     Game operator=(const Game&) = delete;

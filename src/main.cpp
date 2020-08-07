@@ -12,7 +12,8 @@
 
 int main()
 {
-    Game game;
+    sf::RenderWindow window(sf::VideoMode(800, 600), "TEST GAME");
+    Game game(&window);
 
     game.init();
 

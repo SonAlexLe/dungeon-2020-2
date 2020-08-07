@@ -3,7 +3,7 @@ project(dungeons)
 
 include_directories(${CMAKE_SOURCE_DIR}/src)
 
-set(SOURCES src/main.cpp src/game.cpp src/entity.cpp src/player.cpp)
+set(SOURCES src/main.cpp src/game.cpp src/entity.cpp src/player.cpp src/map.cpp src/room.cpp)
 
 # Detect and add SFML
 find_package(SFML 2.5.1 COMPONENTS system window graphics network audio)

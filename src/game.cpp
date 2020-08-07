@@ -1,19 +1,15 @@
 #include "game.hpp"
 #include "graphics.cpp"
 
-Game::Game() : difficulty_(0), score_(0) 
+Game::Game(sf::RenderWindow *window) : score_(0), difficulty_(0), window_(window) 
 {
-    sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(800, 600), "TEST GAME");
     dungeon_ = Map(difficulty_);
     p1_ = new Player(dungeon_.GetStartingRoom());
     //inventory_ = new Inventory(p1_);
-    window_ = window;
     clock_.restart();
+    isRunning_ = true;
 }
-Game::~Game()
-{
-    delete window_;
-}
+Game::~Game(){}
 
 
 void Game::init() //add arguments?? 
@@ -98,15 +94,15 @@ void    Game::update()
     sf::Time time = clock_.getElapsedTime();
     sf::Time elapsed = time - lastUpdate_;
     p1_->update(elapsed);
-    for(auto i : p1_->GetRoom()->GetEnemies())
+    /*for(auto i : p1_->GetRoom()->GetEnemies())
+    {
+        i->update(elapsed);
+    }*/
+    /*for(auto i : p1_->GetRoom()->GetProjectiles())
     {
         i->update(elapsed);
     }
-    for(auto i : p1_->GetRoom()->GetProjectiles())
-    {
-        i->update(elapsed);
-    }
-
+*/
     lastUpdate_ = time;
 
     //go through all the active entities in the current room and move them up to their speed.
@@ -119,10 +115,11 @@ void Game::render()
     window_->clear(sf::Color::Black);
     double scale = std::min(window_->getSize().y/1080,window_->getSize().x/1900);
     //placeholder
-    sf::RectangleShape room(sf::Vector2f(p1_->GetRoom()->GetWidth()*scale*1900, p1_->GetRoom()->GetHeight()*scale*1080));
+    //sf::RectangleShape room(sf::Vector2f(p1_->GetRoom()->GetWidth()*scale*1900, p1_->GetRoom()->GetHeight()*scale*1080));
     sf::CircleShape player(10);
+    player.setFillColor(sf::Color(100, 250, 50));
     player.setPosition(p1_->GetPosition());
-    
+    window_->draw(player);
     /* draw the background, room, player and all other entities */ 
     window_->display();
 }

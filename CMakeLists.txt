@@ -1,13 +1,16 @@
-cmake_minimum_required(VERSION 2.8.9)
+cmake_minimum_required(VERSION 3.1.0)
 project(dungeons)
 
-add_subdirectory(../build)
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-set(SOURCES src/main.cpp)
+include_directories(${CMAKE_SOURCE_DIR}/src)
+
+set(SOURCES src/main.cpp src/game.cpp src/entity.cpp src/player.cpp src/map.cpp src/room.cpp)
 
 # Detect and add SFML
 find_package(SFML 2.5.1 COMPONENTS system window graphics network audio)
 
-add_executable(build/DDDdungeons ${SOURCES})
+add_executable(dungeons ${SOURCES})
 
-target_link_libraries (Dongon sfml-graphics sfml-window sfml-system)
+target_link_libraries (dungeons sfml-graphics sfml-window sfml-system)

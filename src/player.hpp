@@ -30,6 +30,8 @@ public:
 
     const std::string GetSpriteName() const;
 
+    Room GetRoom();
+
     sf::Sprite& GetSprite();
 
     void load();

@@ -21,6 +21,8 @@ sf::Sprite& Player::GetSprite() { return sprite_; }
 
 const std::string Player::GetSpriteName() const { return "player.png"; }
 
+Room Player::GetRoom() { return *room_;}
+
 //should be run at startup, maybe whenever a new player is initialized?
 //same with other entities that have sprites
 void Player::load() {

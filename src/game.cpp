@@ -115,9 +115,9 @@ void Game::render()
     window_->clear(sf::Color::Black);
     double scale = std::min(window_->getSize().y/1080,window_->getSize().x/1900);
     //placeholder
-    sf::Vector2f roomSize = p1_->GetRoom()->GetSize();
-    if(DEBUGGING){std::cout << roomSize.x << " " << roomSize.y << std::endl;}
-    sf::RectangleShape room(sf::Vector2f(100,100));
+    sf::Vector2f roomSize = p1_->GetRoom().GetSize();
+    //if(DEBUGGING){std::cout << roomSize.x << " " << roomSize.y << std::endl;}
+    sf::RectangleShape room(roomSize);
     room.setFillColor(sf::Color::White);
     sf::CircleShape player(10);
     player.setFillColor(sf::Color(100, 250, 50));

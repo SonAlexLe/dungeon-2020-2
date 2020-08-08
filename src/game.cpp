@@ -74,15 +74,19 @@ void Game::input()
                     break;
                 }
                 break;
-/*  ignoring mouse for now
+
             case sf::Event::MouseButtonPressed:
-                mousestate_[event.mouseButton] = true;
+                if(event.mouseButton.button == sf::Mouse::Button::Left) 
+                {
+                    if(p1_->GetReload() == 0){
+                        p1_->Attack();
+                    }
+                }
                 break;
 
-            case sf::Event::MouseButtonReleased:
+            /*case sf::Event::MouseButtonReleased:
                 mousestate_[event.mouseButton] = false;
-                break;
-*/
+                break;*/
             default:
                 break;
         }

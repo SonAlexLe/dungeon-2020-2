@@ -13,7 +13,7 @@
 }
 */
 Player::Player(Room* room) : room_(room), Entity(room->GetWidth()/2,room->GetHeight()/2), 
-accDown_(false), accUp_(false), accLeft_(false), accRight_(false) {}
+accDown_(false), accUp_(false), accLeft_(false), accRight_(false), reload_(0) {}
 
 //Player::Player(float x, float y) : Entity(x, y) { velocity_ = sf::Vector2f(0, 0); }
 
@@ -22,6 +22,8 @@ sf::Sprite& Player::GetSprite() { return sprite_; }
 const std::string Player::GetSpriteName() const { return "player.png"; }
 
 Room Player::GetRoom() { return *room_;}
+
+float Player::GetReload() {return reload_;}
 
 //should be run at startup, maybe whenever a new player is initialized?
 //same with other entities that have sprites
@@ -83,7 +85,10 @@ void Player::update(sf::Time dt) {
             velocity_.x -= DECCEL_RATE * dt.asSeconds();
         }
     }
-    
+//track reload rate
+    if(reload_ > 0) {
+        reload_ -= std::min(dt.asSeconds(),reload_);
+    }
 /* obsolete code, included above                
         } else { // slowing down if a key is not pressed
             switch(i.first) {
@@ -146,6 +151,13 @@ void Player::update(sf::Time dt) {
     if(DEBUGGING){
         std::cout << accUp_<< " " <<accDown_<<" " << accLeft_<<" "<<accRight_<<" "<< std::endl;
     }
+}
+
+void Player::Attack() 
+{
+    sf::Vector2f projectile_direction = currPos_ - sf::Mouse::getPosition();
+    std::cout << "pew" << std::endl;
+    reload_ = 1;
 }
 
 //input handling methods, by Leo

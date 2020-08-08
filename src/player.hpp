@@ -34,6 +34,10 @@ public:
 
     sf::Sprite& GetSprite();
 
+    float GetReload();
+
+    void Attack();
+
     void load();
 
     //input handling methods, by Leo
@@ -54,6 +58,9 @@ private:
    // Projectile projectile_;
 
     Room* room_;
+
+    //for tracking reload rate
+    float reload_;
 
     //input handling, by Leo
     bool accUp_;

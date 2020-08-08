@@ -155,7 +155,7 @@ void Player::update(sf::Time dt) {
 
 void Player::Attack() 
 {
-    sf::Vector2f projectile_direction = currPos_ - sf::Mouse::getPosition();
+    sf::Vector2f projectile_direction = currPos_ - sf::Vector2f(sf::Mouse::getPosition().x,sf::Mouse::getPosition().y);
     std::cout << "pew" << std::endl;
     reload_ = 1;
 }

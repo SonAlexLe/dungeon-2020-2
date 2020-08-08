@@ -12,7 +12,7 @@ Game::Game(sf::RenderWindow *window) : score_(0), difficulty_(0), window_(window
 Game::~Game(){}
 
 
-void Game::init() //add arguments?? 
+void Game::init() //might be redundant
 {
     //game should also open all required sprites to memory, throw errors if files are not found.
 }
@@ -115,10 +115,14 @@ void Game::render()
     window_->clear(sf::Color::Black);
     double scale = std::min(window_->getSize().y/1080,window_->getSize().x/1900);
     //placeholder
-    //sf::RectangleShape room(sf::Vector2f(p1_->GetRoom()->GetWidth()*scale*1900, p1_->GetRoom()->GetHeight()*scale*1080));
+    sf::Vector2f roomSize = p1_->GetRoom()->GetSize();
+    if(DEBUGGING){std::cout << roomSize.x << " " << roomSize.y << std::endl;}
+    sf::RectangleShape room(sf::Vector2f(100,100));
+    room.setFillColor(sf::Color::White);
     sf::CircleShape player(10);
     player.setFillColor(sf::Color(100, 250, 50));
     player.setPosition(p1_->GetPosition());
+    window_->draw(room);
     window_->draw(player);
     /* draw the background, room, player and all other entities */ 
     window_->display();

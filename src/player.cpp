@@ -12,7 +12,7 @@
     velocity_ = sf::Vector2f(0, 0);
 }
 */
-Player::Player(Room* room) : room_(room), Entity(0,0), 
+Player::Player(Room* room) : room_(room), Entity(room->GetWidth()/2,room->GetHeight()/2), 
 accDown_(false), accUp_(false), accLeft_(false), accRight_(false) {}
 
 //Player::Player(float x, float y) : Entity(x, y) { velocity_ = sf::Vector2f(0, 0); }
@@ -115,9 +115,7 @@ void Player::update(sf::Time dt) {
     if (velocity_.x > MAX_X) velocity_.x = MAX_X;
     */
     // updating the position
-    if(velocity_.y < 0.1 && velocity_.y > -0.1){velocity_.y = 0;}
-    if(velocity_.x < 0.1 && velocity_.x > -0.1){velocity_.x = 0;}
-    currPos_ += 0.5f * dt.asSeconds() * (velocity_ + v0);
+   currPos_ += 0.5f * dt.asSeconds() * (velocity_ + v0);
 /* for now ignore mouse input
     for(auto i : mousebutts) {
         if(i.second) { // if a mouse button is pressed

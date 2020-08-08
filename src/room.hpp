@@ -32,11 +32,13 @@ public:
 
     double GetHeight();
 
+    sf::Vector2f GetSize();
+
 protected:
 
     // Types for containers need to be updated once different types of entities are implemented
 
-    std::pair<double, double> size_;
+    sf::Vector2f size_;
 
     std::list<Entity*> player_;
 

@@ -21,11 +21,11 @@ int main()
     {
         if(DEBUGGING){
             std::cout << n << std::endl;
+            n++;
         }
         game.input();
         game.update();
         game.render();
-        n++;
     }
     game.clean();
 

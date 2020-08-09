@@ -1,12 +1,9 @@
 //main game loop of the program
+#include "config.hpp"
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
-#include "config.hpp"
 #include "game.hpp"
-#include "entity.hpp"
-#include "map.hpp"
-#include "player.hpp"
-#include "inventory.hpp"
+//#include "inventory.hpp"
 
 #include <iostream>
 

@@ -2,13 +2,11 @@
 #pragma once
 #include "config.hpp"
 #include <SFML/Graphics.hpp>
-#include <map>
 #include <algorithm>
 #include <iostream>
 #include "entity.hpp"
 #include <cmath>
 //#include "inventory.hpp"
-#include "projectile.hpp"
 #include "room.hpp"
 //class Inventory;
 class Player : public Entity
@@ -37,7 +35,7 @@ public:
 
     float GetReload();
 
-    void Attack(Projectile&);
+    void Attack();
 
     void load();
 
@@ -48,8 +46,6 @@ public:
     void accRight(bool);
 
 private:
-
-    sf::Vector2f velocity_;
 
     sf::Sprite sprite_;
 

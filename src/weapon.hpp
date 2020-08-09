@@ -8,13 +8,13 @@
 class Weapon : public Item
 {
 protected:
-    sf::Time attackInterval; //attackInterval value tells how often the player can attack with the weapon.
+    float attackInterval_; //attackInterval value tells how often the player can attack with the weapon.
                             //The greater the attacking value of the weapon is the less often the player can attack.
 public:
     Weapon(float x, float y, const std::string& name, const int type, Player* player,  int value) :
     Item(x, y, name, type, player, value)
     {
-        attackInterval = sf::seconds(0.1 * value);
+        attackInterval_ = value;
     }
 
     const std::string GetSpriteName() const { return "weaponOnTheGround.png"; }

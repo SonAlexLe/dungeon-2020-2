@@ -12,7 +12,7 @@
     velocity_ = sf::Vector2f(0, 0);
 }
 */
-Player::Player(Room* room) : room_(room), Entity(room->GetWidth()/2,room->GetHeight()/2), 
+Player::Player(Room* room) : room_(room), Entity(room->GetWidth()/2,room->GetHeight()/2, sf::Vector2f(0,0)), 
 accDown_(false), accUp_(false), accLeft_(false), accRight_(false), reload_(0) {}
 
 //Player::Player(float x, float y) : Entity(x, y) { velocity_ = sf::Vector2f(0, 0); }
@@ -153,13 +153,8 @@ void Player::update(sf::Time dt) {
     }
 }
 
-void Player::Attack(Projectile &pew) 
+void Player::Attack() 
 {
-    float projectilespeed = 50;
-    sf::Vector2f projectile_direction = currPos_ - sf::Vector2f(sf::Mouse::getPosition().x,sf::Mouse::getPosition().y);
-    float vlength = std::sqrt(projectile_direction.x*projectile_direction.x + projectile_direction.y * projectile_direction.y);
-    sf::Vector2f projectile_velocity(projectile_direction.x/vlength*projectilespeed,projectile_direction.y/vlength*projectilespeed);
-    std::cout << "pew" << std::endl;
     reload_ = 1;
 }
 

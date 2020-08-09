@@ -1,5 +1,4 @@
 #include "game.hpp"
-#include "graphics.cpp"
 
 Game::Game(sf::RenderWindow *window) : score_(0), difficulty_(0), window_(window) 
 {
@@ -79,9 +78,14 @@ void Game::input()
                 if(event.mouseButton.button == sf::Mouse::Button::Left) 
                 {
                     if(p1_->GetReload() == 0){
-                        Projectile pew;
+                        float projectilespeed = 50;
+                        sf::Vector2f projectile_direction = p1_->GetPosition() - sf::Vector2f(sf::Mouse::getPosition().x,sf::Mouse::getPosition().y);
+                        float vlength = std::sqrt(projectile_direction.x*projectile_direction.x + projectile_direction.y * projectile_direction.y);
+                        sf::Vector2f projectile_velocity(projectile_direction.x/vlength*projectilespeed,projectile_direction.y/vlength*projectilespeed);
+                        Projectile pew(p1_->GetPosition(),projectile_velocity, 1, false);
                         p1_->GetRoom().AddProjectile(&pew);
-                        p1_->Attack(pew);
+                        p1_->Attack();
+                        std::cout << "pew" << std::endl;
                     }
                 }
                 break;
@@ -104,11 +108,17 @@ void    Game::update()
     {
         i->update(elapsed);
     }*/
-    /*for(auto i : p1_->GetRoom()->GetProjectiles())
+    sf::Vector2f bounds = p1_->GetRoom().GetSize();
+    for(auto i : p1_->GetRoom().GetProjectiles()){
+        sf::Vector2f pPos = i->GetPosition();
+        if(pPos.x < 0 || pPos.x > bounds.x || pPos.y < 0 ||pPos.y > bounds.y){
+            delete i;
+        }
+    }
+    for(auto i : p1_->GetRoom().GetProjectiles())
     {
         i->update(elapsed);
     }
-*/
     lastUpdate_ = time;
 
     //go through all the active entities in the current room and move them up to their speed.

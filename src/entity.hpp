@@ -4,15 +4,13 @@
 #include "room.hpp"
 #include <string>
 
-class Room;
-
 class Entity
 {
 public:
 
     Entity();
 
-    Entity(float x, float y);
+    Entity(float x, float y, sf::Vector2f velocity);
 
     virtual ~Entity();
 
@@ -20,7 +18,7 @@ public:
 
     virtual const std::string GetSpriteName() const =0;
 
-    virtual void load() =0;
+    virtual void load();
 
     void SetRoom(Room* room);
 
@@ -33,6 +31,8 @@ public:
 protected:
 
     sf::Vector2f currPos_;
+
+    sf::Vector2f velocity_;
 
     Room* room_;
 

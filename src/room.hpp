@@ -4,8 +4,6 @@
 #include <utility>
 #include "projectile.hpp"
 
-class Entity;
-
 class Room {
 public:
     // For simplicity sake all rooms will be squares of the same size so all rooms are default constructed

@@ -1,7 +1,5 @@
 #pragma once
-#include <map>
 #include "map.hpp"
-#include "entity.hpp"
 #include "player.hpp"
 #include "projectile.hpp"
 //#include "inventory.hpp"

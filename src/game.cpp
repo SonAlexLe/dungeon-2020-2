@@ -79,7 +79,9 @@ void Game::input()
                 if(event.mouseButton.button == sf::Mouse::Button::Left) 
                 {
                     if(p1_->GetReload() == 0){
-                        p1_->Attack();
+                        Projectile pew;
+                        p1_->GetRoom().AddProjectile(&pew);
+                        p1_->Attack(pew);
                     }
                 }
                 break;

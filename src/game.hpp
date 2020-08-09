@@ -3,6 +3,7 @@
 #include "map.hpp"
 #include "entity.hpp"
 #include "player.hpp"
+#include "projectile.hpp"
 //#include "inventory.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>

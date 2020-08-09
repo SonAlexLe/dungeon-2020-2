@@ -6,8 +6,9 @@
 #include <algorithm>
 #include <iostream>
 #include "entity.hpp"
+#include <cmath>
 //#include "inventory.hpp"
-//#include "projectile.hpp"
+#include "projectile.hpp"
 #include "room.hpp"
 //class Inventory;
 class Player : public Entity
@@ -36,7 +37,7 @@ public:
 
     float GetReload();
 
-    void Attack();
+    void Attack(Projectile&);
 
     void load();
 

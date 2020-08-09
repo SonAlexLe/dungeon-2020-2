@@ -153,9 +153,12 @@ void Player::update(sf::Time dt) {
     }
 }
 
-void Player::Attack() 
+void Player::Attack(Projectile &pew) 
 {
+    float projectilespeed = 50;
     sf::Vector2f projectile_direction = currPos_ - sf::Vector2f(sf::Mouse::getPosition().x,sf::Mouse::getPosition().y);
+    float vlength = std::sqrt(projectile_direction.x*projectile_direction.x + projectile_direction.y * projectile_direction.y);
+    sf::Vector2f projectile_velocity(projectile_direction.x/vlength*projectilespeed,projectile_direction.y/vlength*projectilespeed);
     std::cout << "pew" << std::endl;
     reload_ = 1;
 }

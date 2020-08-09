@@ -15,7 +15,7 @@ std::list<Entity*> Room::GetConnections() {
     return connections_;
 }
 
-std::list<Entity*> Room::GetProjectiles() {
+std::list<Projectile*> Room::GetProjectiles() {
     return projectiles_;
 }
 
@@ -33,4 +33,8 @@ double Room::GetHeight() {
 
 sf::Vector2f Room::GetSize() {
     return size_;
+}
+
+void Room::AddProjectile(Projectile *pew){
+    projectiles_.push_back(pew);
 }

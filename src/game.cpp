@@ -140,6 +140,12 @@ void Game::render()
     player.setPosition(p1_->GetPosition());
     window_->draw(room);
     window_->draw(player);
+    for(auto i :p1_->GetRoom().GetProjectiles()){
+        sf::CircleShape pew(i->GetDamage());
+        pew.setFillColor(sf::Color::Red);
+        pew.setPosition(i->GetPosition());
+        window_->draw(pew);
+    }
     /* draw the background, room, player and all other entities */ 
     window_->display();
 }

@@ -1,5 +1,5 @@
 #pragma once
-#include "player.hpp"
+#include "entity.hpp"
 
 //should be abstract for future subtypes, right now is concrete
 class Projectile: public Entity
@@ -20,6 +20,8 @@ class Projectile: public Entity
     void SetVelocity(sf::Vector2f velocity) { velocity_ = velocity; }
 
     sf::Vector2f& GetVelocity() { return velocity_; }
+
+    int GetDamage(){return damage_;}
 
     const std::string GetSpriteName() const { return "projectile.png"; }
 

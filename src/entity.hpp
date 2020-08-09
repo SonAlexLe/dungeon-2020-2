@@ -1,8 +1,9 @@
 #pragma once
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
-#include "room.hpp"
 #include <string>
+
+class Room;
 
 class Entity
 {

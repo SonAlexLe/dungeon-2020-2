@@ -1,8 +1,9 @@
 #pragma once
-#include "entity.hpp"
 #include <list>
 #include <utility>
 #include "projectile.hpp"
+
+class Entity;
 
 class Room {
 public:

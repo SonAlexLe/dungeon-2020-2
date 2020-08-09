@@ -12,10 +12,6 @@ Entity::Entity(float x, float y, sf::Vector2f velocity) : currPos_(x, y) , veloc
 
 void Entity::load() {}
 
-void Entity::SetRoom(Room* room) { room_ = room; }
-
-Room* Entity::GetRoom() { return room_; }
-
 sf::Vector2f& Entity::GetPosition() { return currPos_; }
 
 void Entity::SetPosition(sf::Vector2f pos) { currPos_ = pos; }

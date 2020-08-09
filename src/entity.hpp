@@ -20,10 +20,6 @@ public:
 
     virtual void load();
 
-    void SetRoom(Room* room);
-
-    Room* GetRoom();
-
     sf::Vector2f& GetPosition();
 
     void SetPosition(sf::Vector2f pos);
@@ -33,7 +29,5 @@ protected:
     sf::Vector2f currPos_;
 
     sf::Vector2f velocity_;
-
-    Room* room_;
 
 };

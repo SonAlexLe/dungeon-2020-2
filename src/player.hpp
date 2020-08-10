@@ -1,16 +1,59 @@
 
 #pragma once
+#include <SFML/Graphics.hpp>
+#include <map>
 #include "entity.hpp"
-#include <vector>
-
-//placeholder, please include empty constructor for testing purposes
-
+#include "inventory.hpp"
+//#include "projectile.hpp"
+#include "room.hpp"
+class Inventory;
 class Player : public Entity
 {
 public:
-    Player();
-    Player(double x, double y);
-    void update(sf::Time df, std::vector<sf::Event::KeyEvent> keys = std::vector<sf::Event::KeyEvent>(), bool isPressed = false);
+
+    Player() = delete;
+
+    Player(Room* room);
+
+    //Player(float x, float y);
+
+    //void update(std::map<sf::Keyboard::Key, bool>& keys, std::map<sf::Mouse::Button, bool>& mousebutts, sf::Time dt);
+
+    void update(sf::Time dt); // empty function, does not do anything for now
+
+    Inventory* GetInventory() { return inventory_; }
+
+    void SetInventory(Inventory* inventory) { inventory_ = inventory; }
+
+    const std::string GetSpriteName() const;
+
+    sf::Sprite& GetSprite();
+
+    void load();
+
+    //input handling methods, by Leo
+    void accUp(bool);
+    void accLeft(bool);
+    void accDown(bool);
+    void accRight(bool);
+
 private:
-    int a_;
+
+    sf::Vector2f velocity_;
+
+    sf::Sprite sprite_;
+
+    Inventory* inventory_;
+
+    // for testing purpose
+   // Projectile projectile_;
+
+    Room* room_;
+
+    //input handling, by Leo
+    bool accUp_;
+    bool accLeft_;
+    bool accRight_;
+    bool accDown_;
+
 };

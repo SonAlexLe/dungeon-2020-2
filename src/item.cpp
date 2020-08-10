@@ -1,28 +1,40 @@
-
+//can also manifest as an entity on the ground, that can be then picked up if it collides with a player.
 #include "item.hpp"
+#include "player.hpp"
+std::string Item::getName() const {
+    return name_;
+}
 
-void Item::update(sf::Time dt){
-    if(item_->getStatus() == false && this->sprite_.getGlobalBounds().intersects(this->player_->sprite_.getGlobalBounds())){ //Checks for collision with the player.
-        switch (item_->getType()){
+int Item::getType() const {
+    return type_;
+}
+
+float Item::getValue() const {
+    return armorDmgValue_;
+}
+void Item::setUnequipped() {
+    equipped_ = false;
+}
+void Item::setEquipped() {
+    equipped_ = true;
+}
+void Item::update(sf::Time dt) {
+    if (equipped_ == false && this->sprite_.getGlobalBounds().intersects(this->player_->GetSprite().getGlobalBounds())) { //Checks for collision with the player.
+        switch (type_) {
         case 1:
-            this->player_->inventory->addWeapon(item_);
+            this->player_->GetInventory()->addWeapon(this);
             break;
         case 2:
-            this->player_->inventory->addArmor(item_);
+            this->player_->GetInventory()->addArmor(this);
             break;
         }
-    item_->setEquipped();
+        equipped_ = true;
     }
 }
 
-void Item::draw(sf::RenderWindow* window){ //Now only draws the sprite but it also should draw the name of the item under it.
-    if(item_->getStatus() == false){ //Draw function should only draw the object if it's not equipped.
+void Item::draw(sf::RenderWindow* window) { //Now only draws the sprite but it also should draw the name of the item under it.
+    if (this->equipped_ == false) { //Draw function should only draw the object if it's not equipped.
+        sprite_.setPosition(this->currPos_);
         window->draw(this->sprite_);
     }
-}
-
-void Item::load() //Loads the picture form the given filename.
-{
-    this->texture_.loadFromFile(filename_, sf::IntRect(this->currPos_.x, this->currPos_.y, 10, 10));
-    this->sprite_.setTexture(this->texture_);
 }

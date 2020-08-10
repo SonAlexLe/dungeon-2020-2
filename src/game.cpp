@@ -1,5 +1,5 @@
 #include "game.hpp"
-
+#include <list>
 Game::Game(sf::RenderWindow *window) : score_(0), difficulty_(0), window_(window) 
 {
     dungeon_ = Map(difficulty_);
@@ -111,9 +111,10 @@ void    Game::update()
     sf::Vector2f bounds = p1_->GetRoom().GetSize();
     for(auto i : p1_->GetRoom().GetProjectiles()){
         sf::Vector2f pPos = i->GetPosition();
-        if(pPos.x < 0 || pPos.x > bounds.x || pPos.y < 0 ||pPos.y > bounds.y){
+        //commented for testing
+        /*if(pPos.x < 0 || pPos.x > bounds.x || pPos.y < 0 ||pPos.y > bounds.y){
             delete i;
-        }
+        }*/
     }
     for(auto i : p1_->GetRoom().GetProjectiles())
     {
@@ -139,15 +140,14 @@ void Game::render()
     player.setFillColor(sf::Color(100, 250, 50));
     player.setPosition(p1_->GetPosition());
     window_->draw(room);
+
+    std::cout<< p1_->GetRoom().GetProjectiles().size()<<std::endl;
+
     window_->draw(player);
-    for(auto i :p1_->GetRoom().GetProjectiles()){
-        sf::CircleShape pew(i->GetDamage());
-        pew.setFillColor(sf::Color::Red);
-        pew.setPosition(i->GetPosition());
-        window_->draw(pew);
-    }
-    /* draw the background, room, player and all other entities */ 
     window_->display();
+
+
+    
 }
 
 void Game::clean()

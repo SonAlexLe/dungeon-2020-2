@@ -19,10 +19,6 @@ int main()
     long long n = 0;
     while(game.isRunning())
     {
-        if(DEBUGGING){
-            std::cout << n << std::endl;
-            n++;
-        }
         game.input();
         game.update();
         game.render();

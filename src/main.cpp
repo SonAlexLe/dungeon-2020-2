@@ -3,7 +3,10 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include "game.hpp"
-//#include "inventory.hpp"
+#include "entity.hpp"
+#include "map.hpp"
+#include "player.hpp"
+#include "inventory.hpp"
 
 #include <iostream>
 
@@ -16,7 +19,7 @@ int main()
         std::cout << "Window open" << std::endl;
     }
     game.init();
-    long long n = 0;
+
     while(game.isRunning())
     {
         game.input();

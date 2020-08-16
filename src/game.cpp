@@ -4,7 +4,7 @@ Game::Game(sf::RenderWindow *window) : score_(0), difficulty_(0), window_(window
 {
     dungeon_ = Map(difficulty_);
     p1_ = new Player(dungeon_.GetStartingRoom());
-    //inventory_ = new Inventory(p1_);
+    inventory_ = new Inventory(p1_);
     clock_.restart();
     isRunning_ = true;
 }
@@ -20,16 +20,16 @@ void Game::init() //might be redundant
 void Game::input()
 {
     sf::Event event;
-    while(window_->pollEvent(event))
+    while (window_->pollEvent(event))
     {
-        switch(event.type)
+        switch (event.type)
         {
-            case sf::Event::Closed:
+        case sf::Event::Closed:
             //handle window close
                 isRunning_ = false;
                 break;
 
-            case sf::Event::KeyPressed: 
+        case sf::Event::KeyPressed:
             //pass keyboard input to the player object, needs to be updated if second player is implemented
             //note, the event only handles key down / key up, meaning that pressing a key must start the player moving
             //until the key is released, ie. the key up event is passed to the player!! 
@@ -94,7 +94,21 @@ void Game::input()
                 mousestate_[event.mouseButton] = false;
                 break;*/
             default:
+                //could add other keys here...
                 break;
+            }
+            break;
+            /*  ignoring mouse for now
+                        case sf::Event::MouseButtonPressed:
+                            mousestate_[event.mouseButton] = true;
+                            break;
+
+                        case sf::Event::MouseButtonReleased:
+                            mousestate_[event.mouseButton] = false;
+                            break;
+            */
+        default:
+            break;
         }
     }
 }
@@ -126,7 +140,7 @@ void    Game::update()
     //enemy AI should happen here
     //check fore entity & projectile collision
     //
-} 
+}
 void Game::render()
 {
     window_->clear(sf::Color::Black);

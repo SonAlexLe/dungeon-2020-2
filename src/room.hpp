@@ -2,6 +2,7 @@
 #include <list>
 #include <utility>
 #include "projectile.hpp"
+#include "entity.hpp"
 
 class Entity;
 

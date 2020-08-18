@@ -29,7 +29,7 @@ public:
 
     const std::string GetSpriteName() const;
 
-    Room &GetRoom();
+    Room* GetRoom();
 
     sf::Sprite& GetSprite();
 

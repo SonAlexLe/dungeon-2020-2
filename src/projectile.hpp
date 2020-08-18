@@ -1,5 +1,6 @@
 #pragma once
 #include "entity.hpp"
+#include <iostream>
 
 //should be abstract for future subtypes, right now is concrete
 class Projectile: public Entity
@@ -18,6 +19,8 @@ class Projectile: public Entity
     Entity(location.x,location.y,velocity), damage_(damage), hostile_(hostile){}
 
     void SetVelocity(sf::Vector2f velocity) { velocity_ = velocity; }
+
+    void load() {}
 
     sf::Vector2f& GetVelocity() { return velocity_; }
 

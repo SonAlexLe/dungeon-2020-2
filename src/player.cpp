@@ -21,17 +21,17 @@ sf::Sprite& Player::GetSprite() { return sprite_; }
 
 const std::string Player::GetSpriteName() const { return "player.png"; }
 
-Room &Player::GetRoom() { return *room_;}
+Room* Player::GetRoom() { return room_;}
 
 float Player::GetReload() {return reload_;}
 
 //should be run at startup, maybe whenever a new player is initialized?
 //same with other entities that have sprites
-void Player::load() {
-    sf::Texture texture_;
-    texture_.loadFromFile(GetSpriteName(), sf::IntRect(currPos_.x, currPos_.y, 10, 10));
-    sprite_.setTexture(texture_);
-}
+// void Player::load() {
+//     sf::Texture texture_;
+//     texture_.loadFromFile(GetSpriteName(), sf::IntRect(currPos_.x, currPos_.y, 10, 10));
+//     sprite_.setTexture(texture_);
+// }
 
 /**
  * Formulas used: (for each component of the vector)

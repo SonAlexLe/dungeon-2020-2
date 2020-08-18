@@ -1,25 +1,52 @@
 #include "inventory.hpp"
+#include <math.h> 
 
-void Inventory::addWeapon(Item* newWeapon) {
-    if (this->weapon_ == nullptr) {
-        this->weapon_ = newWeapon;
-    }
-    else {
-        weapon_->setUnequipped();
-        sf::Vector2f v1(player_->GetPosition().x + 10, player_->GetPosition().x); //I havent figured out yet a proper way to place items back on the ground. This is a temporary solution.
-        weapon_->SetPosition(v1);
-        weapon_ = newWeapon;
+void Inventory::addItem(Item* newItem)
+{
+    switch (newItem->getType())
+    {
+    case 1:
+        if (weapon_ == nullptr)
+        {
+            weapon_ = newItem;
+        }
+        else
+        {
+            weapon_->setUnequipped();
+            weapon_->SetPosition(Drop());
+            weapon_->GetSprite().setPosition(Drop());
+            weapon_ = newItem;
+        }
+        break;
+    case 2:
+        if (this->armor_ == nullptr) {
+            this->armor_ = newItem;
+        }
+        else {
+            armor_->setUnequipped();
+            armor_->SetPosition(Drop());
+            armor_->GetSprite().setPosition(Drop());
+            armor_ = newItem;
+        }
+        break;
+    case 3:
+        if (this->heldConsumable_ == nullptr) {
+            this->heldConsumable_ = newItem;
+        }
+        else {
+            heldConsumable_->setUnequipped();
+            heldConsumable_->SetPosition(Drop());
+            heldConsumable_->GetSprite().setPosition(Drop());
+            heldConsumable_ = newItem;
+        }
     }
 }
 
-void Inventory::addArmor(Item* newArmor) {
-    if (this->armor_ == nullptr) {
-        this->armor_ = newArmor;
-    }
-    else {
-        armor_->setUnequipped();
-        sf::Vector2f v1(player_->GetPosition().x + 10, player_->GetPosition().x);
-        armor_->SetPosition(v1);
-        armor_ = newArmor;
-    }
+sf::Vector2f Inventory::Drop() { // Function to calculate the spot to drop the held item when a new one is picked up.
+    float unitX = player_->GetVelocity().x / (sqrt(pow(player_->GetVelocity().x , 2.0f) + pow(player_->GetVelocity().y, 2.0f)));
+    float unitY = player_->GetVelocity().y / (sqrt(pow(player_->GetVelocity().x , 2.0f) + pow(player_->GetVelocity().y, 2.0f)));
+    unitX = unitX * (-1) * 115 + player_->GetSprite().getPosition().x;
+    unitY = unitY * (-1) * 115 + player_->GetSprite().getPosition().y;
+    sf::Vector2f v1(unitX, unitY);
+    return v1;
 }

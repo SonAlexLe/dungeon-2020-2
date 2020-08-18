@@ -7,12 +7,15 @@
 class Armor : public Item
 {
 public:
-    Armor(float x, float y, const std::string name, const int type, Player* player, float value) :
-        Item(x, y, name, type, player, value) {}
-
+    Armor(float x, float y, const std::string name, Player* player, float value) :
+        Item(x, y, name, player, value) 
+    {
+        type_ = armor;
+    }
+    const std::string GetSpriteName() const { return "armorOnTheGround.png"; }
     void load() //Creates a texture that shows the armor on the ground. //Loads the picture form a file named "armorOnTheGround.png".
     {
-        this->texture_.loadFromFile("pshychobot.png");
+        this->texture_.loadFromFile("armorOnTheGround.png");
         this->sprite_.setTexture(this->texture_);
     }
 };

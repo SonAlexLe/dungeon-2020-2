@@ -1,5 +1,7 @@
 #pragma once
 #include "entity.hpp"
+#include "connection.hpp"
+#include "rock.hpp"
 #include <list>
 #include <utility>
 
@@ -18,15 +20,25 @@ public:
 
     std::list<Entity*> GetPlayer();
 
+    void AddPlayer(Entity*);
+
     std::list<Entity*> GetEnemies();
 
+    void AddEnemy(Entity*);
+
     // Connection entities are doors/trapdoors/etc that connect to other rooms or floors
-    std::list<Entity*> GetConnections();
+    std::list<Connection*> GetConnections();
+
+    void AddConnection(Connection*);
     
     std::list<Entity*> GetProjectiles();
 
+    void AddProjectile(Entity*);
+
     // Obstacles can be unpassable map geometry. Hazards(lava/spikes) could also be in obstacles or could be considered enemies without movement
-    std::list<Entity*> GetObstacles();
+    std::list<Rock*> GetObstacles();
+
+    void AddObstacle(Rock*);
 
     double GetWidth();
 
@@ -42,11 +54,11 @@ protected:
 
     std::list<Entity*> enemies_;
 
-    std::list<Entity*> connections_;
+    std::list<Connection*> connections_;
 
     std::list<Entity*> projectiles_;
 
-    std::list<Entity*> obstacles_;
+    std::list<Rock*> obstacles_;
 
     int width_;
     

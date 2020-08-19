@@ -8,7 +8,15 @@ class Monster : public Entity
     public:
 
     Monster() = delete;
-    // constructor for monsters
+
+    /** Constructor for Monster
+     * 
+     * @param x the x-coord
+     * @param y the y-coord
+     * @param room the initial room
+     * @param velocity the initial velocity
+     * @param hp the initial hp
+     */
     Monster(float x, float y, Room* room, sf::Vector2f velocity, int hp);
 
     const std::string GetSpriteName() const;

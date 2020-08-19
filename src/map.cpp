@@ -8,7 +8,7 @@
 #include "rock.hpp"
 
 Map::Map(int difficulty) : difficulty_(difficulty) {
-    map_init;   
+    map_init();   
 }
 
 Room* Map::GetStartingRoom() {

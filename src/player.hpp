@@ -15,6 +15,11 @@ public:
 
     Player() = delete;
 
+    /** Constructor for Player, initial velocity is 0
+     * @param x the x-coord
+     * @param y the y-coord
+     * @param room the initial room
+     */ 
     Player(float x, float y, Room* room);
 
     void update(sf::Time dt);

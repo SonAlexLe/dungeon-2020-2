@@ -5,10 +5,10 @@
 #include <iostream>
 #include <fstream>
 #include <ctime>
-#include "rock.hpp"
 
 Map::Map(int difficulty) : difficulty_(difficulty) {
-    map_init();   
+    // map_init();   
+    rooms_.push_back(new Room); 
 }
 
 Room* Map::GetStartingRoom() {
@@ -161,9 +161,9 @@ Room* Map::room_init() {
                 if (x == "!") {
                     l = false;
                 } else {
-                    Rock* rock = new Rock(std::stof(x), std::stof(y));
-                    rock->SetRoom(room);
-                    room->AddObstacle(rock);
+                    Obstacle* obs = new Obstacle(std::stof(x), std::stof(y));
+                    obs->SetRoom(room);
+                    room->AddObstacle(obs);
 
                 }
             }

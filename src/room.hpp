@@ -1,4 +1,7 @@
 #pragma once
+#include "entity.hpp"
+#include "connection.hpp"
+#include "obstacle.hpp"
 #include <list>
 #include <utility>
 #include "projectile.hpp"
@@ -17,13 +20,26 @@ public:
     // Since all these objects share a base class you could just have one container for all of them but travesing this container would be very tedious.
 
     std::list<Entity*> GetPlayer();
+
+    void AddPlayer(Entity*);
+
     std::list<Entity*> GetEnemies();
+
+    void AddEnemy(Entity*);
+
     // Connection entities are doors/trapdoors/etc that connect to other rooms or floors
-    std::list<Entity*> GetConnections();
-    std::list<Projectile*> GetProjectiles();
+    std::list<Connection*> GetConnections();
+
+    void AddConnection(Connection*);
+    
+    std::list<Entity*> GetProjectiles();
+
+    void AddProjectile(Entity*);
+
     // Obstacles can be unpassable map geometry. Hazards(lava/spikes) could also be in obstacles or could be considered enemies without movement
-    std::list<Entity*> GetObstacles();
-    void AddEnemy(Entity* e);
+    std::list<Obstacle*> GetObstacles();
+
+    void AddObstacle(Obstacle*);
 
     double GetWidth();
     double GetHeight();
@@ -38,9 +54,12 @@ protected:
     sf::Vector2f size_;
     std::list<Entity*> player_;
     std::list<Entity*> enemies_;
-    std::list<Entity*> connections_;
-    std::list<Projectile*> projectiles_;
-    std::list<Entity*> obstacles_;
+
+    std::list<Connection*> connections_;
+
+    std::list<Entity*> projectiles_;
+
+    std::list<Obstacle*> obstacles_;
 
     int width_;
     

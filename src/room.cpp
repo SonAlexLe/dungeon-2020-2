@@ -3,42 +3,26 @@
 
 Room::Room() : size_(100,100) {}
 
-std::list<Entity*> Room::GetPlayer() {
-    return player_;
-}
+std::list<Entity*> Room::GetPlayer() { return player_; }
 
-std::list<Entity*> Room::GetEnemies() {
-    return enemies_;
-}
+void Room::AddPlayer(Entity* p) { player_.push_back(p); }
 
-std::list<Entity*> Room::GetConnections() {
-    return connections_;
-}
+std::list<Entity*> Room::GetEnemies() { return enemies_; }
 
-std::list<Projectile*> Room::GetProjectiles() {
-    return projectiles_;
-}
+void Room::AddEnemy(Entity* e) { enemies_.push_back(e); }
 
-std::list<Entity*> Room::GetObstacles() {
-    return obstacles_;
-}
+std::list<Connection*> Room::GetConnections() {return connections_; }
 
-double Room::GetWidth() {
-    return size_.x;
-}
+void Room::AddConnection(Connection* c) { connections_.push_back(c); }
 
-double Room::GetHeight() {
-    return size_.y;
-}
+std::list<Entity*> Room::GetProjectiles() { return projectiles_; }
 
-sf::Vector2f Room::GetSize() {
-    return size_;
-}
+void Room::AddProjectile(Entity* p) { projectiles_.push_back(p); }
 
-void Room::AddProjectile(Projectile *pew){
-    projectiles_.push_back(pew);
-}
+std::list<Obstacle*> Room::GetObstacles() { return obstacles_; }
 
-void Room::AddEnemy(Entity* e) {
-    enemies_.push_back(e);
-}
+void Room::AddObstacle(Obstacle* r) { obstacles_.push_back(r); }
+
+double Room::GetWidth() { return size_.x; }
+
+double Room::GetHeight() { return size_.y; }

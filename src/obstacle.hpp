@@ -1,11 +1,11 @@
 #include"entity.hpp"
 
-class Rock : public Entity {
+class Obstacle : public Entity {
 public:
 
-    Rock() : Entity() {}
+    Obstacle() : Entity() {}
 
-    Rock(float x, float y) : Entity(x, y) {}
+    Obstacle(float x, float y) : Entity(x, y) {}
 
     void update(sf::Time dt) {}
 

@@ -43,9 +43,7 @@ public:
 
     double GetWidth();
     double GetHeight();
-    sf::Vector2f GetSize();
-
-    void AddProjectile(Projectile *);
+    sf::Vector2f& GetSize();
 
 protected:
 

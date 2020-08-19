@@ -1,10 +1,11 @@
 #pragma once
-#include <vector>
 #include "map.hpp"
 #include "player.hpp"
 #include "projectile.hpp"
 #include "inventory.hpp"
 #include "monster.hpp"
+#include "room.hpp"
+#include <vector>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>

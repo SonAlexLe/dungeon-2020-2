@@ -8,6 +8,8 @@ Entity::Entity() {}
 
 Entity::~Entity() {}
 
+Entity::Entity(float x, float y) : currPos_(x, y), velocity_(0, 0) {}
+
 Entity::Entity(float x, float y, sf::Vector2f velocity) : currPos_(x, y) , velocity_(velocity){}
 
 void Entity::load() {}

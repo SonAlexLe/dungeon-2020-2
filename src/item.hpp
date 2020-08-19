@@ -10,13 +10,14 @@
 enum ItemTypes { //Types to differentiate the items.
     DEFAULT = 0,
     weapon,
-    armor
+    armor,
+    consumable
 };
 class Player;
 class Item : public Entity { //Inherits from the entity class.
 public:
-    Item(float x, float y, const std::string name, const int type, Player* player, float value)
-        : Entity(x, y,sf::Vector2f(0,0)), name_(name), type_(type), player_(player), armorDmgValue_(value)
+    Item(float x, float y, const std::string name, Player* player, float value)
+        : Entity(x, y), name_(name), player_(player), armorDmgValue_(value)
     {
         equipped_ = false;
     }
@@ -24,6 +25,8 @@ public:
     std::string getName() const;
     int getType() const;
     float getValue() const;
+    bool Item::GetEquipped() const;
+    sf::Sprite& GetSprite() { return sprite_; }
     void setUnequipped();
     void setEquipped();
     void draw(sf::RenderWindow* window);
@@ -37,6 +40,6 @@ protected:
     float armorDmgValue_;
     bool equipped_; //Value to indicate whether the item is on the ground or inventory. 
     std::string name_;
-    int type_;
+    int type_ = DEFAULT;
     Player* player_;
 };

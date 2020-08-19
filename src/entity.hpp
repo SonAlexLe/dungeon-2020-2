@@ -11,6 +11,8 @@ public:
 
     Entity();
 
+    Entity(float x, float y);
+
     Entity(float x, float y, sf::Vector2f velocity);
 
     virtual ~Entity();

@@ -14,10 +14,10 @@ public:
     {
         weapon_ = nullptr;
         armor_ = nullptr;
+        heldConsumable_ = nullptr;
     }
     ~Inventory() {}
-    void addWeapon(Item* weapon);
-    void addArmor(Item* armor);
+    void addItem(Item* newItem);
 
     float getArmorValue() {
         return armor_->getValue();
@@ -25,8 +25,12 @@ public:
     float getDmgValue() {
         return weapon_->getValue();
     }
-private:
+    sf::Vector2f Drop();
+private: // Player is able to hold one weapon, one armor and one consumable.
+    Inventory& operator=(const Inventory&) = delete;
+
     Player* player_;
     Item* armor_;
     Item* weapon_;
+    Item* heldConsumable_;
 };

@@ -6,17 +6,13 @@
 #define DECCEL_RATE 20.f
 
 //initial velocity is 0, default constructor
-Player::Player(float x, float y, Room* room) : room_(room),
-    velocity_(sf::Vector2f(0, 0)), Entity(x, y), 
+Player::Player(float x, float y, Room* room)
+    : velocity_(sf::Vector2f(0, 0)), Entity(x, y, room), 
     accDown_(false), accUp_(false), accLeft_(false), accRight_(false), reload_(0) {}
 
 sf::Sprite& Player::GetSprite() { return sprite_; }
 
 const std::string Player::GetSpriteName() const { return "player.png"; }
-
-Room* Player::GetRoom() { return room_;}
-
-void Player::SetRoom(Room* room) { room_ = room; }
 
 void Player::SetHP(int hp) { hp_ = hp; }
 

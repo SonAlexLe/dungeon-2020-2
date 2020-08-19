@@ -5,18 +5,24 @@
 
 class Room;
 
+/** Base class of all entities that exist in a room.
+ *  An Entity knows its own current room and current position
+ */ 
 class Entity
 {
 public:
 
     Entity();
+
+    Entity(float x, float y);
     
     /** Constructor of Entity
      * 
      * @param x the x-coord
      * @param y the y-coord
+     * @param room the initial room
      */ 
-    Entity(float x, float y);
+    Entity(float x, float y, Room* room);
 
     virtual ~Entity();
     /** Updates the Entity after each game loop

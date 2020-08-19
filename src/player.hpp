@@ -1,4 +1,3 @@
-
 #pragma once
 #include "config.hpp"
 #include <SFML/Graphics.hpp>
@@ -30,10 +29,6 @@ public:
 
     const std::string GetSpriteName() const;
 
-    Room* GetRoom();
-
-    void SetRoom(Room* room);
-
     sf::Sprite& GetSprite();
 
     float GetReload();
@@ -59,8 +54,6 @@ private:
     sf::Sprite sprite_;
 
     Inventory* inventory_;
-
-    Room* room_;
 
     //for tracking reload rate
     float reload_;

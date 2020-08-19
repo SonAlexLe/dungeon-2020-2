@@ -5,7 +5,7 @@
 
 class Monster : public Entity
 {
-    public:
+public:
 
     Monster() = delete;
 
@@ -27,13 +27,11 @@ class Monster : public Entity
 
     void load();
 
-    protected:
+protected:
 
     sf::Vector2f velocity_;
 
     int hp_;
-
-    Room* room_;
 
     sf::Sprite sprite_;
 

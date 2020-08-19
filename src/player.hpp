@@ -15,11 +15,7 @@ public:
 
     Player() = delete;
 
-    Player(Room* room); 
-
-    //Player(float x, float y);
-
-    //void update(std::map<sf::Keyboard::Key, bool>& keys, std::map<sf::Mouse::Button, bool>& mousebutts, sf::Time dt);
+    Player(Room* room);
 
     void update(sf::Time dt); // empty function, does not do anything for now
 
@@ -31,6 +27,8 @@ public:
 
     Room* GetRoom();
 
+    void SetRoom(Room* room);
+
     sf::Sprite& GetSprite();
 
     float GetReload();
@@ -38,6 +36,10 @@ public:
     void Attack();
 
     void load(){}
+
+    void SetHP(int hp);
+
+    int GetHP();
 
     //input handling methods, by Leo
     void accUp(bool);
@@ -61,5 +63,7 @@ private:
     bool accLeft_;
     bool accRight_;
     bool accDown_;
+    //hit points
+    int hp_;
 
 };

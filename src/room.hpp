@@ -23,6 +23,7 @@ public:
     std::list<Projectile*> GetProjectiles();
     // Obstacles can be unpassable map geometry. Hazards(lava/spikes) could also be in obstacles or could be considered enemies without movement
     std::list<Entity*> GetObstacles();
+    void AddEnemy(Entity* e);
 
     double GetWidth();
     double GetHeight();

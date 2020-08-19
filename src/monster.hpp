@@ -1,5 +1,6 @@
 #pragma once
 #include "entity.hpp"
+#include "room.hpp"
 #include <SFML/Graphics.hpp>
 
 //should be an abstract class, now it's just a normal class
@@ -8,17 +9,19 @@ class Monster : public Entity
 {
     public:
 
-    Monster();
+    Monster() = delete;
+    // constructor for monsters
+    Monster(Room* room);
 
     const std::string GetSpriteName() const;
 
     void load();
 
-    void update(sf::Time dt);
+    // void update(sf::Time dt); TODO: AI for subclasses
 
     private:
 
-    sf::Vector2f velocity_;
+    Room* room_;
 
     sf::Sprite sprite_;
 

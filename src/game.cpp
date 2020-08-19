@@ -4,6 +4,8 @@ Game::Game(sf::RenderWindow *window) : score_(0), difficulty_(0), window_(window
 {
     dungeon_ = Map(difficulty_);
     p1_ = new Player(dungeon_.GetStartingRoom());
+    monst_ = new Monster(dungeon_.GetStartingRoom());
+    dungeon_.GetStartingRoom()->AddEnemy(monst_);
     inventory_ = new Inventory(p1_);
     clock_.restart();
     isRunning_ = true;
@@ -128,11 +130,15 @@ void Game::update()
     }
     for(auto i : p1_->GetRoom()->GetProjectiles())
     {
-        // i->update(elapsed); this line causes a segfault
+        // i->update(elapsed); TODO: this line causes a segfault
     }
     lastUpdate_ = time;
     //go through all the active entities in the current room and move them up to their speed.
     //enemy AI should happen here
+    for(auto i : dungeon_.GetStartingRoom()->GetEnemies()) {
+        // should be all rooms
+        i->update(elapsed);
+    }
     //check fore entity & projectile collision
     //
 }
@@ -150,9 +156,15 @@ void Game::render()
     player.setPosition(p1_->GetPosition());
     window_->draw(room);
 
-    std::cout<< p1_->GetRoom()->GetProjectiles().size()<<std::endl;
+    // std::cout<< p1_->GetRoom()->GetProjectiles().size()<<std::endl; TODO: this prints zeroes
 
     window_->draw(player);
+    for(auto i: dungeon_.GetStartingRoom()->GetEnemies()) {
+        sf::CircleShape monster(5);
+        monster.setFillColor(sf::Color(250, 50, 100));
+        monster.setPosition(monst_->GetPosition());
+        window_->draw(monster);
+    }
     window_->display();
 
 

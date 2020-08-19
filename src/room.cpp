@@ -38,3 +38,7 @@ sf::Vector2f Room::GetSize() {
 void Room::AddProjectile(Projectile *pew){
     projectiles_.push_back(pew);
 }
+
+void Room::AddEnemy(Entity* e) {
+    enemies_.push_back(e);
+}

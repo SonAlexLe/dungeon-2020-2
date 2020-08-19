@@ -28,3 +28,11 @@ class Monster : public Entity
     sf::Sprite sprite_;
 
 };
+
+class Orc : public Monster
+{
+    public:
+    Orc() = delete;
+    Orc(Room* room);
+    void update(sf::Time dt);
+};

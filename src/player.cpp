@@ -6,10 +6,9 @@
 #define DECCEL_RATE 20.f
 
 //initial velocity is 0, default constructor
-Player::Player(Room* room) : room_(room), Entity(room->GetWidth()/2,room->GetHeight()/2, sf::Vector2f(0,0)), 
-accDown_(false), accUp_(false), accLeft_(false), accRight_(false), reload_(0) {}
-
-//Player::Player(float x, float y) : Entity(x, y) { velocity_ = sf::Vector2f(0, 0); }
+Player::Player(float x, float y, Room* room) : room_(room),
+    velocity_(sf::Vector2f(0, 0)), Entity(x, y), 
+    accDown_(false), accUp_(false), accLeft_(false), accRight_(false), reload_(0) {}
 
 sf::Sprite& Player::GetSprite() { return sprite_; }
 
@@ -23,7 +22,7 @@ void Player::SetHP(int hp) { hp_ = hp; }
 
 int Player::GetHP() { return hp_; }
 
-float Player::GetReload() {return reload_;}
+float Player::GetReload() { return reload_; }
 
 //should be run at startup, maybe whenever a new player is initialized?
 //same with other entities that have sprites

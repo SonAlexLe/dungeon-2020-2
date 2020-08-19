@@ -13,8 +13,6 @@ public:
 
     Entity(float x, float y);
 
-    Entity(float x, float y, sf::Vector2f velocity);
-
     virtual ~Entity();
 
     virtual void update(sf::Time dt) =0;
@@ -27,10 +25,14 @@ public:
 
     void SetPosition(sf::Vector2f pos);
 
+    void SetRoom(Room* room);
+
+    Room* GetRoom();
+
 protected:
 
     sf::Vector2f currPos_;
 
-    sf::Vector2f velocity_;
+    Room* room_;
 
 };

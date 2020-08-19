@@ -3,8 +3,8 @@
 #define ORC_HP 100
 #define SPEED 20
 
-Monster::Monster(Room* room, int hp) : room_(room), hp_(hp),
-    Entity(room->GetWidth(), room->GetHeight(), sf::Vector2f(0, 0)) {}
+Monster::Monster(float x, float y, Room* room, sf::Vector2f velocity, int hp) : room_(room), velocity_(velocity), hp_(hp),
+    Entity(x, y) {}
 
 const std::string Monster::GetSpriteName() const { return "monster.png"; }
 
@@ -18,7 +18,7 @@ int Monster::GetHP() { return hp_; }
 
 void Monster::SetHP(int hp) { hp_ = hp; }
 
-Orc::Orc(Room* room) : Monster(room, ORC_HP) {}
+Orc::Orc(float x, float y, Room* room) : Monster(x, y, room, sf::Vector2f(0, 0), ORC_HP) {}
 
 void Orc::update(sf::Time dt) {
     if(currPos_.x >= room_->GetWidth() && currPos_.y >= room_->GetHeight())

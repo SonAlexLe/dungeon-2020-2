@@ -9,7 +9,7 @@ class Monster : public Entity
 
     Monster() = delete;
     // constructor for monsters
-    Monster(Room* room, int hp);
+    Monster(float x, float y, Room* room, sf::Vector2f velocity, int hp);
 
     const std::string GetSpriteName() const;
 
@@ -20,6 +20,8 @@ class Monster : public Entity
     void load();
 
     protected:
+
+    sf::Vector2f velocity_;
 
     int hp_;
 
@@ -33,6 +35,6 @@ class Orc : public Monster
 {
     public:
     Orc() = delete;
-    Orc(Room* room);
+    Orc(float x, float y, Room* room);
     void update(sf::Time dt);
 };

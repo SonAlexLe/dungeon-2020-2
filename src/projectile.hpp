@@ -11,12 +11,14 @@ class Projectile: public Entity
 
     bool hostile_;
 
+    sf::Vector2f velocity_;
+
     public:
 
     //initial velocity of projectile is arbitrarily [0, 0]
     Projectile() = delete;
     Projectile(sf::Vector2f location,sf::Vector2f velocity, int damage, bool hostile) :
-    Entity(location.x,location.y,velocity), damage_(damage), hostile_(hostile){}
+    Entity(location.x, location.y), velocity_(velocity), damage_(damage), hostile_(hostile){}
 
     void SetVelocity(sf::Vector2f velocity) { velocity_ = velocity; }
 

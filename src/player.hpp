@@ -15,7 +15,7 @@ public:
 
     Player() = delete;
 
-    Player(Room* room);
+    Player(float x, float y, Room* room);
 
     void update(sf::Time dt);
 
@@ -48,6 +48,8 @@ public:
     void accRight(bool);
 
 private:
+
+    sf::Vector2f velocity_;
 
     sf::Sprite sprite_;
 

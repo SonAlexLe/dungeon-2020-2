@@ -4,7 +4,7 @@ Game::Game(sf::RenderWindow *window) : score_(0), difficulty_(0), window_(window
 {
     dungeon_ = Map(difficulty_);
     p1_ = new Player(dungeon_.GetStartingRoom());
-    monst_ = new Monster(dungeon_.GetStartingRoom());
+    monst_ = new Orc(dungeon_.GetStartingRoom());
     dungeon_.GetStartingRoom()->AddEnemy(monst_);
     inventory_ = new Inventory(p1_);
     clock_.restart();

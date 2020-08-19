@@ -5,6 +5,7 @@
 #include "projectile.hpp"
 #include "inventory.hpp"
 #include "monster.hpp"
+#include "orc.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>

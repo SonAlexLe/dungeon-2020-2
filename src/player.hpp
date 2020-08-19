@@ -17,7 +17,7 @@ public:
 
     Player(Room* room);
 
-    void update(sf::Time dt); // empty function, does not do anything for now
+    void update(sf::Time dt);
 
     Inventory* GetInventory() { return inventory_; }
 

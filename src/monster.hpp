@@ -3,23 +3,25 @@
 #include "room.hpp"
 #include <SFML/Graphics.hpp>
 
-//should be an abstract class, now it's just a normal class
-//for testing purposes
 class Monster : public Entity
 {
     public:
 
     Monster() = delete;
     // constructor for monsters
-    Monster(Room* room);
+    Monster(Room* room, int hp);
 
     const std::string GetSpriteName() const;
 
+    int GetHP();
+
+    void SetHP(int hp);
+
     void load();
 
-    // void update(sf::Time dt); TODO: AI for subclasses
+    protected:
 
-    private:
+    int hp_;
 
     Room* room_;
 

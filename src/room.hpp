@@ -1,7 +1,7 @@
 #pragma once
 #include "entity.hpp"
 #include "connection.hpp"
-#include "rock.hpp"
+#include "obstacle.hpp"
 #include <list>
 #include <utility>
 
@@ -36,9 +36,9 @@ public:
     void AddProjectile(Entity*);
 
     // Obstacles can be unpassable map geometry. Hazards(lava/spikes) could also be in obstacles or could be considered enemies without movement
-    std::list<Rock*> GetObstacles();
+    std::list<Obstacle*> GetObstacles();
 
-    void AddObstacle(Rock*);
+    void AddObstacle(Obstacle*);
 
     double GetWidth();
 
@@ -58,7 +58,7 @@ protected:
 
     std::list<Entity*> projectiles_;
 
-    std::list<Rock*> obstacles_;
+    std::list<Obstacle*> obstacles_;
 
     int width_;
     

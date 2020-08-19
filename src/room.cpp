@@ -22,9 +22,9 @@ std::list<Entity*> Room::GetProjectiles() { return projectiles_; }
 
 void Room::AddProjectile(Entity* p) { projectiles_.push_back(p); }
 
-std::list<Rock*> Room::GetObstacles() { return obstacles_; }
+std::list<Obstacle*> Room::GetObstacles() { return obstacles_; }
 
-void Room::AddObstacle(Rock* r) { obstacles_.push_back(r); }
+void Room::AddObstacle(Obstacle* r) { obstacles_.push_back(r); }
 
 double Room::GetWidth() { return size_.first; }
 

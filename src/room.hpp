@@ -35,6 +35,8 @@ public:
     std::list<Connection*> GetConnections();
 
     void AddConnection(Connection*);
+
+    void AddItem(Item*);
     
     // std::list<Entity*> GetProjectiles();
 
@@ -62,6 +64,8 @@ protected:
     std::list<Monster*> enemies_;
 
     std::list<Connection*> connections_;
+
+    Item* item_;
 
     // std::list<Projectile*> projectiles_;
 

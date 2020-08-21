@@ -18,8 +18,8 @@ Room* Map::GetStartingRoom() {
 //Runs when a map is constructed
 void Map::map_init() {
 
-    //Some preliminary parameters for how large the layout is and how many rooms are generated
-    int nofRooms = 10 + difficulty_ * 2;
+    //Some preliminary parameters for how many rooms are generated
+    int nofRooms = 10 + difficulty_;
 
     //Init layout and starting room
     Room* map[9][9] = { {nullptr} };
@@ -52,8 +52,28 @@ void Map::map_init() {
 
                 //All conditions are met, create a room
                 // Room* room = Map::room_init();
+
                 Room* room = new Room;
                 map[x][y] = room;
+
+                /*Generate item room when there are X rooms to generate
+                if (nofRooms == 6) {
+                    $$Item generator goes here$$
+                    Item* item = Item::generate;
+                    room->AddItem(item);
+                    nofRooms--;
+                    
+                } */
+
+                /* Last will be a boss room
+                if (nofRooms == 1) {
+                    Monster* boss = new Boss(50.0, 50.0);
+                    room->AddEnemy(Boss);
+                    nofRooms--;
+                }
+
+                */
+
                 nofRooms--;
 
                 //Setup connections for the new room
@@ -108,20 +128,37 @@ void Map::map_init() {
                 }
             }
 
-            /*TODO: 
-            -Logic for special rooms (e.g. boss room could be last room generated)
-            -Find a way to output layout grid or have it as a class member
-            */
         }
     }
 }
-
-/*TODO:
--Default constructs a room 
--Checks neighbors and creates connections
--Picks a file randomly from preconstructed room layouts and places entities
-*/
+//Fills room with monsters
 Room* Map::room_init() {
 
     Room* room = new Room;
+
+
+    //Pick a monster randomly from monsters
+    //Expand as more monsters are added
+    char monsters[1] = { 'O' };
+    srand(time(nullptr));
+
+    //Coords for the placements of monsters, (4 monsters in corners)
+    std::list<std::pair<float, float>> coords = { std::make_pair(10.0, 10.0), std::make_pair(90.0, 10.0), std::make_pair(10.0, 90.0), std::make_pair(90.0, 90.0) };
+
+
+    for (auto c : coords) {
+
+        int idx = rand() % 1;
+
+        switch (monsters[idx]) {
+
+            case 'O': {
+                Orc* orc = new Orc(c.first, c.second, room); 
+               room->AddEnemy(orc);
+            }
+
+        }
+
+    }
+    return room;
 }

@@ -20,6 +20,8 @@ void Room::RemoveEnemy(Monster* m) {
     }
 }
 
+void Room::AddItem(Item* i) { item_ = i; }
+
 std::list<Connection*> Room::GetConnections() {return connections_; }
 
 void Room::AddConnection(Connection* c) { connections_.push_back(c); }

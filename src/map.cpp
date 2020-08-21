@@ -5,6 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <ctime>
+#include <monster.hpp>
 
 Map::Map(int difficulty) : difficulty_(difficulty) {
     rooms_.push_back(new Room); 
@@ -170,7 +171,4 @@ Room* Map::room_init() {
     } 
 
     */
-
-
-
 }

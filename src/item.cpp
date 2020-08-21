@@ -1,6 +1,7 @@
 //can also manifest as an entity on the ground, that can be then picked up if it collides with a player.
 #include "item.hpp"
 #include "player.hpp"
+#include "inventory.hpp"
 std::string Item::getName() const {
     return name_;
 }

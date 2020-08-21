@@ -5,7 +5,7 @@ void Inventory::addItem(Item* newItem)
 {
     switch (newItem->getType())
     {
-    case 1:
+    case weapon:
         if (weapon_ == nullptr)
         {
             weapon_ = newItem;
@@ -18,7 +18,7 @@ void Inventory::addItem(Item* newItem)
             weapon_ = newItem;
         }
         break;
-    case 2:
+    case armor:
         if (this->armor_ == nullptr) {
             this->armor_ = newItem;
         }
@@ -29,7 +29,7 @@ void Inventory::addItem(Item* newItem)
             armor_ = newItem;
         }
         break;
-    case 3:
+    case consumable:
         if (this->heldConsumable_ == nullptr) {
             this->heldConsumable_ = newItem;
         }
@@ -49,4 +49,9 @@ sf::Vector2f Inventory::Drop() { // Function to calculate the spot to drop the h
     unitY = unitY * (-1) * 115 + player_->GetSprite().getPosition().y;
     sf::Vector2f v1(unitX, unitY);
     return v1;
+}
+
+void Inventory::useConsumable(){ // Uses the held consumable.
+    heldConsumable_->use();
+    heldConsumable_ = nullptr;
 }

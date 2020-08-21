@@ -1,7 +1,10 @@
 #pragma once
 #include "entity.hpp"
 #include "connection.hpp"
-#include "obstacle.hpp"
+#include "monster.hpp"
+#include "item.hpp"
+// #include "obstacle.hpp"
+// #include "projectile.hpp"
 #include <list>
 #include <utility>
 
@@ -18,27 +21,31 @@ public:
     // Each room has containers for each type of entity contained in it and interfaces for accessing each container
     // Since all these objects share a base class you could just have one container for all of them but travesing this container would be very tedious.
 
-    std::list<Entity*> GetPlayer();
+    Player* GetPlayer();
 
-    void AddPlayer(Entity*);
+    void AddPlayer(Player* p);
 
-    std::list<Entity*> GetEnemies();
+    std::list<Monster*> GetEnemies();
 
-    void AddEnemy(Entity*);
+    void AddEnemy(Monster*);
+
+    void RemoveEnemy(Monster*);
 
     // Connection entities are doors/trapdoors/etc that connect to other rooms or floors
     std::list<Connection*> GetConnections();
 
     void AddConnection(Connection*);
     
-    std::list<Entity*> GetProjectiles();
+    // std::list<Entity*> GetProjectiles();
 
-    void AddProjectile(Entity*);
+    // void AddProjectile(Projectile*);
+
+    // void RemoveProjectile(Projectile*)
 
     // Obstacles can be unpassable map geometry. Hazards(lava/spikes) could also be in obstacles or could be considered enemies without movement
-    std::list<Obstacle*> GetObstacles();
+    // std::list<Obstacle*> GetObstacles();
 
-    void AddObstacle(Obstacle*);
+    // void AddObstacle(Obstacle*);
 
     double GetWidth();
 
@@ -50,18 +57,18 @@ protected:
 
     std::pair<double, double> size_;
 
-    std::list<Entity*> player_;
+    Player* player_;
 
-    std::list<Entity*> enemies_;
+    std::list<Monster*> enemies_;
 
     std::list<Connection*> connections_;
 
-    std::list<Entity*> projectiles_;
+    // std::list<Projectile*> projectiles_;
 
-    std::list<Obstacle*> obstacles_;
+    // std::list<Obstacle*> obstacles_;
 
-    int width_;
+    double width_;
     
-    int height_;
+    double height_;
 
 };

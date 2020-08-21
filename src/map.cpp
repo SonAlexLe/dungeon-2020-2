@@ -51,7 +51,8 @@ void Map::map_init() {
             if(neighbors.size() > 1 && neighbors.size() < 3) {
 
                 //All conditions are met, create a room
-                Room* room = Map::room_init();
+                // Room* room = Map::room_init();
+                Room* room = new Room;
                 map[x][y] = room;
                 nofRooms--;
 
@@ -121,54 +122,6 @@ void Map::map_init() {
 -Picks a file randomly from preconstructed room layouts and places entities
 */
 Room* Map::room_init() {
-    return new Room();
-    
-    /*
 
     Room* room = new Room;
-
-    //Different layouts are stored in text files and as more rooms are designed their filename will be added to the list
-    std::string room_layouts[1] = { "testroom" };
-    
-    //Randomly choose a room to be initialized
-    srand(time(nullptr));
-    int idx = rand() & 1;
-    
-    /*The format of the file is still WIP, but the basic idea is to start each row with a identifier letter e.g R for Rocks followed by coordinates for each rock separated by ; 
-    This can be easily expanded as more obstacles, enemies and such are implemented, tough the files are a bit tedious to type out as rooms get more complex
-    
-    
-    std::ifstream is(room_layouts[idx]);
-
-    int i = is.peek();
-
-    //Cases can be easily expanded
-    switch(i) {
-        case 'R': {
-
-            std::string tmp, x, y;
-
-            getline(is, tmp, ';');
-            //Coordinates separated by periods
-
-            bool l = true;
-
-            while (l) {
-                getline(is, x, '.');
-                getline(is, y, ';');
-
-                //TODO: Come up with a more elegant solution to end reading
-                if (x == "!") {
-                    l = false;
-                } else {
-                    Obstacle* obs = new Obstacle(std::stof(x), std::stof(y));
-                    obs->SetRoom(room);
-                    room->AddObstacle(obs);
-
-                }
-            }
-        }
-    } 
-
-    */
 }

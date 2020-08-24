@@ -8,6 +8,7 @@ Game::Game(sf::RenderWindow *window) : score_(0), difficulty_(0), window_(window
     p1_ = new Player(roomWidth/2, roomHeight/2, dungeon_.GetStartingRoom());
     monst_ = new Orc(roomWidth, roomHeight, dungeon_.GetStartingRoom());
     dungeon_.GetStartingRoom()->AddEnemy(monst_);
+    dungeon_.GetStartingRoom()->AddPlayer(p1_);
     inventory_ = new Inventory(p1_);
     clock_.restart();
     isRunning_ = true;
@@ -140,10 +141,11 @@ void Game::update()
     lastUpdate_ = time;
     //go through all the active entities in the current room and move them up to their speed.
     //enemy AI should happen here
-    for(auto i : dungeon_.GetStartingRoom()->GetEnemies()) {
-        // should be all rooms
-        i->update(elapsed);
-    }
+    monst_->update(elapsed);
+    // for(auto i : dungeon_.GetStartingRoom()->GetEnemies()) {
+    //     // should be all rooms
+    //     i->update(elapsed);
+    // }
     //check for entity & projectile collision
     //
 }
@@ -160,20 +162,15 @@ void Game::render()
     player.setFillColor(sf::Color(100, 250, 50));
     player.setPosition(p1_->GetPosition());
     window_->draw(room);
-
     // std::cout<< p1_->GetRoom()->GetProjectiles().size()<<std::endl; TODO: this prints zeroes
-
     window_->draw(player);
-    for(auto i: dungeon_.GetStartingRoom()->GetEnemies()) {
-        sf::CircleShape monster(5);
-        monster.setFillColor(sf::Color(250, 50, 100));
-        monster.setPosition(monst_->GetPosition());
-        window_->draw(monster);
-    }
+    // for(auto i : dungeon_.GetStartingRoom()->GetEnemies()) {
+    sf::CircleShape monster(5);
+    monster.setFillColor(sf::Color(250, 50, 100));
+    monster.setPosition(monst_->GetPosition());
+    window_->draw(monster);
+    // }
     window_->display();
-
-
-    
 }
 
 void Game::clean()

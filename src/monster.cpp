@@ -2,9 +2,11 @@
 #include <iostream>
 #define ORC_HP 100
 #define ORC_SPEED 20
+#define WEREWOLF_SPEED 30.f
+#define WEREWOLF_HP 200
 
 Monster::Monster(float x, float y, Room* room, sf::Vector2f velocity, int hp)
-    : room_(room), velocity_(velocity), hp_(hp), Entity(x, y) {}
+    : velocity_(velocity), hp_(hp), Entity(x, y, room) {}
 
 const std::string Monster::GetSpriteName() const { return "monster.png"; }
 
@@ -18,7 +20,8 @@ int Monster::GetHP() { return hp_; }
 
 void Monster::SetHP(int hp) { hp_ = hp; }
 
-Orc::Orc(float x, float y, Room* room) : Monster(x, y, room, sf::Vector2f(ORC_SPEED, ORC_SPEED), ORC_HP) {}
+Orc::Orc(float x, float y, Room* room) :
+    Monster(x, y, room, sf::Vector2f(ORC_SPEED, ORC_SPEED), ORC_HP) {}
 
 void Orc::update(sf::Time dt) {
     if(currPos_.x >= room_->GetWidth() && currPos_.y >= room_->GetHeight())
@@ -26,5 +29,16 @@ void Orc::update(sf::Time dt) {
     if(currPos_.x < 0 && currPos_.y < 0) {
         velocity_ = sf::Vector2f(ORC_SPEED, ORC_SPEED);
     }
+    currPos_ += dt.asSeconds() * velocity_;
+}
+
+Werewolf::Werewolf(float x, float y, Room* room) :
+    Monster(x, y, room, sf::Vector2f(0, 0), WEREWOLF_HP) {}
+
+void Werewolf::update(sf::Time dt) {
+    sf::Vector2f target = room_->GetPlayer()->GetPosition();
+    sf::Vector2f diff = target - currPos_;
+    diff = diff/(float)sqrt(diff.x*diff.x + diff.y*diff.y);
+    velocity_ = diff * WEREWOLF_SPEED;
     currPos_ += dt.asSeconds() * velocity_;
 }

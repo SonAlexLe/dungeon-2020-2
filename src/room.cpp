@@ -3,7 +3,7 @@
 
 Room::Room() : player_(nullptr), item_(nullptr),
     Nconn_(nullptr), Sconn_(nullptr), Wconn_(nullptr), Econn_(nullptr),
-    size_(sf::Vector2f(100, 100)) {}
+    size_(100.f, 100.f) {}
 
 Room::~Room() {
     for (Connection* c : connections_) {

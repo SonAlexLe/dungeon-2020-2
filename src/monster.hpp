@@ -33,8 +33,6 @@ public:
 
     int hp_;
 
-    Room* room_;
-
     sf::Sprite sprite_;
 
 };
@@ -44,5 +42,13 @@ class Orc : public Monster
     public:
     Orc() = delete;
     Orc(float x, float y, Room* room);
+    void update(sf::Time dt);
+};
+
+class Werewolf : public Monster
+{
+    public:
+    Werewolf() = delete;
+    Werewolf(float x, float y, Room* room);
     void update(sf::Time dt);
 };

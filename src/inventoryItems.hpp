@@ -8,7 +8,7 @@
 class Armor : public Item
 {
 public:
-    Armor(float x, float y, const std::string name, Player* player, float value) :
+    Armor(float x, float y, const std::string name, Player* player, int value) :
         Item(x, y, name, player, value) 
     {
         type_ = armor;
@@ -19,12 +19,16 @@ public:
         this->texture_.loadFromFile("armorOnTheGround.png");
         this->sprite_.setTexture(this->texture_);
     }
+    void upgrade() {
+        armorDmgValue_ += 1;
+        return;
+    }
 };
 
 
 class Weapon : public Item {
 public:
-    Weapon(float x, float y, const std::string& name, Player* player, float value) :
+    Weapon(float x, float y, const std::string& name, Player* player, int value) :
         Item(x, y, name, player, value)
     {
         type_ = weapon;
@@ -38,6 +42,11 @@ public:
         this->texture_.loadFromFile("weaponOnTheGround.png");
         this->sprite_.setTexture(this->texture_);
     }
+    void upgrade() {
+        armorDmgValue_ += 1;
+        return;
+    }
+
 private:
     sf::Time attackInterval; //attackInterval value tells how often the player can attack with the weapon.
 
@@ -45,7 +54,7 @@ private:
 
 class HealingPotion : public Item { // Single use item that heals the player to full hp.
 public:
-    HealingPotion(float x, float y, const std::string& name, Player* player, float value) :
+    HealingPotion(float x, float y, const std::string& name, Player* player, int value) :
         Item(x, y, name, player, value)
     {
         type_ = consumable;

@@ -1,3 +1,4 @@
+
 #pragma once
 #include "room.hpp"
 
@@ -44,5 +45,4 @@ private:
     std::list<Room*> rooms_;
 
     std::list<Entity*> connections_;
-
-};
+}

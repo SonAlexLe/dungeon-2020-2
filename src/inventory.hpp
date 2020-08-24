@@ -15,10 +15,10 @@ public:
     ~Inventory() {}
     void addItem(Item* newItem);
 
-    float getArmorValue() {
+    int getArmorValue() {
         return armor_->getValue();
     }
-    float getDmgValue() {
+    int getDmgValue() {
         return weapon_->getValue();
     }
     void useConsumable();

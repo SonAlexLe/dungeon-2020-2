@@ -1,10 +1,7 @@
 #include "room.hpp"
 
 
-Room::Room(){
-    std::pair<double,double> size(100, 100);
-    size_ = size;
-}
+Room::Room() : size_(100,100) {}
 
 std::list<Entity*> Room::GetPlayer() {
     return player_;
@@ -18,7 +15,7 @@ std::list<Entity*> Room::GetConnections() {
     return connections_;
 }
 
-std::list<Entity*> Room::GetProjectiles() {
+std::list<Projectile*> Room::GetProjectiles() {
     return projectiles_;
 }
 
@@ -27,9 +24,17 @@ std::list<Entity*> Room::GetObstacles() {
 }
 
 double Room::GetWidth() {
-    return size_.first;
+    return size_.x;
 }
 
 double Room::GetHeight() {
-    return size_.second;
+    return size_.y;
+}
+
+sf::Vector2f Room::GetSize() {
+    return size_;
+}
+
+void Room::AddProjectile(Projectile *pew){
+    projectiles_.push_back(pew);
 }

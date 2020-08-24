@@ -51,7 +51,10 @@ sf::Vector2f Inventory::Drop() { // Function to calculate the spot to drop the h
     return v1;
 }
 
-void Inventory::useConsumable(){ // Uses the held consumable.
-    heldConsumable_->use();
-    heldConsumable_ = nullptr;
+void Inventory::useConsumable(){
+    if (heldConsumable_ != nullptr) {
+        heldConsumable_->use();
+        heldConsumable_ = nullptr;
+    }
+    return;
 }

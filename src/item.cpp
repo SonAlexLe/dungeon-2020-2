@@ -2,6 +2,9 @@
 #include "item.hpp"
 #include "player.hpp"
 #include "inventory.hpp"
+#include <stdlib.h>     
+#include <time.h>       
+
 std::string Item::getName() const {
     return name_;
 }
@@ -10,7 +13,7 @@ int Item::getType() const {
     return type_;
 }
 
-float Item::getValue() const {
+int Item::getValue() const {
     return armorDmgValue_;
 }
 bool Item::GetEquipped() const {
@@ -35,4 +38,36 @@ void Item::draw(sf::RenderWindow* window) { //Now only draws the sprite but it a
         sprite_.setPosition(this->currPos_);
         window->draw(this->sprite_);
     }
+}
+
+
+
+
+// itemGenerator functions.
+
+Item* itemGenerator::createEquipment(float x, float y, Player* player) { // Creates randomly an armor or a weapon for the item room.
+    srand((unsigned int)time(NULL));
+    int armorWeapon = rand() % 1 + 0;
+    int quality = rand() % 2 + 0;
+    int material = gameLvl_;
+    int material_koht = gameLvl_ - 1;
+    std::string name = quality_[quality] + material_[material_koht];
+    int equipmentValue = quality + material;
+    if (armorWeapon == 0) {
+        name += "weapon";
+        Weapon* new_item = new Weapon(x, y, name, player, equipmentValue);
+        return new_item;
+    }
+    else {
+        name += "armor";
+        Armor* new_item = new Armor(x, y, name, player, equipmentValue);
+        return new_item;
+    }
+}
+
+Item* itemGenerator::createConsumable(float x, float y, Player* player) { //At the moment this function can only create healing potions.
+    //srand((unsigned int)time(NULL));
+    //int random_cons = rand() % 1 + 0;
+    HealingPotion* new_cons = new HealingPotion(x, y, "HealingPotion", player, 0);
+    return new_cons;
 }

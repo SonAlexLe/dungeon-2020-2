@@ -1,5 +1,11 @@
 #pragma once
 #include "entity.hpp"
+#include <SFML/Graphics.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Window.hpp>
+#include <SFML/System.hpp>
+#include "entity.hpp"
+#include "player.hpp"
 
 
 /*Each connection object functions as a doorway to a different room or new map 
@@ -21,14 +27,17 @@ public:
 
     void load();
 
-    void connect(Room* r);
-
     /*WIP. Maybe should take the player as a parameter or is called when a connection and a player collide.
      Also needs to place the player on the correct spot after traversing. (Tried to connect connections together) */
-    void traverse();
+    void traverse(Player* p);
+
+    void draw(sf::RenderWindow* window);
 
 private:
-    Room* connected_to_;
 
     bool locked_;
+
+    sf::Texture texture_; 
+
+    sf::Sprite sprite_;
 };

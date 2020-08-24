@@ -5,10 +5,22 @@
 #include <iostream>
 #include <fstream>
 #include <ctime>
+#include <monster.hpp>
+
+
 
 Map::Map(int difficulty) : difficulty_(difficulty) {
     // map_init();   
     rooms_.push_back(new Room); 
+
+    // map_init();
+
+}
+
+Map::~Map() {
+    for (Room* r : rooms_) {
+        delete r;
+    }
 }
 
 Room* Map::GetStartingRoom() {
@@ -18,8 +30,8 @@ Room* Map::GetStartingRoom() {
 //Runs when a map is constructed
 void Map::map_init() {
 
-    //Some preliminary parameters for how large the layout is and how many rooms are generated
-    int nofRooms = 10 + difficulty_ * 2;
+    //Some preliminary parameters for how many rooms are generated
+    int nofRooms = 10 + difficulty_;
 
     //Init layout and starting room
     Room* map[9][9] = { {nullptr} };
@@ -50,9 +62,30 @@ void Map::map_init() {
             //The maximum amount of neighbors can be tweaked to change the layout of the maps
             if(neighbors.size() > 1 && neighbors.size() < 3) {
 
-                //All conditions are met, create a room
-                Room* room = Map::room_init();
+                //All conditions are met, create a room #####UNCOMMENT THIS TO TEST ROOM_INIT####
+                // Room* room = Map::room_init();
+
+                Room* room = new Room;
                 map[x][y] = room;
+
+                /*Generate item room when there are X rooms to generate
+                if (nofRooms == 6) {
+                    $$Item generator goes here$$
+                    Item* item = Item::generate;
+                    room->AddItem(item);
+                    nofRooms--;
+                    
+                } */
+
+                /* Last will be a boss room
+                if (nofRooms == 1) {
+                    Monster* boss = new Boss(50.0, 50.0);
+                    room->AddEnemy(Boss);
+                    nofRooms--;
+                }
+
+                */
+
                 nofRooms--;
 
                 //Setup connections for the new room
@@ -65,10 +98,13 @@ void Map::map_init() {
                             Connection* c2 = new Connection(50.0, 100.0);
 
                             c1->SetRoom(room);
-                            c1->connect(map[x][y + 1]);
+                            room->AddConnection(c1);
+                            room->SetNConn(map[x][y + 1]);
 
                             c2->SetRoom(map[x][y + 1]);
-                            c2->connect(room);
+                            map[x][y + 1]->AddConnection(c2);
+                            map[x][y + 1]->SetSConn(room);
+
                         }
                         //For an eastern connection c1 is east and c2 west
                         case 2: {
@@ -76,10 +112,12 @@ void Map::map_init() {
                             Connection* c2 = new Connection(0.0, 50.0);
 
                             c1->SetRoom(room);
-                            c1->connect(map[x - 1][y]);
+                            room->AddConnection(c1);
+                            room->SetEConn(map[x - 1][y]);
 
                             c2->SetRoom(map[x - 1][y]);
-                            c2->connect(room);
+                            map[x - 1][y]->AddConnection(c2);
+                            map[x - 1][y]->SetWConn(room);
                         }
                         //For a southern connection c1 is south and c2 north
                         case 3: {
@@ -87,10 +125,12 @@ void Map::map_init() {
                             Connection* c2 = new Connection(50.0, 0.0);
 
                             c1->SetRoom(room);
-                            c1->connect(map[x ][y - 1]);
+                            room->AddConnection(c1);
+                            room->SetSConn(map[x][y - 1]);
 
-                            c2->SetRoom(map[x][y] - 1);
-                            c2->connect(room);
+                            c2->SetRoom(map[x][y -1]);
+                            map[x][y - 1]->AddConnection(c2);
+                            map[x][y - 1]->SetNConn(room);
                         }
                         //For a western connection c1 is west and c2 east
                         case 4: {
@@ -98,80 +138,48 @@ void Map::map_init() {
                             Connection* c2 = new Connection(100.0, 50.0);
 
                             c1->SetRoom(room);
-                            c1->connect(map[x + 1][y]);
+                            room->AddConnection(c1);
+                            room->SetWConn(map[x + 1][y]);
 
-                            c2->SetRoom(map[x + 1][y]);
-                            c2->connect(room);
+                            c2->SetRoom(map[x][y]);
+                            map[x + 1][y]->AddConnection(c2);
+                            map[x + 1][y]->SetEConn(room);
                         }
                     }
                 }
             }
 
-            /*TODO: 
-            -Logic for special rooms (e.g. boss room could be last room generated)
-            -Find a way to output layout grid or have it as a class member
-            */
         }
     }
 }
-
-/*TODO:
--Default constructs a room 
--Checks neighbors and creates connections
--Picks a file randomly from preconstructed room layouts and places entities
-*/
+//Fills room with monsters
 Room* Map::room_init() {
-    return new Room();
-    
-    /*
 
     Room* room = new Room;
 
-    //Different layouts are stored in text files and as more rooms are designed their filename will be added to the list
-    std::string room_layouts[1] = { "testroom" };
-    
-    //Randomly choose a room to be initialized
+
+    //Pick a monster randomly from monsters
+    //Expand as more monsters are added
+    char monsters[1] = { 'O' };
     srand(time(nullptr));
-    int idx = rand() & 1;
-    
-    /*The format of the file is still WIP, but the basic idea is to start each row with a identifier letter e.g R for Rocks followed by coordinates for each rock separated by ; 
-    This can be easily expanded as more obstacles, enemies and such are implemented, tough the files are a bit tedious to type out as rooms get more complex
-    
-    
-    std::ifstream is(room_layouts[idx]);
 
-    int i = is.peek();
+    //Coords for the placements of monsters, (4 monsters in corners)
+    std::list<std::pair<float, float>> coords = { std::make_pair(10.0, 10.0), std::make_pair(90.0, 10.0), std::make_pair(10.0, 90.0), std::make_pair(90.0, 90.0) };
 
-    //Cases can be easily expanded
-    switch(i) {
-        case 'R': {
 
-            std::string tmp, x, y;
+    for (auto c : coords) {
 
-            getline(is, tmp, ';');
-            //Coordinates separated by periods
+        int idx = rand() % 1;
 
-            bool l = true;
+        switch (monsters[idx]) {
 
-            while (l) {
-                getline(is, x, '.');
-                getline(is, y, ';');
-
-                //TODO: Come up with a more elegant solution to end reading
-                if (x == "!") {
-                    l = false;
-                } else {
-                    Obstacle* obs = new Obstacle(std::stof(x), std::stof(y));
-                    obs->SetRoom(room);
-                    room->AddObstacle(obs);
-
-                }
+            case 'O': {
+                Orc* orc = new Orc(c.first, c.second, room); 
+               room->AddEnemy(orc);
             }
+
         }
-    } 
 
-    */
-
-
-
+    }
+    return room;
 }

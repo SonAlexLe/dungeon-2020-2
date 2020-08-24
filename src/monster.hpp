@@ -9,11 +9,6 @@ public:
 
     Monster() = delete;
 
-<<<<<<< HEAD
-=======
-    Monster() = delete;
-
->>>>>>> mapgen
     /** Constructor for Monster
      * 
      * @param x the x-coord
@@ -29,27 +24,17 @@ public:
     int GetHP();
 
     void SetHP(int hp);
-<<<<<<< HEAD
-
-    void load();
-
-protected:
-=======
 
     void load();
 
     protected:
->>>>>>> mapgen
 
     sf::Vector2f velocity_;
 
     int hp_;
 
-<<<<<<< HEAD
-=======
     Room* room_;
 
->>>>>>> mapgen
     sf::Sprite sprite_;
 
 };

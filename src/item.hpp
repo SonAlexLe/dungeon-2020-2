@@ -1,6 +1,7 @@
 //A parent class for the different item (weapons, armor, potions etc.) classes. 
 #pragma once
 #include <string>
+#include <vector>
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window.hpp>
@@ -14,9 +15,10 @@ enum ItemTypes { //Types to differentiate the items.
     consumable
 };
 class Player;
+class Inventory;
 class Item : public Entity { //Inherits from the entity class.
 public:
-    Item(float x, float y, const std::string name, Player* player, float value)
+    Item(float x, float y, const std::string name, Player* player, int value)
         : Entity(x, y), name_(name), player_(player), armorDmgValue_(value)
     {
         equipped_ = false;
@@ -24,22 +26,39 @@ public:
 
     std::string getName() const;
     int getType() const;
-    float getValue() const;
-    bool GetEquipped() const;
+    int getValue() const;
+    bool Item::GetEquipped() const;
     sf::Sprite& GetSprite() { return sprite_; }
+
     void setUnequipped();
     void setEquipped();
-    void draw(sf::RenderWindow* window);
-    // inherited
     void update(sf::Time dt);
-    // load() is also inherited from Entity
+    void draw(sf::RenderWindow* window);
+    void use() { return; } // Function for the consumables. Armor and weapon use function does nothing.
 
 protected:
     sf::Texture texture_;
     sf::Sprite sprite_; //Sprite shown when the item is on the ground.
-    float armorDmgValue_;
+    int armorDmgValue_;
     bool equipped_; //Value to indicate whether the item is on the ground or inventory. 
     std::string name_;
     int type_ = DEFAULT;
     Player* player_;
+};
+
+
+
+
+
+class itemGenerator {
+public:
+    itemGenerator() {gameLvl_ = 1;};
+    ~itemGenerator() {};
+
+    Item* createEquipment(float x, float y, Player* player); // Need to give the position for the created item and the player.
+    Item* createConsumable(float x, float y, Player* player); // Creates a random consumable.
+private:
+    std::vector<std::string> quality_ = { "Poor", "Good", "Great" }; // Strings to determine the equipment.
+    std::vector<std::string> material_ = { "wooden", "bronze", "iron", "platinum" }; // Strings to determine the equipment.
+    int gameLvl_;
 };

@@ -47,6 +47,6 @@ protected:
 
     sf::Vector2f currPos_;
 
-    Room* room_;
+    sf::Vector2f velocity_;
 
 };

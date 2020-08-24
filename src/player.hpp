@@ -29,6 +29,8 @@ public:
 
     const std::string GetSpriteName() const;
 
+    Room &GetRoom();
+
     sf::Sprite& GetSprite();
 
     float GetReload();
@@ -49,11 +51,12 @@ public:
 
 private:
 
-    sf::Vector2f velocity_;
-
     sf::Sprite sprite_;
 
     Inventory* inventory_;
+
+    //for tracking reload rate
+    float reload_;
 
     //for tracking reload rate
     float reload_;

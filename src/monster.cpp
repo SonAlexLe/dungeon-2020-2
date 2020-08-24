@@ -4,11 +4,7 @@
 #define ORC_SPEED 20
 
 Monster::Monster(float x, float y, Room* room, sf::Vector2f velocity, int hp)
-<<<<<<< HEAD
-    : velocity_(velocity), hp_(hp), Entity(x, y, room) {}
-=======
     : room_(room), velocity_(velocity), hp_(hp), Entity(x, y) {}
->>>>>>> mapgen
 
 const std::string Monster::GetSpriteName() const { return "monster.png"; }
 

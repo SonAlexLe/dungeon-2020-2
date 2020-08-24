@@ -1,25 +1,33 @@
 #pragma once
-#include "weapon.hpp"
-#include "player.hpp"
+#include "entity.hpp"
 
 //should be abstract for future subtypes, right now is concrete
-class Projectile : public Weapon
+class Projectile: public Entity
 {
     private:
 
-    sf::Vector2f velocity_;
+    int damage_;
+
+    bool hostile_;
 
     public:
 
     //initial velocity of projectile is arbitrarily [0, 0]
-    Projectile() : Weapon(0, 0, "projectile", 1, nullptr, 10) {}
-    Projectile(float x, float y, const std::string& name, const int type, Player* player,  int value) :
-    Weapon(x, y, name, type, player, value) { velocity_ = sf::Vector2f(0, 0); }
+    Projectile() = delete;
+    Projectile(sf::Vector2f location,sf::Vector2f velocity, int damage, bool hostile) :
+    Entity(location.x,location.y,velocity), damage_(damage), hostile_(hostile){}
 
     void SetVelocity(sf::Vector2f velocity) { velocity_ = velocity; }
 
     sf::Vector2f& GetVelocity() { return velocity_; }
 
+    int GetDamage(){return damage_;}
+
     const std::string GetSpriteName() const { return "projectile.png"; }
+
+    void update(sf::Time dt) {
+        currPos_.x += velocity_.x * dt.asSeconds();
+        currPos_.y += velocity_.y * dt.asSeconds();
+    }
 
 };

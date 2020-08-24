@@ -2,7 +2,7 @@
 //Consumable items are easily added. 
 
 #pragma once
-
+#include "item.hpp"
 #include "player.hpp"
 #include "weapon.hpp"
 #include "armor.hpp"
@@ -12,22 +12,21 @@ class Inventory{
 public:
     Inventory(Player* player) : player_(player)
     {
-        weapon_ = new Weapon(0, 0, "Stick", 1, player, 1); //Creates a basic weapon for the player.
-        weapon_->setEquipped();
+        weapon_ = nullptr;
         armor_ = nullptr;
     }
-    ~Inventory(){}
-    void addWeapon(Weapon* weapon);
-    void addArmor(Armor* armor);
-    
-    int getArmorValue(){
+    ~Inventory() {}
+    void addWeapon(Item* weapon);
+    void addArmor(Item* armor);
+
+    float getArmorValue() {
         return armor_->getValue();
     }
-    int getDmgValue(){
+    float getDmgValue() {
         return weapon_->getValue();
     }
 private:
     Player* player_;
-    Armor* armor_;
-    Weapon* weapon_;
+    Item* armor_;
+    Item* weapon_;
 };

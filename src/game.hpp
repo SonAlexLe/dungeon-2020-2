@@ -1,9 +1,9 @@
 #pragma once
-#include <map>
+#include <vector>
 #include "map.hpp"
-#include "entity.hpp"
 #include "player.hpp"
-//#include "inventory.hpp"
+#include "projectile.hpp"
+#include "inventory.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
@@ -29,14 +29,14 @@ public:
 
 private:
     bool isRunning_;
-     
+
     int score_;
     int difficulty_;
 
-    sf::RenderWindow *window_;
+    sf::RenderWindow* window_;
     Map dungeon_;
-    Player *p1_;
-    //Inventory *inventory_;
+    Player* p1_;
+    Inventory* inventory_;
     sf::Clock clock_;
     sf::Time lastUpdate_;
     //add possible additional player...

@@ -1,4 +1,3 @@
-#pragma once
 #include "monster.hpp"
 
 Monster::Monster() {}

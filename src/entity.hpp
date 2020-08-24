@@ -1,7 +1,6 @@
 #pragma once
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
-#include "room.hpp"
 #include <string>
 
 class Room;
@@ -12,7 +11,7 @@ public:
 
     Entity();
 
-    Entity(float x, float y);
+    Entity(float x, float y, sf::Vector2f velocity);
 
     virtual ~Entity();
 
@@ -22,9 +21,9 @@ public:
 
     virtual void load() =0;
 
-    void SetRoom(Room* room);
+    virtual const std::string GetSpriteName() const =0;
 
-    Room* GetRoom();
+    virtual void load();
 
     sf::Vector2f& GetPosition();
 
@@ -34,6 +33,6 @@ protected:
 
     sf::Vector2f currPos_;
 
-    Room* room_;
+    sf::Vector2f velocity_;
 
 };

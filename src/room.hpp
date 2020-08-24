@@ -25,6 +25,8 @@ public:
 
     void AddPlayer(Player* p);
 
+    void RemovePlayer();
+
     std::list<Monster*> GetEnemies();
 
     void AddEnemy(Monster*);
@@ -53,6 +55,15 @@ public:
 
     double GetHeight();
 
+    void SetNConn(Room* r);
+
+    void SetSConn(Room* r);
+
+    void SetWConn(Room* r);
+
+    void SetEConn(Room* r);
+
+
 protected:
 
     // Types for containers need to be updated once different types of entities are implemented
@@ -71,8 +82,13 @@ protected:
 
     // std::list<Obstacle*> obstacles_;
 
-    double width_;
-    
-    double height_;
+    //Rooms neighbors
+    Room* Nconn_;
+
+    Room* Sconn_;
+
+    Room* Wconn_;
+
+    Room* Econn_;
 
 };

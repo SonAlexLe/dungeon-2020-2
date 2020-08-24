@@ -1,12 +1,23 @@
 #include "room.hpp"
 
 
-Room::Room(){
+Room::Room() : player_(nullptr), item_(nullptr), Nconn_(nullptr), Sconn_(nullptr), Wconn_(nullptr), Econn_(nullptr) {
     std::pair<double,double> size(100, 100);
     size_ = size;
 }
 
+Room::~Room() {
+    for (Connection* c : connections_) {
+        delete c;
+    }
+    for (Monster* m : enemies_) {
+        delete m;
+    }
+}
+
 Player* Room::GetPlayer() { return player_; }
+
+void Room::RemovePlayer() { player_ = nullptr; }
 
 void Room::AddPlayer(Player* p) { player_ = p; }
 
@@ -37,3 +48,11 @@ void Room::AddConnection(Connection* c) { connections_.push_back(c); }
 double Room::GetWidth() { return size_.first; }
 
 double Room::GetHeight() { return size_.second; }
+
+void Room::SetNConn(Room* r) { Nconn_ = r; }
+
+void Room::SetSConn(Room* r) { Sconn_ = r; }
+
+void Room::SetWConn(Room* r) { Wconn_ = r; }
+
+void Room::SetEConn(Room* r) { Econn_ = r; }

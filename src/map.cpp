@@ -7,8 +7,19 @@
 #include <ctime>
 #include <monster.hpp>
 
+
+
 Map::Map(int difficulty) : difficulty_(difficulty) {
     rooms_.push_back(new Room); 
+
+    // map_init();
+
+}
+
+Map::~Map() {
+    for (Room* r : rooms_) {
+        delete r;
+    }
 }
 
 Room* Map::GetStartingRoom() {
@@ -50,7 +61,7 @@ void Map::map_init() {
             //The maximum amount of neighbors can be tweaked to change the layout of the maps
             if(neighbors.size() > 1 && neighbors.size() < 3) {
 
-                //All conditions are met, create a room
+                //All conditions are met, create a room #####UNCOMMENT THIS TO TEST ROOM_INIT####
                 // Room* room = Map::room_init();
 
                 Room* room = new Room;
@@ -86,10 +97,13 @@ void Map::map_init() {
                             Connection* c2 = new Connection(50.0, 100.0);
 
                             c1->SetRoom(room);
-                            c1->connect(map[x][y + 1]);
+                            room->AddConnection(c1);
+                            room->SetNConn(map[x][y + 1]);
 
                             c2->SetRoom(map[x][y + 1]);
-                            c2->connect(room);
+                            map[x][y + 1]->AddConnection(c2);
+                            map[x][y + 1]->SetSConn(room);
+
                         }
                         //For an eastern connection c1 is east and c2 west
                         case 2: {
@@ -97,10 +111,12 @@ void Map::map_init() {
                             Connection* c2 = new Connection(0.0, 50.0);
 
                             c1->SetRoom(room);
-                            c1->connect(map[x - 1][y]);
+                            room->AddConnection(c1);
+                            room->SetEConn(map[x - 1][y]);
 
                             c2->SetRoom(map[x - 1][y]);
-                            c2->connect(room);
+                            map[x - 1][y]->AddConnection(c2);
+                            map[x - 1][y]->SetWConn(room);
                         }
                         //For a southern connection c1 is south and c2 north
                         case 3: {
@@ -108,10 +124,12 @@ void Map::map_init() {
                             Connection* c2 = new Connection(50.0, 0.0);
 
                             c1->SetRoom(room);
-                            c1->connect(map[x ][y - 1]);
+                            room->AddConnection(c1);
+                            room->SetSConn(map[x][y - 1]);
 
-                            c2->SetRoom(map[x][y] - 1);
-                            c2->connect(room);
+                            c2->SetRoom(map[x][y -1]);
+                            map[x][y - 1]->AddConnection(c2);
+                            map[x][y - 1]->SetNConn(room);
                         }
                         //For a western connection c1 is west and c2 east
                         case 4: {
@@ -119,10 +137,12 @@ void Map::map_init() {
                             Connection* c2 = new Connection(100.0, 50.0);
 
                             c1->SetRoom(room);
-                            c1->connect(map[x + 1][y]);
+                            room->AddConnection(c1);
+                            room->SetWConn(map[x + 1][y]);
 
-                            c2->SetRoom(map[x + 1][y]);
-                            c2->connect(room);
+                            c2->SetRoom(map[x][y]);
+                            map[x + 1][y]->AddConnection(c2);
+                            map[x + 1][y]->SetEConn(room);
                         }
                     }
                 }

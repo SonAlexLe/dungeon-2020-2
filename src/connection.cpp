@@ -13,8 +13,6 @@ void Connection::update(sf::Time dt) {}
 
 void Connection::load() {}
 
-void Connection::connect(Room* r) { connected_to_ = r; }
-
 //Should probably be on update
 void Connection::traverse(Player* p) {
     if(locked_ == false && this->sprite_.getGlobalBounds().intersects(p->GetSprite().getGlobalBounds())){ //Checks collision 

@@ -26,8 +26,6 @@ public:
 
     void load();
 
-    void connect(Room* r);
-
     /*WIP. Maybe should take the player as a parameter or is called when a connection and a player collide.
      Also needs to place the player on the correct spot after traversing. (Tried to connect connections together) */
     void traverse(Player* p);
@@ -35,7 +33,6 @@ public:
     void draw(sf::RenderWindow* window);
 
 private:
-    Room* connected_to_;
 
     bool locked_;
 

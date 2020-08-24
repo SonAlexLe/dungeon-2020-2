@@ -1,7 +1,6 @@
 #pragma once
 #include "entity.hpp"
 #include "connection.hpp"
-#include "monster.hpp"
 #include "item.hpp"
 // #include "obstacle.hpp"
 // #include "projectile.hpp"
@@ -9,15 +8,18 @@
 #include <utility>
 #include "projectile.hpp"
 #include "entity.hpp"
+#include "monster.hpp"
 
+class Monster;
 class Entity;
+class Connection;
 
 class Room {
 public:
     // For simplicity sake all rooms will be squares of the same size so all rooms are default constructed
     Room();
     // Destructor needs to handle emptying all containers
-    ~Room() {}
+    ~Room();
 
     // Each room has containers for each type of entity contained in it and interfaces for accessing each container
     // Since all these objects share a base class you could just have one container for all of them but travesing this container would be very tedious.
@@ -52,8 +54,8 @@ public:
 
     // void AddObstacle(Obstacle*);
 
-    double GetWidth();
-    double GetHeight();
+    float GetWidth();
+    float GetHeight();
     sf::Vector2f& GetSize();
 
     void SetNConn(Room* r);
@@ -69,7 +71,7 @@ protected:
 
     // Types for containers need to be updated once different types of entities are implemented
 
-    std::pair<double, double> size_;
+    sf::Vector2f size_;
 
     Player* player_;
 

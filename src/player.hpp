@@ -1,11 +1,10 @@
 #pragma once
-#include "config.hpp"
 #include <SFML/Graphics.hpp>
 #include <algorithm>
 #include <iostream>
-#include "entity.hpp"
 #include <cmath>
-#include "inventory.hpp"
+#include "config.hpp"
+#include "entity.hpp"
 #include "room.hpp"
 class Inventory;
 class Player : public Entity
@@ -21,15 +20,13 @@ public:
      */ 
     Player(float x, float y, Room* room);
 
-    void update(sf::Time dt);
+    void update(sf::Time);
 
     Inventory* GetInventory() { return inventory_; }
 
     void SetInventory(Inventory* inventory) { inventory_ = inventory; }
 
     const std::string GetSpriteName() const;
-
-    Room &GetRoom();
 
     sf::Sprite& GetSprite();
 
@@ -39,9 +36,13 @@ public:
 
     void load(){}
 
-    void SetHP(int hp);
+    void SetHP(int);
 
     int GetHP();
+
+    sf::Vector2f& GetVelocity();
+
+    void SetVelocity(sf::Vector2f&);
 
     //input handling methods, by Leo
     void accUp(bool);
@@ -55,8 +56,7 @@ private:
 
     Inventory* inventory_;
 
-    //for tracking reload rate
-    float reload_;
+    sf::Vector2f velocity_;
 
     //for tracking reload rate
     float reload_;

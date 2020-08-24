@@ -31,10 +31,6 @@ public:
      */ 
     virtual void update(sf::Time dt) =0;
 
-    virtual const std::string GetSpriteName() const =0;
-
-    virtual void load() =0;
-
     sf::Vector2f& GetPosition();
 
     void SetPosition(sf::Vector2f pos);
@@ -47,6 +43,6 @@ protected:
 
     sf::Vector2f currPos_;
 
-    sf::Vector2f velocity_;
+    Room* room_;
 
 };

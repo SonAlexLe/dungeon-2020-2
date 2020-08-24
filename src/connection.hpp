@@ -1,12 +1,11 @@
 #pragma once
-#include "entity.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 #include "entity.hpp"
 #include "player.hpp"
-
+class Player;
 
 /*Each connection object functions as a doorway to a different room or new map 
 Connections inherit the Entity class, 

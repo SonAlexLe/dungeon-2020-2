@@ -12,8 +12,6 @@ Entity::Entity(float x, float y, Room* room) : currPos_(x, y), room_(room) {}
 
 Entity::Entity(float x, float y) : currPos_(x, y) {}
 
-void Entity::load() {}
-
 sf::Vector2f& Entity::GetPosition() { return currPos_; }
 
 void Entity::SetPosition(sf::Vector2f pos) { currPos_ = pos; }

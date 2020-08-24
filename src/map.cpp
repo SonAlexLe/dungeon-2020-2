@@ -1,6 +1,5 @@
 //map generation
 //todo: version of generateMap() which returns a single square room
-
 #include "map.hpp"
 #include <iostream>
 #include <fstream>
@@ -11,10 +10,7 @@
 
 Map::Map(int difficulty) : difficulty_(difficulty) {
     // map_init();   
-    rooms_.push_back(new Room); 
-
-    // map_init();
-
+    rooms_.push_back(new Room);
 }
 
 Map::~Map() {

@@ -28,11 +28,11 @@ public:
     - Add special rooms (boss, shop, item rooms, etc)
     */
 
-    Map() {}
+    Map() {};
 
     Map(int difficulty);
 
-    ~Map() {}
+    ~Map();
 
     // Should be the head of rooms_
     Room* GetStartingRoom();

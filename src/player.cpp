@@ -20,6 +20,10 @@ int Player::GetHP() { return hp_; }
 
 float Player::GetReload() { return reload_; }
 
+sf::Vector2f& Player::GetVelocity() { return velocity_; }
+
+void Player::SetVelocity(sf::Vector2f& velocity) { velocity_ = velocity; }
+
 //should be run at startup, maybe whenever a new player is initialized?
 //same with other entities that have sprites
 // void Player::load() {

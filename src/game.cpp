@@ -30,94 +30,69 @@ void Game::input()
         {
         case sf::Event::Closed:
             //handle window close
-                isRunning_ = false;
-                break;
+            isRunning_ = false;
+            break;
 
         case sf::Event::KeyPressed:
             //pass keyboard input to the player object, needs to be updated if second player is implemented
             //note, the event only handles key down / key up, meaning that pressing a key must start the player moving
             //until the key is released, ie. the key up event is passed to the player!! 
-                switch (event.key.code)
-                {
-                case sf::Keyboard::W:
-                    p1_->accUp(true);
-                    break;
-                case sf::Keyboard::A:
-                    p1_->accLeft(true);
-                    break;
-                case sf::Keyboard::S:
-                    p1_->accDown(true);
-                    break;
-                case sf::Keyboard::D:
-                    p1_->accRight(true);
-                    break;
-                case sf::Keyboard::E: // Uses the held consumable when E is pressed.
-                    inventory_->useConsumable();
-                default:
-                //could add other keys here...
-                    break;
-                }
+            switch (event.key.code)
+            {
+            case sf::Keyboard::W:
+                p1_->accUp(true);
                 break;
-
-            case sf::Event::KeyReleased:
-                switch (event.key.code)
-                {
-                case sf::Keyboard::W:
-                    p1_->accUp(false);
-                    break;
-                case sf::Keyboard::A:
-                    p1_->accLeft(false);
-                    break;
-                case sf::Keyboard::S:
-                    p1_->accDown(false);
-                    break;
-                case sf::Keyboard::D:
-                    p1_->accRight(false);
-                    break;
-
-                default:
-                //could add other keys here...
-                    break;
-                }
+            case sf::Keyboard::A:
+                p1_->accLeft(true);
                 break;
-
-            case sf::Event::MouseButtonPressed:
-                if(event.mouseButton.button == sf::Mouse::Button::Left) 
-                {
-                    if(p1_->GetReload() == 0){
-                        float projectilespeed = 50;
-                        sf::Vector2f projectile_direction = p1_->GetPosition() - sf::Vector2f(sf::Mouse::getPosition().x,sf::Mouse::getPosition().y);
-                        float vlength = std::sqrt(projectile_direction.x*projectile_direction.x + projectile_direction.y * projectile_direction.y);
-                        sf::Vector2f projectile_velocity(projectile_direction.x/vlength*projectilespeed,projectile_direction.y/vlength*projectilespeed);
-                        Projectile pew(p1_->GetPosition(),projectile_velocity, 1, false);
-                        p1_->GetRoom().AddProjectile(&pew);
-                        p1_->Attack();
-                        std::cout << "pew" << std::endl;
-                    }
-                }
+            case sf::Keyboard::S:
+                p1_->accDown(true);
                 break;
-
-            /*case sf::Event::MouseButtonReleased:
-                mousestate_[event.mouseButton] = false;
-                break;*/
+            case sf::Keyboard::D:
+                p1_->accRight(true);
+                break;
+            case sf::Keyboard::E: // Uses the held consumable when E is pressed.
+                inventory_->useConsumable();
             default:
-            //could add other keys here...
+                //could add other keys here...
+                break;
+            }
+            break;
+
+        case sf::Event::KeyReleased:
+            switch (event.key.code)
+            {
+            case sf::Keyboard::W:
+                p1_->accUp(false);
+                break;
+            case sf::Keyboard::A:
+                p1_->accLeft(false);
+                break;
+            case sf::Keyboard::S:
+                p1_->accDown(false);
+                break;
+            case sf::Keyboard::D:
+                p1_->accRight(false);
+                break;
+
+            default:
+                //could add other keys here...
                 break;
             }
             break;
 
         case sf::Event::MouseButtonPressed:
-            if(event.mouseButton.button == sf::Mouse::Button::Left) 
+            if(event.mouseButton.button == sf::Mouse::Button::Left)
             {
-                if(p1_->GetReload() == 0){
+                if(p1_->GetReload() == 0) {
                     float projectilespeed = 50;
                     sf::Vector2f projectile_direction = p1_->GetPosition() - sf::Vector2f(sf::Mouse::getPosition().x,sf::Mouse::getPosition().y);
                     float vlength = std::sqrt(projectile_direction.x*projectile_direction.x + projectile_direction.y * projectile_direction.y);
                     sf::Vector2f projectile_velocity(projectile_direction.x/vlength*projectilespeed,projectile_direction.y/vlength*projectilespeed);
-                    Projectile pew(p1_->GetPosition(),projectile_velocity, 1, false);
-                    p1_->GetRoom()->AddProjectile(&pew);
+                    // Projectile pew(p1_->GetPosition(),projectile_velocity, 1, false);
+                    // p1_->GetRoom().AddProjectile(&pew);
                     p1_->Attack();
-                    std::cout << "pew" << std::endl;
+                    // std::cout << "pew" << std::endl;
                 }
             }
             break;
@@ -126,7 +101,7 @@ void Game::input()
                 mousestate_[event.mouseButton] = false;
                 break;*/
         default:
-                //could add other keys here...
+            //could add other keys here...
             break;
         }
             /*  ignoring mouse for now
@@ -151,17 +126,17 @@ void Game::update()
         i->update(elapsed);
     }*/
     sf::Vector2f bounds = p1_->GetRoom()->GetSize();
-    for(auto i : p1_->GetRoom()->GetProjectiles()){
-        sf::Vector2f pPos = i->GetPosition();
-        //commented for testing
-        /*if(pPos.x < 0 || pPos.x > bounds.x || pPos.y < 0 ||pPos.y > bounds.y){
-            delete i;
-        }*/
-    }
-    for(auto i : p1_->GetRoom()->GetProjectiles())
-    {
-        // i->update(elapsed); TODO: this line causes a segfault
-    }
+    // for(auto i : p1_->GetRoom()->GetProjectiles()){
+    //     sf::Vector2f pPos = i->GetPosition();
+    //     //commented for testing
+    //     /*if(pPos.x < 0 || pPos.x > bounds.x || pPos.y < 0 ||pPos.y > bounds.y){
+    //         delete i;
+    //     }*/
+    // }
+    // for(auto i : p1_->GetRoom()->GetProjectiles())
+    // {
+    //     // i->update(elapsed); TODO: this line causes a segfault
+    // }
     lastUpdate_ = time;
     //go through all the active entities in the current room and move them up to their speed.
     //enemy AI should happen here
@@ -169,7 +144,7 @@ void Game::update()
         // should be all rooms
         i->update(elapsed);
     }
-    //check fore entity & projectile collision
+    //check for entity & projectile collision
     //
 }
 void Game::render()

@@ -26,7 +26,7 @@ const std::string Player::GetSpriteName() const { return "src/Sprites/player.png
 
 Room *Player::GetRoom() { return room_;}
 
-void Player::SetVelocity(sf::Vector2f& velocity) { velocity_ = velocity; }
+float Player::GetReload() {return reload_;}
 
 /**
  * Formulas used: (for each component of the vector)
@@ -84,6 +84,38 @@ void Player::update(sf::Time dt) {
     if(reload_ > 0) {
         reload_ -= std::min(dt.asSeconds(),reload_);
     }
+/* obsolete code, included above                
+        } else { // slowing down if a key is not pressed
+            switch(i.first) {
+                case sf::Keyboard::W:
+                    if (velocity_.y > -MAX_Y) velocity_.y += ACCEL_RATE_NEG * dt.asSeconds();
+                    else velocity_.y = -MAX_Y;
+                    break;
+                case sf::Keyboard::A:
+                    if (velocity_.x > -MAX_X) velocity_.x += ACCEL_RATE_NEG * dt.asSeconds();
+                    else velocity_.x = -MAX_X;
+                    break;
+                case sf::Keyboard::S:
+                    if (velocity_.y < MAX_Y) velocity_.y += ACCEL_RATE * dt.asSeconds();
+                    else velocity_.y = MAX_Y;
+                    break;
+                case sf::Keyboard::D:
+                    if (velocity_.x < MAX_X) velocity_.x += ACCEL_RATE * dt.asSeconds();
+                    else velocity_.x = MAX_X;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    */
+   /* below code has been included in the if else statements above
+    // velocity cannot be too high
+    if (velocity_.y < -MAX_Y) velocity_.y = -MAX_Y;
+    if (velocity_.x < -MAX_X) velocity_.x = -MAX_X;
+    if (velocity_.y > MAX_Y) velocity_.y = MAX_Y;
+    if (velocity_.x > MAX_X) velocity_.x = MAX_X;
+    */
     // updating the position
    currPos_ += 0.5f * dt.asSeconds() * (velocity_ + v0);
 /* for now ignore mouse input

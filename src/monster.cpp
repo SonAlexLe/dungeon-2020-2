@@ -1,6 +1,8 @@
 #include "monster.hpp"
 #define ORC_SPEED 30.f
+#define ORGE_SPEED 10.f
 #define ORC_HP 200
+#define ORGE_HP 100
 
 Monster::Monster() {}
 
@@ -32,5 +34,16 @@ void Orc::update(sf::Time dt) {
     if(currPos_.x < 0 && currPos_.y < 0) {
         velocity_ = sf::Vector2f(ORC_SPEED, ORC_SPEED);
     }
+    currPos_ += dt.asSeconds() * velocity_;
+}
+
+Orge::Orge(float x, float y, Player* p)
+    : Monster(x, y, sf::Vector2f(0, 0), ORGE_HP, p) {}
+
+void Orge::update(sf::Time dt) {
+    sf::Vector2f target = p_->GetPosition();
+    sf::Vector2f diff = target - currPos_;
+    diff = diff/(float)sqrt(diff.x*diff.x + diff.y*diff.y);
+    velocity_ = diff * ORGE_SPEED;
     currPos_ += dt.asSeconds() * velocity_;
 }

@@ -1,7 +1,9 @@
 #include "room.hpp"
 
 
-Room::Room() : size_(300, 300), player_(nullptr), item_(nullptr), Nconn_(nullptr), Sconn_(nullptr), Wconn_(nullptr), Econn_(nullptr) {}
+Room::Room() : size_(300, 300), player_(nullptr), item_(nullptr), Nconn_(nullptr), Sconn_(nullptr), Wconn_(nullptr), Econn_(nullptr) {
+
+}
 
 Room::~Room() {
     for (Connection* c : connections_) {
@@ -9,6 +11,9 @@ Room::~Room() {
     }
     for (Monster* m : enemies_) {
         delete m;
+    }
+    for (Projectile * p : projectiles_) {
+        delete p;
     }
 }
 

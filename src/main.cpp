@@ -15,16 +15,13 @@ int main()
 {
     sf::RenderWindow window(sf::VideoMode(1280, 720), "TEST GAME");
     Game game(&window);
-    if(DEBUGGING){
-        std::cout << "Window open" << std::endl;
-    }
-    game.init();
-
     while(game.isRunning())
     {
         game.input();
-        game.update();
-        game.render();
+        std::cout << "input handling succesful" << std::endl;
+        //game.update();
+        std::cout << "game objects updated" << std::endl;
+        //game.render();
     }
     game.clean();
 

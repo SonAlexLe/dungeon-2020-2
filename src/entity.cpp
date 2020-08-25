@@ -14,7 +14,7 @@ void Entity::update(sf::Time dt) {
     currPos_ += velocity_ * dt.asSeconds();
 }
 
-sf::Vector2f& Entiry::GetVelocity() { return velocity_;}
+sf::Vector2f& Entity::GetVelocity() { return velocity_;}
 
 sf::Vector2f& Entity::GetPosition() { return currPos_; }
 

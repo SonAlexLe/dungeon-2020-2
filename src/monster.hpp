@@ -40,3 +40,11 @@ class Orc : public Monster
     Orc(float x, float y, Player* p);
     void update(sf::Time dt);
 };
+
+class Orge : public Monster
+{
+    public:
+    Orge() = delete;
+    Orge(float x, float y, Player* p);
+    void update(sf::Time dt);
+};

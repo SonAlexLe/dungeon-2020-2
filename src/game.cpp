@@ -5,6 +5,7 @@ Game::Game(sf::RenderWindow *window) : score_(0), difficulty_(0), window_(window
     dungeon_ = Map(difficulty_);
     p1_ = new Player(dungeon_.GetStartingRoom());
     p1_->GetRoom()->AddEnemy(new Orc(100, 100, p1_));
+    p1_->GetRoom()->AddEnemy(new Orge(0, 0, p1_));
     inventory_ = new Inventory(p1_);
     clock_.restart();
     isRunning_ = true;

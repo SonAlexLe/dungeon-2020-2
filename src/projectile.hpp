@@ -1,6 +1,5 @@
 #pragma once
 #include "entity.hpp"
-#include <iostream>
 
 //should be abstract for future subtypes, right now is concrete
 class Projectile: public Entity
@@ -11,18 +10,14 @@ class Projectile: public Entity
 
     bool hostile_;
 
-    sf::Vector2f velocity_;
-
     public:
 
     //initial velocity of projectile is arbitrarily [0, 0]
     Projectile() = delete;
     Projectile(sf::Vector2f location,sf::Vector2f velocity, int damage, bool hostile) :
-    Entity(location.x, location.y), velocity_(velocity), damage_(damage), hostile_(hostile){}
+    Entity(location.x,location.y,velocity), damage_(damage), hostile_(hostile){}
 
     void SetVelocity(sf::Vector2f velocity) { velocity_ = velocity; }
-
-    void load() {}
 
     sf::Vector2f& GetVelocity() { return velocity_; }
 

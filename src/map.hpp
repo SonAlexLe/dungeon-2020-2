@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include "room.hpp"
@@ -32,7 +31,7 @@ public:
     - Add special rooms (boss, shop, item rooms, etc)
     */
 
-    Map() {};
+    Map() {}
 
     Map(int difficulty);
 

@@ -1,46 +1,43 @@
-#include "connection.hpp"
+#pragma once
+#include "entity.hpp"
+#include <SFML/Graphics.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Window.hpp>
+#include <SFML/System.hpp>
+#include "entity.hpp"
+#include "player.hpp"
 
-Connection::Connection() : Entity() {}
 
-Connection::Connection(float x, float y) : Entity(x, y, sf::Vector2f()), locked_(true) {}
+/*Each connection object functions as a doorway to a different room or new map 
+Connections inherit the Entity class, 
+on top of that each connection has a reference to another connection and a method for traversing from one connection to the other.
+By default connections are locked and need to be unlocked by key or by clearing the room (subject to change)
+*/
+class Connection : public Entity {
+public:
+    Connection();
 
-void Connection::unlock() { locked_ = false;}
+    Connection(float x, float y);
+    
+    void unlock();
 
-//Needs to be updated once sprites are figured out
-const std::string Connection::GetSpriteName() const {return "door.png";}
+    const std::string GetSpriteName() const; 
 
-void Connection::update(sf::Time dt) {}
+    void update(sf::Time dt);
 
-void Connection::load() {}
+    void load();
 
-//Should probably be on update
-void Connection::traverse(Player* p) {
-    if(locked_ == false && this->sprite_.getGlobalBounds().intersects(p->GetSprite().getGlobalBounds())){ //Checks collision 
-        if (currPos_.x == 50.0 && currPos_.y == 0.0) { //Connection is north
-            /*
-            p->room_ = connected_to_;
-            p->currPos_ = 100.0 50.0 */
-        if (currPos_.x == 100.0 && currPos_.y == 50.0) {
-            /*
-            p->room_ = connected_to_;
-            p->currPos_ = 0.0 50.0 */
-        }
-        if (currPos_.x == 50.0 && currPos_.y == 100.0) {
-            /*
-            p->room_ = connected_to_;
-            p->currPos_ = 50.0 0.0 */
-        }
-        if (currPos_.x == 50.0 && currPos_.y == 100.0) {
-            /*
-            p->room_ = connected_to_;
-            p->currPos_ = 50.0 0.0 */
-        }
-    }
-    }  
-}
+    /*WIP. Maybe should take the player as a parameter or is called when a connection and a player collide.
+     Also needs to place the player on the correct spot after traversing. (Tried to connect connections together) */
+    void traverse(Player* p);
 
-void Connection::draw(sf::RenderWindow* window) { //Now only draws the sprite but it also should draw the name of the item under it.
-    if(this->locked_ == false){ //Draw function should only draw the object if it's not equipped.
-        window->draw(this->sprite_);
-    }
-}
+    void draw(sf::RenderWindow* window);
+
+private:
+
+    bool locked_;
+
+    sf::Texture texture_; 
+
+    sf::Sprite sprite_;
+};

@@ -21,7 +21,10 @@ public:
 
     sf::Vector2f& GetPosition();
 
+    sf::Vector2f& GetVelocity();
+
     void SetPosition(sf::Vector2f pos);
+
 
 protected:
 

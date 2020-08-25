@@ -28,15 +28,6 @@ void Room::RemoveEnemy(Monster* m) {
     }
 }
 
-
-double Room::GetWidth() {
-    return size_.x;
-}
-
-double Room::GetHeight() {
-    return size_.y;
-}
-
 sf::Vector2f Room::GetSize() {
     return size_;
 }

@@ -81,11 +81,10 @@ void Game::input()
                     if(p1_->GetReload() == 0){
                         float projectilespeed = 50;
                         std::cout << "shooting" << std::endl;
-                        sf::Vector2f projectile_direction = p1_->GetPosition() - sf::Vector2f(sf::Mouse::getPosition().x,sf::Mouse::getPosition().y);
-                        float vlength = std::sqrt(projectile_direction.x*projectile_direction.x + projectile_direction.y * projectile_direction.y);
+                        sf::Vector2f projectile_direction = p1_->GetPosition() - sf::Vector2f(sf::Mouse::getPosition(*window_).x ,sf::Mouse::getPosition(*window_).y);
+                        float vlength = -1 * std::sqrt(projectile_direction.x*projectile_direction.x + projectile_direction.y * projectile_direction.y);
                         sf::Vector2f projectile_velocity(projectile_direction.x/vlength*projectilespeed,projectile_direction.y/vlength*projectilespeed);
-                        Projectile pew(p1_->GetPosition(),projectile_velocity, 1, false);
-                        p1_->GetRoom()->AddProjectile(&pew);
+                        p1_->GetRoom()->AddProjectile(new Projectile(p1_->GetPosition(),projectile_velocity, 1, false));
                         p1_->Attack();
                         std::cout << "pew "<<p1_->GetRoom()->GetProjectiles().size() << std::endl;
                     }
@@ -118,7 +117,7 @@ void    Game::update()
     {
         i->update(elapsed);
     }
-    lastUpdate_ = time;
+    
 
     //go through all the active entities in the current room and move them up to their speed.
     //enemy AI should happen here
@@ -127,6 +126,8 @@ void    Game::update()
     }
     //check for entity & projectile collision
     //
+
+    lastUpdate_ = time;
 }
 void Game::render()
 {
@@ -149,12 +150,12 @@ void Game::render()
         window_->draw(monster);
     }
     for(auto x : p1_->GetRoom()->GetProjectiles()){
-        std::cout << "a " << std::endl;
+        sf::CircleShape pew(x->GetDamage());
+        pew.setFillColor(sf::Color::Blue);
+        pew.setPosition(x->GetPosition());
+        window_->draw(pew);
     }
     window_->display();
-
-
-    
 }
 
 void Game::clean()

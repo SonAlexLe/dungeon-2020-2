@@ -71,8 +71,6 @@ protected:
 
     // Types for containers need to be updated once different types of entities are implemented
 
-    sf::Vector2f size_;
-
     Player* player_;
 
     std::list<Monster*> enemies_;
@@ -93,5 +91,7 @@ protected:
     Room* Wconn_;
 
     Room* Econn_;
+
+    sf::Vector2f size_;
 
 };

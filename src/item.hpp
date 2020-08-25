@@ -62,20 +62,3 @@ private:
     std::vector<std::string> material_ = { "wooden", "bronze", "iron", "platinum" }; // Strings to determine the equipment.
     int gameLvl_;
 };
-
-
-
-
-
-class itemGenerator {
-public:
-    itemGenerator() {gameLvl_ = 1;};
-    ~itemGenerator() {};
-
-    Item* createEquipment(float x, float y, Player* player); // Need to give the position for the created item and the player.
-    Item* createConsumable(float x, float y, Player* player); // Creates a random consumable.
-private:
-    std::vector<std::string> quality_ = { "Poor", "Good", "Great" }; // Strings to determine the equipment.
-    std::vector<std::string> material_ = { "wooden", "bronze", "iron", "platinum" }; // Strings to determine the equipment.
-    int gameLvl_;
-};

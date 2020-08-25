@@ -1,40 +1,59 @@
 #include "room.hpp"
 
 
-Room::Room() : size_(100,100) {}
+Room::Room() : player_(nullptr), item_(nullptr),
+    Nconn_(nullptr), Sconn_(nullptr), Wconn_(nullptr), Econn_(nullptr),
+    size_(100.f, 100.f) {}
 
-std::list<Entity*> Room::GetPlayer() {
-    return player_;
+Room::~Room() {
+    for (Connection* c : connections_) {
+        delete c;
+    }
+    for (Monster* m : enemies_) {
+        delete m;
+    }
 }
 
-std::list<Entity*> Room::GetEnemies() {
-    return enemies_;
+Player* Room::GetPlayer() { return player_; }
+
+void Room::RemovePlayer() { player_ = nullptr; }
+
+void Room::AddPlayer(Player* p) { player_ = p; }
+
+std::list<Monster*> Room::GetEnemies() { return enemies_; }
+
+void Room::AddEnemy(Monster* e) { enemies_.push_back(e); }
+
+void Room::RemoveEnemy(Monster* m) {
+    for (auto it = enemies_.begin(); it != enemies_.end(); it++) {
+        if (*it == m) { enemies_.erase(it); break; }
+    }
 }
 
-std::list<Entity*> Room::GetConnections() {
-    return connections_;
-}
+void Room::AddItem(Item* i) { item_ = i; }
 
-std::list<Projectile*> Room::GetProjectiles() {
-    return projectiles_;
-}
+std::list<Connection*> Room::GetConnections() {return connections_; }
 
-std::list<Entity*> Room::GetObstacles() {
-    return obstacles_;
-}
+void Room::AddConnection(Connection* c) { connections_.push_back(c); }
 
-double Room::GetWidth() {
-    return size_.x;
-}
+// std::list<Entity*> Room::GetProjectiles() { return projectiles_; }
 
-double Room::GetHeight() {
-    return size_.y;
-}
+// void Room::AddProjectile(Entity* p) { projectiles_.push_back(p); }
 
-sf::Vector2f Room::GetSize() {
-    return size_;
-}
+// std::list<Obstacle*> Room::GetObstacles() { return obstacles_; }
 
-void Room::AddProjectile(Projectile *pew){
-    projectiles_.push_back(pew);
-}
+// void Room::AddObstacle(Obstacle* r) { obstacles_.push_back(r); }
+
+float Room::GetWidth() { return size_.x; }
+
+float Room::GetHeight() { return size_.y; }
+
+sf::Vector2f& Room::GetSize() { return size_; }
+
+void Room::SetNConn(Room* r) { Nconn_ = r; }
+
+void Room::SetSConn(Room* r) { Sconn_ = r; }
+
+void Room::SetWConn(Room* r) { Wconn_ = r; }
+
+void Room::SetEConn(Room* r) { Econn_ = r; }

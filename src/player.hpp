@@ -37,7 +37,7 @@ public:
 
     void Attack();
 
-    void load(){}
+    void load();
 
     //input handling methods, by Leo
     void accUp(bool);

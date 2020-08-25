@@ -53,60 +53,43 @@ void Game::input()
                 }
                 break;
 
-            case sf::Event::KeyReleased:
-                switch (event.key.code)
-                {
-                case sf::Keyboard::W:
-                    p1_->accUp(false);
-                    break;
-                case sf::Keyboard::A:
-                    p1_->accLeft(false);
-                    break;
-                case sf::Keyboard::S:
-                    p1_->accDown(false);
-                    break;
-                case sf::Keyboard::D:
-                    p1_->accRight(false);
-                    break;
-                default:
-                //could add other keys here...
-                    break;
-                }
+        case sf::Event::KeyReleased:
+            switch (event.key.code)
+            {
+            case sf::Keyboard::W:
+                p1_->accUp(false);
                 break;
+            case sf::Keyboard::A:
+                p1_->accLeft(false);
+                break;
+            case sf::Keyboard::S:
+                p1_->accDown(false);
+                break;
+            case sf::Keyboard::D:
+                p1_->accRight(false);
+                break;
+            default:
+            //could add other keys here...
+                break;
+            }
+            break;
 
-            case sf::Event::MouseButtonPressed:
+        case sf::Event::MouseButtonPressed:
                 if(event.mouseButton.button == sf::Mouse::Button::Left) 
                 {
                     if(p1_->GetReload() == 0){
                         float projectilespeed = 50;
+                        std::cout << "shooting" << std::endl;
                         sf::Vector2f projectile_direction = p1_->GetPosition() - sf::Vector2f(sf::Mouse::getPosition().x,sf::Mouse::getPosition().y);
                         float vlength = std::sqrt(projectile_direction.x*projectile_direction.x + projectile_direction.y * projectile_direction.y);
                         sf::Vector2f projectile_velocity(projectile_direction.x/vlength*projectilespeed,projectile_direction.y/vlength*projectilespeed);
                         Projectile pew(p1_->GetPosition(),projectile_velocity, 1, false);
                         p1_->GetRoom().AddProjectile(&pew);
                         p1_->Attack();
-                        std::cout << "pew" << std::endl;
+                        std::cout << "pew "<<p1_->GetRoom().GetProjectiles().size() << std::endl;
                     }
                 }
                 break;
-
-            /*case sf::Event::MouseButtonReleased:
-                mousestate_[event.mouseButton] = false;
-                break;*/
-            default:
-                //could add other keys here...
-                break;
-            }
-            break;
-            /*  ignoring mouse for now
-                        case sf::Event::MouseButtonPressed:
-                            mousestate_[event.mouseButton] = true;
-                            break;
-
-                        case sf::Event::MouseButtonReleased:
-                            mousestate_[event.mouseButton] = false;
-                            break;
-            */
         default:
             break;
         }
@@ -155,9 +138,10 @@ void Game::render()
     player.setPosition(p1_->GetPosition());
     window_->draw(room);
 
-    std::cout<< p1_->GetRoom().GetProjectiles().size()<<std::endl;
-
     window_->draw(player);
+    for(auto x : p1_->GetRoom().GetProjectiles()){
+        std::cout << "a " << std::endl;
+    }
     window_->display();
 
 

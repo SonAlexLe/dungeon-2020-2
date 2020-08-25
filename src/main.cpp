@@ -13,7 +13,7 @@
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(800, 600), "TEST GAME");
+    sf::RenderWindow window(sf::VideoMode(1280, 720), "TEST GAME");
     Game game(&window);
     if(DEBUGGING){
         std::cout << "Window open" << std::endl;

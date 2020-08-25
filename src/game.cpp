@@ -84,9 +84,9 @@ void Game::input()
                         float vlength = std::sqrt(projectile_direction.x*projectile_direction.x + projectile_direction.y * projectile_direction.y);
                         sf::Vector2f projectile_velocity(projectile_direction.x/vlength*projectilespeed,projectile_direction.y/vlength*projectilespeed);
                         Projectile pew(p1_->GetPosition(),projectile_velocity, 1, false);
-                        p1_->GetRoom().AddProjectile(&pew);
+                        p1_->GetRoom()->AddProjectile(&pew);
                         p1_->Attack();
-                        std::cout << "pew "<<p1_->GetRoom().GetProjectiles().size() << std::endl;
+                        std::cout << "pew "<<p1_->GetRoom()->GetProjectiles().size() << std::endl;
                     }
                 }
                 break;
@@ -105,15 +105,15 @@ void    Game::update()
     {
         i->update(elapsed);
     }*/
-    sf::Vector2f bounds = p1_->GetRoom().GetSize();
-    for(auto i : p1_->GetRoom().GetProjectiles()){
+    sf::Vector2f bounds = p1_->GetRoom()->GetSize();
+    for(auto i : p1_->GetRoom()->GetProjectiles()){
         sf::Vector2f pPos = i->GetPosition();
         //commented for testing
         /*if(pPos.x < 0 || pPos.x > bounds.x || pPos.y < 0 ||pPos.y > bounds.y){
             delete i;
         }*/
     }
-    for(auto i : p1_->GetRoom().GetProjectiles())
+    for(auto i : p1_->GetRoom()->GetProjectiles())
     {
         i->update(elapsed);
     }
@@ -129,7 +129,7 @@ void Game::render()
     window_->clear(sf::Color::Black);
     double scale = std::min(window_->getSize().y/1080,window_->getSize().x/1900);
     //placeholder
-    sf::Vector2f roomSize = p1_->GetRoom().GetSize();
+    sf::Vector2f roomSize = p1_->GetRoom()->GetSize();
     //if(DEBUGGING){std::cout << roomSize.x << " " << roomSize.y << std::endl;}
     sf::RectangleShape room(roomSize);
     room.setFillColor(sf::Color::White);
@@ -139,7 +139,7 @@ void Game::render()
     window_->draw(room);
 
     window_->draw(player);
-    for(auto x : p1_->GetRoom().GetProjectiles()){
+    for(auto x : p1_->GetRoom()->GetProjectiles()){
         std::cout << "a " << std::endl;
     }
     window_->display();

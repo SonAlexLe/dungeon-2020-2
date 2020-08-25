@@ -21,7 +21,7 @@ sf::Sprite& Player::GetSprite() { return sprite_; }
 
 const std::string Player::GetSpriteName() const { return "player.png"; }
 
-Room &Player::GetRoom() { return *room_;}
+Room *Player::GetRoom() { return room_;}
 
 float Player::GetReload() {return reload_;}
 

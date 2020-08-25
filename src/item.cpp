@@ -54,14 +54,15 @@ Item* itemGenerator::createEquipment(float x, float y, Player* player) { // Crea
     int material_koht = gameLvl_ - 1;
     std::string name = quality_[quality] + material_[material_koht];
     int equipmentValue = quality + material;
+    sf::Vector2f v1(0.f, 0.f);
     if (armorWeapon == 0) {
         name += "weapon";
-        Weapon* new_item = new Weapon(x, y, name, player, equipmentValue);
+        Weapon* new_item = new Weapon(x, y, v1, name, player, equipmentValue);
         return new_item;
     }
     else {
         name += "armor";
-        Armor* new_item = new Armor(x, y, name, player, equipmentValue);
+        Armor* new_item = new Armor(x, y, v1, name, player, equipmentValue);
         return new_item;
     }
 }
@@ -69,6 +70,7 @@ Item* itemGenerator::createEquipment(float x, float y, Player* player) { // Crea
 Item* itemGenerator::createConsumable(float x, float y, Player* player) { //At the moment this function can only create healing potions so the two lines are commented.
     //srand((unsigned int)time(NULL)); 
     //int random_cons = rand() % 1 + 0;
-    HealingPotion* new_cons = new HealingPotion(x, y, "HealingPotion", player, 0);
+    sf::Vector2f v1(0.f, 0.f);
+    HealingPotion* new_cons = new HealingPotion(x, y, v1, "HealingPotion", player, 0);
     return new_cons;
 }

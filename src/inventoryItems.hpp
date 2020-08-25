@@ -8,7 +8,7 @@ class player;
 class Armor : public Item
 {
 public:
-    Armor(float x, float y, const std::string name, Player* player, int value);
+    Armor(float x, float y, sf::Vector2f vector, const std::string name, Player* player, int value);
 
     const std::string GetSpriteName() const { return "armorOnTheGround.png"; }
 
@@ -18,7 +18,7 @@ public:
 
 class Weapon : public Item {
 public:
-    Weapon(float x, float y, const std::string& name, Player* player, int value);
+    Weapon(float x, float y, sf::Vector2f vector, const std::string name, Player* player, int value);
 
     const std::string GetSpriteName() const { return "weaponOnTheGround.png"; }
 
@@ -31,7 +31,7 @@ private:
 
 class HealingPotion : public Item { // Single use item that heals the player to full hp.
 public:
-    HealingPotion(float x, float y, const std::string& name, Player* player, int value);
+    HealingPotion(float x, float y, sf::Vector2f vector, const std::string name, Player* player, int value);
     const std::string GetSpriteName() const { return "consumableOnTheGround.png"; }
 
     void use();

@@ -18,8 +18,8 @@ class Player;
 class Inventory;
 class Item : public Entity { //Inherits from the entity class.
 public:
-    Item(float x, float y, const std::string name, Player* player, int value)
-        : Entity(x, y, sf::Vector2f(0.f,0.f)), name_(name), player_(player), armorDmgValue_(value)
+    Item(float x, float y,sf::Vector2f vector, const std::string name, Player* player, int value)
+        : Entity(x, y, vector), name_(name), player_(player), armorDmgValue_(value)
     {
         equipped_ = false;
     }
@@ -44,6 +44,23 @@ protected:
     std::string name_;
     int type_ = DEFAULT;
     Player* player_;
+};
+
+
+
+
+
+class itemGenerator {
+public:
+    itemGenerator() {gameLvl_ = 1;};
+    ~itemGenerator() {};
+
+    Item* createEquipment(float x, float y, Player* player); // Need to give the position for the created item and the player.
+    Item* createConsumable(float x, float y, Player* player); // Creates a random consumable.
+private:
+    std::vector<std::string> quality_ = { "Poor", "Good", "Great" }; // Strings to determine the equipment.
+    std::vector<std::string> material_ = { "wooden", "bronze", "iron", "platinum" }; // Strings to determine the equipment.
+    int gameLvl_;
 };
 
 

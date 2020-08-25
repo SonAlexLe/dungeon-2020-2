@@ -1,8 +1,12 @@
 
 #pragma once
+
 #include "room.hpp"
 #include "connection.hpp"
-
+#include <iostream>
+#include <fstream>
+#include <ctime>
+#include <monster.hpp>
 
 //Map is a group of rooms that are connected by "Connection"-entities.
 
@@ -49,6 +53,6 @@ private:
 
     std::list<Room*> rooms_;
 
-    std::list<Connection*> connections_;
+    // std::list<Connection*> connections_;
 
 };

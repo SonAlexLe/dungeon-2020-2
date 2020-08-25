@@ -5,24 +5,13 @@
 
 class Room;
 
-/** Base class of all entities that exist in a room.
- *  An Entity knows its own current room and current position
- */ 
 class Entity
 {
 public:
 
     Entity();
 
-    Entity(float x, float y);
-    
-    /** Constructor of Entity
-     * 
-     * @param x the x-coord
-     * @param y the y-coord
-     * @param room the initial room
-     */ 
-    Entity(float x, float y, Room* room);
+    Entity(float x, float y, sf::Vector2f velocity);
 
     virtual ~Entity();
 
@@ -32,18 +21,15 @@ public:
 
     sf::Vector2f& GetPosition();
 
-    sf::Vector2f GetVelocity() const;
+    sf::Vector2f& GetVelocity();
 
     void SetPosition(sf::Vector2f pos);
 
-    void SetRoom(Room* room);
-
-    Room* GetRoom();
 
 protected:
 
     sf::Vector2f currPos_;
 
-    Room* room_;
+    sf::Vector2f velocity_;
 
 };

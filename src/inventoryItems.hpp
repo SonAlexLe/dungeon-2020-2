@@ -8,7 +8,12 @@ class player;
 class Armor : public Item
 {
 public:
-    Armor(float x, float y, sf::Vector2f vector, const std::string name, Player* player, int value);
+    Armor(float x, float y, sf::Vector2f vector, const std::string name, Player* player, int value)
+        :
+        Item(x, y, vector, name, player, value)
+    {
+        type_ = armor;
+    }
 
     const std::string GetSpriteName() const { return "armorOnTheGround.png"; }
 
@@ -18,7 +23,11 @@ public:
 
 class Weapon : public Item {
 public:
-    Weapon(float x, float y, sf::Vector2f vector, const std::string name, Player* player, int value);
+    Weapon(float x, float y, sf::Vector2f vector, const std::string name, Player* player, int value) : Item(x, y, vector, name, player, value)
+    {
+        type_ = weapon;
+        attackInterval = sf::seconds(0.1f * value);
+    }
 
     const std::string GetSpriteName() const { return "weaponOnTheGround.png"; }
 
@@ -31,11 +40,18 @@ private:
 
 class HealingPotion : public Item { // Single use item that heals the player to full hp.
 public:
-    HealingPotion(float x, float y, sf::Vector2f vector, const std::string name, Player* player, int value);
+    HealingPotion(float x, float y, sf::Vector2f vector, const std::string name, Player* player, int value) 
+        :
+        Item(x, y, vector, name, player, value)
+    {
+        type_ = consumable;
+    }
+
     const std::string GetSpriteName() const { return "consumableOnTheGround.png"; }
 
     void use();
     
     void load(); //Creates a texture that shows the armor on the ground. Loads the picture form a file named "armorOnTheGround.png".
 };
+
 

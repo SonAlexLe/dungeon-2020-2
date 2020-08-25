@@ -2,18 +2,9 @@
 #include "player.hpp"
 #include <string>
 
-Armor::Armor(float x, float y, sf::Vector2f vector, const std::string name, Player* player, int value) :
-    Item(x, y, vector, name, player, value) {type_ = armor;}
-
 void Armor::load() {
     this->texture_.loadFromFile("armorOnTheGround.png");
     this->sprite_.setTexture(this->texture_);
-}
-
-Weapon::Weapon(float x, float y, sf::Vector2f vector, const std::string name, Player* player, int value) : Item(x, y, vector, name, player, value)
-{
-    type_ = weapon;
-    attackInterval = sf::seconds(0.1f * value);
 }
 
 void Weapon::load() {
@@ -21,8 +12,6 @@ void Weapon::load() {
     this->sprite_.setTexture(this->texture_);
 }
 
-HealingPotion::HealingPotion(float x, float y, sf::Vector2f vector, const std::string name, Player* player, int value) :
-    Item(x, y, vector, name, player, value) {type_ = consumable;}
 
 void HealingPotion::load() {
     this->texture_.loadFromFile("consumableOnTheGround.png");

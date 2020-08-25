@@ -15,7 +15,7 @@ public:
     void addItem(Item* newItem);
     int getArmorValue();
     int getDmgValue();
-    void useConsumable();
+    void useConsumable(); // Uses the held consumable.
     sf::Vector2f Drop();
 
 private: // Player is able to hold one weapon, one armor and one consumable.

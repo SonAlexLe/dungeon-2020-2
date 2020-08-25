@@ -5,6 +5,7 @@
 #include <stdlib.h>     
 #include <time.h>       
 
+// Item class functions below.
 std::string Item::getName() const {
     return name_;
 }
@@ -42,8 +43,8 @@ void Item::draw(sf::RenderWindow* window) { //Now only draws the sprite but it a
 
 
 
-
-// itemGenerator functions.
+// ------------------------------
+// itemGenerator functions below.
 
 Item* itemGenerator::createEquipment(float x, float y, Player* player) { // Creates randomly an armor or a weapon for the item room.
     srand((unsigned int)time(NULL));
@@ -65,8 +66,8 @@ Item* itemGenerator::createEquipment(float x, float y, Player* player) { // Crea
     }
 }
 
-Item* itemGenerator::createConsumable(float x, float y, Player* player) { //At the moment this function can only create healing potions.
-    //srand((unsigned int)time(NULL));
+Item* itemGenerator::createConsumable(float x, float y, Player* player) { //At the moment this function can only create healing potions so the two lines are commented.
+    //srand((unsigned int)time(NULL)); 
     //int random_cons = rand() % 1 + 0;
     HealingPotion* new_cons = new HealingPotion(x, y, "HealingPotion", player, 0);
     return new_cons;

@@ -9,8 +9,10 @@ class Armor : public Item
 {
 public:
     Armor(float x, float y, const std::string name, Player* player, int value);
+
     const std::string GetSpriteName() const { return "armorOnTheGround.png"; }
-    void load(); //Creates a texture that shows the armor on the ground. //Loads the picture form a file named "armorOnTheGround.png".
+
+    void load(); //Creates a texture that shows the armor on the ground. Loads the picture form a file named "armorOnTheGround.png".
 };
 
 
@@ -34,6 +36,6 @@ public:
 
     void use();
     
-    void load();
+    void load(); //Creates a texture that shows the armor on the ground. Loads the picture form a file named "armorOnTheGround.png".
 };
 

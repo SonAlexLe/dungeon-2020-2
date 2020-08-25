@@ -18,10 +18,8 @@ int main()
     while(game.isRunning())
     {
         game.input();
-        std::cout << "input handling succesful" << std::endl;
-        //game.update();
-        std::cout << "game objects updated" << std::endl;
-        //game.render();
+        game.update();
+        game.render();
     }
     game.clean();
 

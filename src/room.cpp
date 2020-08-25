@@ -28,6 +28,23 @@ void Room::RemoveEnemy(Monster* m) {
     }
 }
 
+
+double Room::GetWidth() {
+    return size_.x;
+}
+
+double Room::GetHeight() {
+    return size_.y;
+}
+
+sf::Vector2f Room::GetSize() {
+    return size_;
+}
+
+void Room::AddProjectile(Projectile *pew){
+    projectiles_.push_back(pew);
+}
+
 void Room::AddItem(Item* i) { item_ = i; }
 
 std::list<Connection*> Room::GetConnections() {return connections_; }
@@ -35,8 +52,6 @@ std::list<Connection*> Room::GetConnections() {return connections_; }
 void Room::AddConnection(Connection* c) { connections_.push_back(c); }
 
 // std::list<Entity*> Room::GetProjectiles() { return projectiles_; }
-
-// void Room::AddProjectile(Entity* p) { projectiles_.push_back(p); }
 
 // std::list<Obstacle*> Room::GetObstacles() { return obstacles_; }
 

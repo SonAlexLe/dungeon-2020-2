@@ -5,7 +5,7 @@
 #include "monster.hpp"
 #include "item.hpp"
 // #include "obstacle.hpp"
-// #include "projectile.hpp"
+#include "projectile.hpp"
 #include <list>
 #include <utility>
 
@@ -41,11 +41,11 @@ public:
 
     void AddItem(Item*);
     
-    // std::list<Entity*> GetProjectiles();
+    std::list<Entity*> GetProjectiles();
 
-    // void AddProjectile(Projectile*);
+    void AddProjectile(Projectile*);
 
-    // void RemoveProjectile(Projectile*)
+    void RemoveProjectile(Projectile*);
 
     // Obstacles can be unpassable map geometry. Hazards(lava/spikes) could also be in obstacles or could be considered enemies without movement
     // std::list<Obstacle*> GetObstacles();
@@ -55,6 +55,8 @@ public:
     double GetWidth();
 
     double GetHeight();
+
+    sf::Vector2f GetSize();
 
     void SetNConn(Room* r);
 
@@ -79,7 +81,7 @@ protected:
 
     Item* item_;
 
-    // std::list<Projectile*> projectiles_;
+    std::list<Projectile*> projectiles_;
 
     // std::list<Obstacle*> obstacles_;
 

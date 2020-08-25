@@ -28,15 +28,13 @@ public:
 
     const std::string GetSpriteName() const;
 
-    Room &GetRoom();
+    Room *GetRoom();
 
     sf::Sprite& GetSprite();
 
     float GetReload();
 
     void Attack();
-
-    void load(){}
 
     //input handling methods, by Leo
     void accUp(bool);
@@ -45,6 +43,8 @@ public:
     void accRight(bool);
 
 private:
+
+    sf::Texture texture_;
 
     sf::Sprite sprite_;
 

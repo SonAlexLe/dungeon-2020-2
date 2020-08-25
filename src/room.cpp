@@ -1,13 +1,13 @@
 #include "room.hpp"
 
 
-Room::Room() : size_(100,100) {}
+Room::Room() : size_(300,300) {}
 
-std::list<Entity*> Room::GetPlayer() {
-    return player_;
+void Room::AddEnemy(Monster* e) {
+    enemies_.push_back(e);
 }
 
-std::list<Entity*> Room::GetEnemies() {
+std::list<Monster*> Room::GetEnemies() {
     return enemies_;
 }
 
@@ -33,6 +33,10 @@ double Room::GetHeight() {
 
 sf::Vector2f Room::GetSize() {
     return size_;
+}
+
+void Room::AddProjectile(Projectile *pew){
+    projectiles_.push_back(pew);
 }
 
 void Room::AddProjectile(Projectile *pew){

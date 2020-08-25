@@ -4,6 +4,7 @@
 #include "player.hpp"
 #include "projectile.hpp"
 #include "inventory.hpp"
+#include "monster.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
@@ -17,6 +18,8 @@ public:
     Game operator=(const Game&) = delete;
     ~Game();
 
+    bool checkBounds(Entity *);
+    
     void init();
     void input();
     void update();

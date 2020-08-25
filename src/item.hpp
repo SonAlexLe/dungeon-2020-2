@@ -19,7 +19,7 @@ class Inventory;
 class Item : public Entity { //Inherits from the entity class.
 public:
     Item(float x, float y, const std::string name, Player* player, int value)
-        : Entity(x, y), name_(name), player_(player), armorDmgValue_(value)
+        : Entity(x, y, sf::Vector2f(0.f,0.f)), name_(name), player_(player), armorDmgValue_(value)
     {
         equipped_ = false;
     }

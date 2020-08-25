@@ -26,8 +26,7 @@ class Projectile: public Entity
     const std::string GetSpriteName() const { return "projectile.png"; }
 
     void update(sf::Time dt) {
-        currPos_.x += velocity_.x * dt.asSeconds();
-        currPos_.y += velocity_.y * dt.asSeconds();
+        currPos_ += dt.asSeconds() * velocity_;
     }
 
 };

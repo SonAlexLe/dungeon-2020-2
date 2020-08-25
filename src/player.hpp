@@ -1,12 +1,13 @@
-
 #pragma once
+#include "config.hpp"
 #include <SFML/Graphics.hpp>
-#include <map>
+#include <algorithm>
+#include <iostream>
 #include "entity.hpp"
-//#include "inventory.hpp"
-//#include "projectile.hpp"
+#include <cmath>
+#include "inventory.hpp"
 #include "room.hpp"
-//class Inventory;
+class Inventory;
 class Player : public Entity
 {
 public:
@@ -21,13 +22,19 @@ public:
 
     void update(sf::Time dt); // empty function, does not do anything for now
 
-    //Inventory* GetInventory() { return inventory_; }
+    Inventory* GetInventory() { return inventory_; }
 
-    //void SetInventory(Inventory* inventory) { inventory_ = inventory; }
+    void SetInventory(Inventory* inventory) { inventory_ = inventory; }
 
     const std::string GetSpriteName() const;
 
+    Room *GetRoom();
+
     sf::Sprite& GetSprite();
+
+    float GetReload();
+
+    void Attack();
 
     void load();
 
@@ -39,16 +46,14 @@ public:
 
 private:
 
-    sf::Vector2f velocity_;
-
     sf::Sprite sprite_;
 
-    //Inventory* inventory_;
-
-    // for testing purpose
-   // Projectile projectile_;
+    Inventory* inventory_;
 
     Room* room_;
+
+    //for tracking reload rate
+    float reload_;
 
     //input handling, by Leo
     bool accUp_;

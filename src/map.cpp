@@ -96,11 +96,9 @@ void Map::map_init() {
                             Connection* c1 = new Connection(50.0, 0.0);
                             Connection* c2 = new Connection(50.0, 100.0);
 
-                            c1->SetRoom(room);
                             room->AddConnection(c1);
                             room->SetNConn(map[x][y + 1]);
 
-                            c2->SetRoom(map[x][y + 1]);
                             map[x][y + 1]->AddConnection(c2);
                             map[x][y + 1]->SetSConn(room);
 
@@ -110,11 +108,9 @@ void Map::map_init() {
                             Connection* c1 = new Connection(100.0, 50.0);
                             Connection* c2 = new Connection(0.0, 50.0);
 
-                            c1->SetRoom(room);
                             room->AddConnection(c1);
                             room->SetEConn(map[x - 1][y]);
 
-                            c2->SetRoom(map[x - 1][y]);
                             map[x - 1][y]->AddConnection(c2);
                             map[x - 1][y]->SetWConn(room);
                         }
@@ -123,11 +119,9 @@ void Map::map_init() {
                             Connection* c1 = new Connection(50.0, 100.0);
                             Connection* c2 = new Connection(50.0, 0.0);
 
-                            c1->SetRoom(room);
                             room->AddConnection(c1);
                             room->SetSConn(map[x][y - 1]);
 
-                            c2->SetRoom(map[x][y -1]);
                             map[x][y - 1]->AddConnection(c2);
                             map[x][y - 1]->SetNConn(room);
                         }
@@ -136,11 +130,9 @@ void Map::map_init() {
                             Connection* c1 = new Connection(0.0, 50.0);
                             Connection* c2 = new Connection(100.0, 50.0);
 
-                            c1->SetRoom(room);
                             room->AddConnection(c1);
                             room->SetWConn(map[x + 1][y]);
 
-                            c2->SetRoom(map[x][y]);
                             map[x + 1][y]->AddConnection(c2);
                             map[x + 1][y]->SetEConn(room);
                         }
@@ -161,6 +153,7 @@ Room* Map::room_init() {
     //Expand as more monsters are added
     char monsters[1] = { 'O' };
     srand(time(nullptr));
+    Player* p = rooms_.front()->GetPlayer();
 
     //Coords for the placements of monsters, (4 monsters in corners)
     std::list<std::pair<float, float>> coords = { std::make_pair(10.0, 10.0), std::make_pair(90.0, 10.0), std::make_pair(10.0, 90.0), std::make_pair(90.0, 90.0) };
@@ -173,7 +166,7 @@ Room* Map::room_init() {
         switch (monsters[idx]) {
 
             case 'O': {
-                Orc* orc = new Orc(c.first, c.second, room); 
+                Orc* orc = new Orc(c.first, c.second, p); 
                room->AddEnemy(orc);
             }
 

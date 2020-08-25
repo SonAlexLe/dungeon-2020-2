@@ -2,7 +2,7 @@
 
 Connection::Connection() : Entity() {}
 
-Connection::Connection(float x, float y) : Entity(x, y), locked_(true) {}
+Connection::Connection(float x, float y) : Entity(x, y, sf::Vector2f()), locked_(true) {}
 
 void Connection::unlock() { locked_ = false;}
 

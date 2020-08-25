@@ -8,11 +8,13 @@ Entity::Entity() {}
 
 Entity::~Entity() {}
 
-Entity::Entity(float x, float y) : currPos_(x, y) {}
+Entity::Entity(float x, float y, sf::Vector2f velocity) : currPos_(x, y) , velocity_(velocity){}
 
-void Entity::SetRoom(Room* room) { room_ = room; }
+// void Entity::load() {}
 
-Room* Entity::GetRoom() { return room_; }
+void Entity::update(sf::Time dt) {
+    currPos_ += velocity_ * dt.asSeconds();
+}
 
 sf::Vector2f& Entity::GetPosition() { return currPos_; }
 

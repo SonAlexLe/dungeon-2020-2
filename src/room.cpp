@@ -11,24 +11,18 @@ std::list<Monster*> Room::GetEnemies() {
     return enemies_;
 }
 
-std::list<Entity*> Room::GetConnections() {
-    return connections_;
-}
+void Room::RemovePlayer() { player_ = nullptr; }
 
-std::list<Projectile*> Room::GetProjectiles() {
-    return projectiles_;
-}
+void Room::AddPlayer(Player* p) { player_ = p; }
 
-std::list<Entity*> Room::GetObstacles() {
-    return obstacles_;
-}
+std::list<Monster*> Room::GetEnemies() { return enemies_; }
 
-double Room::GetWidth() {
-    return size_.x;
-}
+void Room::AddEnemy(Monster* e) { enemies_.push_back(e); }
 
-double Room::GetHeight() {
-    return size_.y;
+void Room::RemoveEnemy(Monster* m) {
+    for (auto it = enemies_.begin(); it != enemies_.end(); it++) {
+        if (*it == m) { enemies_.erase(it); break; }
+    }
 }
 
 sf::Vector2f Room::GetSize() {
@@ -39,6 +33,4 @@ void Room::AddProjectile(Projectile *pew){
     projectiles_.push_back(pew);
 }
 
-void Room::AddProjectile(Projectile *pew){
-    projectiles_.push_back(pew);
-}
+void Room::SetEConn(Room* r) { Econn_ = r; }

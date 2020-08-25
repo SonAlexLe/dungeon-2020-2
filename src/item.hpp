@@ -27,7 +27,7 @@ public:
     std::string getName() const;
     int getType() const;
     int getValue() const;
-    bool Item::GetEquipped() const;
+    bool GetEquipped() const;
     sf::Sprite& GetSprite() { return sprite_; }
 
     void setUnequipped();

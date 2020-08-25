@@ -1,5 +1,4 @@
 #pragma once
-#include <vector>
 #include "map.hpp"
 #include "player.hpp"
 #include "projectile.hpp"
@@ -39,6 +38,7 @@ private:
     sf::RenderWindow* window_;
     Map dungeon_;
     Player* p1_;
+    Monster* monst_; // for testing
     Inventory* inventory_;
     sf::Clock clock_;
     sf::Time lastUpdate_;

@@ -1,13 +1,24 @@
 #pragma once
 #include "entity.hpp"
 #include "player.hpp"
+#include "room.hpp"
 #include <SFML/Graphics.hpp>
 
 class Monster : public Entity
 {
-    public:
+public:
 
-    Monster();
+    Monster() = delete;
+
+    /** Constructor for Monster
+     * 
+     * @param x the x-coord
+     * @param y the y-coord
+     * @param room the initial room
+     * @param velocity the initial velocity
+     * @param hp the initial hp
+     */
+    Monster(float x, float y, Room* room, sf::Vector2f velocity, int hp);
 
     Monster(float x, float y, sf::Vector2f velocity, int hp, Player* p);
 
@@ -27,11 +38,9 @@ class Monster : public Entity
 
     sf::Texture texture_;
 
-    sf::Sprite sprite_;
-
     int hp_;
 
-    Player* p_;
+    sf::Sprite sprite_;
 
 };
 

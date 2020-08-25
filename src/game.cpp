@@ -37,8 +37,8 @@ void Game::input()
         {
         case sf::Event::Closed:
             //handle window close
-                isRunning_ = false;
-                break;
+            isRunning_ = false;
+            break;
 
         case sf::Event::KeyPressed:
             //pass keyboard input to the player object, needs to be updated if second player is implemented
@@ -62,9 +62,9 @@ void Game::input()
                     inventory_->useConsumable();
                 default:
                 //could add other keys here...
-                    break;
-                }
                 break;
+            }
+            break;
 
             case sf::Event::KeyReleased:
                 switch (event.key.code)
@@ -84,25 +84,25 @@ void Game::input()
 
                 default:
                 //could add other keys here...
-                    break;
-                }
                 break;
+            }
+            break;
 
-            case sf::Event::MouseButtonPressed:
-                if(event.mouseButton.button == sf::Mouse::Button::Left) 
-                {
-                    if(p1_->GetReload() == 0){
-                        float projectilespeed = 50;
-                        sf::Vector2f projectile_direction = p1_->GetPosition() - sf::Vector2f(sf::Mouse::getPosition().x,sf::Mouse::getPosition().y);
-                        float vlength = std::sqrt(projectile_direction.x*projectile_direction.x + projectile_direction.y * projectile_direction.y);
-                        sf::Vector2f projectile_velocity(projectile_direction.x/vlength*projectilespeed,projectile_direction.y/vlength*projectilespeed);
-                        Projectile pew(p1_->GetPosition(),projectile_velocity, 1, false);
-                        p1_->GetRoom().AddProjectile(&pew);
-                        p1_->Attack();
-                        std::cout << "pew" << std::endl;
-                    }
+        case sf::Event::MouseButtonPressed:
+            if(event.mouseButton.button == sf::Mouse::Button::Left)
+            {
+                if(p1_->GetReload() == 0) {
+                    float projectilespeed = 50;
+                    sf::Vector2f projectile_direction = p1_->GetPosition() - sf::Vector2f(sf::Mouse::getPosition().x,sf::Mouse::getPosition().y);
+                    float vlength = std::sqrt(projectile_direction.x*projectile_direction.x + projectile_direction.y * projectile_direction.y);
+                    sf::Vector2f projectile_velocity(projectile_direction.x/vlength*projectilespeed,projectile_direction.y/vlength*projectilespeed);
+                    // Projectile pew(p1_->GetPosition(),projectile_velocity, 1, false);
+                    // p1_->GetRoom().AddProjectile(&pew);
+                    p1_->Attack();
+                    // std::cout << "pew" << std::endl;
                 }
-                break;
+            }
+            break;
 
             /*case sf::Event::MouseButtonReleased:
                 mousestate_[event.mouseButton] = false;
@@ -202,9 +202,6 @@ void Game::render()
         window_->draw(pew);
     }
     window_->display();
-
-
-    
 }
 
 void Game::clean()

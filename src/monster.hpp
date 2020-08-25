@@ -5,7 +5,7 @@
 
 class Monster : public Entity
 {
-    public:
+public:
 
     Monster();
 

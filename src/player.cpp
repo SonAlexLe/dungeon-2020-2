@@ -47,7 +47,7 @@ void Player::update(sf::Time dt) {
         std::cout << v0.x << " : " << v0.y << std::endl;
     }
     if(accUp_){
-        velocity_.y += std::min(ACCEL_RATE_NEG * dt.asSeconds(), MAX_Y - velocity_.y);
+        velocity_.y -= std::min(ACCEL_RATE * dt.asSeconds(), std::abs(-MAX_Y - velocity_.y));
     }
     else{
         if(velocity_.y < 0){
@@ -57,7 +57,7 @@ void Player::update(sf::Time dt) {
     
 
     if(accLeft_){
-        velocity_.x += std::min(ACCEL_RATE_NEG * dt.asSeconds(), MAX_X - velocity_.x);
+        velocity_.x -= std::min(ACCEL_RATE * dt.asSeconds(), std::abs(-MAX_X - velocity_.x));
     }
     else{
         if(velocity_.x < 0){

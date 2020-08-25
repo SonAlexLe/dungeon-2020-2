@@ -1,10 +1,7 @@
 #include "room.hpp"
 
 
-Room::Room() : player_(nullptr), item_(nullptr), Nconn_(nullptr), Sconn_(nullptr), Wconn_(nullptr), Econn_(nullptr) {
-    std::pair<double,double> size(100, 100);
-    size_ = size;
-}
+Room::Room() : size_(sf::Vector2f(100.0, 100.0)), player_(nullptr), item_(nullptr), Nconn_(nullptr), Sconn_(nullptr), Wconn_(nullptr), Econn_(nullptr) {}
 
 Room::~Room() {
     for (Connection* c : connections_) {
@@ -45,9 +42,9 @@ void Room::AddConnection(Connection* c) { connections_.push_back(c); }
 
 // void Room::AddObstacle(Obstacle* r) { obstacles_.push_back(r); }
 
-double Room::GetWidth() { return size_.first; }
+double Room::GetWidth() { return size_.x; }
 
-double Room::GetHeight() { return size_.second; }
+double Room::GetHeight() { return size_.y; }
 
 void Room::SetNConn(Room* r) { Nconn_ = r; }
 

@@ -1,6 +1,7 @@
 #pragma once
 #include "entity.hpp"
 #include "connection.hpp"
+#include <SFML/System.hpp>
 #include "monster.hpp"
 #include "item.hpp"
 // #include "obstacle.hpp"
@@ -68,7 +69,7 @@ protected:
 
     // Types for containers need to be updated once different types of entities are implemented
 
-    std::pair<double, double> size_;
+    sf::Vector2f size_;
 
     Player* player_;
 

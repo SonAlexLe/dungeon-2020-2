@@ -15,7 +15,7 @@ public:
 
     // Each room has containers for each type of entity contained in it and interfaces for accessing each container
     // Since all these objects share a base class you could just have one container for all of them but travesing this container would be very tedious.
-
+    void AddEnemy(Entity*);
     std::list<Entity*> GetEnemies();
     // Connection entities are doors/trapdoors/etc that connect to other rooms or floors
     std::list<Entity*> GetConnections();

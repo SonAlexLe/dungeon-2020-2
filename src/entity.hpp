@@ -19,7 +19,7 @@ public:
 
     virtual const std::string GetSpriteName() const =0;
 
-    virtual void load();
+    // virtual void load();
 
     sf::Vector2f& GetPosition();
 

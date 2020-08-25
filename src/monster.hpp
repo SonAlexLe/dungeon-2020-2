@@ -1,25 +1,42 @@
 #pragma once
 #include "entity.hpp"
+#include "player.hpp"
 #include <SFML/Graphics.hpp>
 
-//should be an abstract class, now it's just a normal class
-//for testing purposes
 class Monster : public Entity
 {
     public:
 
     Monster();
 
+    Monster(float x, float y, sf::Vector2f velocity, int hp, Player* p);
+
     const std::string GetSpriteName() const;
 
     void load();
 
-    void update(sf::Time dt);
+    int GetHP();
 
-    private:
+    void SetHP(int);
 
-    sf::Vector2f velocity_;
+    void SetPlayer(Player*);
+
+    Player* GetPlayer();
+
+    protected:
 
     sf::Sprite sprite_;
 
+    int hp_;
+
+    Player* p_;
+
+};
+
+class Orc : public Monster
+{
+    public:
+    Orc() = delete;
+    Orc(float x, float y, Player* p);
+    void update(sf::Time dt);
 };

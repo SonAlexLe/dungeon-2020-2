@@ -4,6 +4,7 @@ Game::Game(sf::RenderWindow *window) : score_(0), difficulty_(0), window_(window
 {
     dungeon_ = Map(difficulty_);
     p1_ = new Player(dungeon_.GetStartingRoom());
+    p1_->GetRoom()->AddEnemy(new Orc(100, 100, p1_));
     inventory_ = new Inventory(p1_);
     clock_.restart();
     isRunning_ = true;
@@ -121,7 +122,10 @@ void    Game::update()
 
     //go through all the active entities in the current room and move them up to their speed.
     //enemy AI should happen here
-    //check fore entity & projectile collision
+    for(auto i : p1_->GetRoom()->GetEnemies()) {
+        i->update(elapsed);
+    }
+    //check for entity & projectile collision
     //
 }
 void Game::render()
@@ -137,8 +141,13 @@ void Game::render()
     player.setFillColor(sf::Color(100, 250, 50));
     player.setPosition(p1_->GetPosition());
     window_->draw(room);
-
     window_->draw(player);
+    for(auto i : p1_->GetRoom()->GetEnemies()) {
+        sf::CircleShape monster(5);
+        monster.setFillColor(sf::Color(250, 50, 100));
+        monster.setPosition(i->GetPosition());
+        window_->draw(monster);
+    }
     for(auto x : p1_->GetRoom()->GetProjectiles()){
         std::cout << "a " << std::endl;
     }

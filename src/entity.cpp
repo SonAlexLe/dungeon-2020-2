@@ -10,7 +10,7 @@ Entity::~Entity() {}
 
 Entity::Entity(float x, float y, sf::Vector2f velocity) : currPos_(x, y) , velocity_(velocity){}
 
-void Entity::load() {}
+// void Entity::load() {}
 
 void Entity::update(sf::Time dt) {
     currPos_ += velocity_ * dt.asSeconds();

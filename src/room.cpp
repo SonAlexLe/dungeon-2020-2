@@ -3,6 +3,10 @@
 
 Room::Room() : size_(100,100) {}
 
+void Room::AddEnemy(Entity* e) {
+    enemies_.push_back(e);
+}
+
 std::list<Entity*> Room::GetEnemies() {
     return enemies_;
 }

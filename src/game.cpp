@@ -2,8 +2,8 @@
 #include <list>
 Game::Game(sf::RenderWindow *window) : score_(0), difficulty_(0), window_(window) 
 {
-    dungeon_ = Map(difficulty_);
-    p1_ = new Player(dungeon_.GetStartingRoom());
+    dungeon_ = new Map(difficulty_);
+    p1_ = new Player(dungeon_->GetStartingRoom());
     p1_->GetRoom()->AddEnemy(new Orc(100, 100, p1_));
     p1_->GetRoom()->AddEnemy(new Orge(0, 0, p1_));
     inventory_ = new Inventory(p1_);
@@ -160,6 +160,9 @@ void Game::render()
 
 void Game::clean()
 {
+    delete p1_;
+    delete inventory_;
+    delete dungeon_;
     window_->close();
     //memory cleanup on game close, will be created later...
 }

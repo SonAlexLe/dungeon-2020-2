@@ -37,7 +37,7 @@ private:
     int difficulty_;
 
     sf::RenderWindow* window_;
-    Map dungeon_;
+    Map* dungeon_;
     Player* p1_;
     Inventory* inventory_;
     sf::Clock clock_;

@@ -23,7 +23,9 @@ void Room::RemovePlayer() { player_ = nullptr; }
 
 void Room::AddPlayer(Player* p) { player_ = p; }
 
-std::list<Monster*>& Room::GetEnemies() { return enemies_; }
+std::list<Monster*>& Room::GetEnemies() {
+    return enemies_;
+}
 
 void Room::AddEnemy(Monster* e) { enemies_.push_back(e); }
 

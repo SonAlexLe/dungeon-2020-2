@@ -18,6 +18,15 @@ void Game::init() //might be redundant
     //game should also open all required sprites to memory, throw errors if files are not found.
 }
 
+bool Game::checkBounds(Entity *ent){
+    if( 
+        ent->GetPosition().x < 0 ||
+        ent->GetPosition().y < 0 ||
+        ent->GetPosition().x > p1_->GetRoom()->GetSize().x ||
+        ent->GetPosition().y > p1_->GetRoom()->GetSize().y
+        ) {return false;}
+    else {return true;}
+}
 
 void Game::input()
 {
@@ -117,6 +126,10 @@ void Game::update()
     for(auto i : p1_->GetRoom()->GetProjectiles())
     {
         i->update(elapsed);
+       /* if(!checkBounds(i)){
+            delete i;
+        }
+        */
     }
     
 

@@ -12,7 +12,7 @@ class Monster : public Entity
 
     const std::string GetSpriteName() const;
 
-    void load();
+    sf::Sprite& GetSprite();
 
     int GetHP();
 
@@ -23,6 +23,8 @@ class Monster : public Entity
     Player* GetPlayer();
 
     protected:
+
+    sf::Texture texture_;
 
     sf::Sprite sprite_;
 

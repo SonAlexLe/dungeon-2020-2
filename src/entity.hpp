@@ -19,8 +19,6 @@ public:
 
     virtual const std::string GetSpriteName() const =0;
 
-    // virtual void load();
-
     sf::Vector2f& GetPosition();
 
     void SetPosition(sf::Vector2f pos);

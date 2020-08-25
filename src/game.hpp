@@ -18,6 +18,8 @@ public:
     Game operator=(const Game&) = delete;
     ~Game();
 
+    bool checkBounds(Entity *);
+    
     void init();
     void input();
     void update();

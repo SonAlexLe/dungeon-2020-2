@@ -13,25 +13,20 @@
 }
 */
 Player::Player(Room* room) : room_(room), Entity(room->GetWidth()/2,room->GetHeight()/2, sf::Vector2f(0,0)), 
-accDown_(false), accUp_(false), accLeft_(false), accRight_(false), reload_(0) {}
-
-//Player::Player(float x, float y) : Entity(x, y) { velocity_ = sf::Vector2f(0, 0); }
+accDown_(false), accUp_(false), accLeft_(false), accRight_(false), reload_(0)
+{
+    if (!texture_.loadFromFile("src/Sprites/player.png")) std::cout << "sprite error" << std::endl;
+    sprite_.setTexture(texture_);
+    sprite_.setScale(sf::Vector2f(0.1f, 0.1f));
+}
 
 sf::Sprite& Player::GetSprite() { return sprite_; }
 
-const std::string Player::GetSpriteName() const { return "player.png"; }
+const std::string Player::GetSpriteName() const { return "src/Sprites/player.png"; }
 
 Room *Player::GetRoom() { return room_;}
 
 float Player::GetReload() {return reload_;}
-
-//should be run at startup, maybe whenever a new player is initialized?
-//same with other entities that have sprites
-void Player::load() {
-    sf::Texture texture_;
-    texture_.loadFromFile(GetSpriteName(), sf::IntRect(currPos_.x, currPos_.y, 10, 10));
-    sprite_.setTexture(texture_);
-}
 
 /**
  * Formulas used: (for each component of the vector)
@@ -47,7 +42,7 @@ void Player::update(sf::Time dt) {
         std::cout << v0.x << " : " << v0.y << std::endl;
     }
     if(accUp_){
-        velocity_.y += std::min(ACCEL_RATE_NEG * dt.asSeconds(), MAX_Y - velocity_.y);
+        velocity_.y -= std::min(ACCEL_RATE * dt.asSeconds(), std::abs(-MAX_Y - velocity_.y));
     }
     else{
         if(velocity_.y < 0){
@@ -57,7 +52,7 @@ void Player::update(sf::Time dt) {
     
 
     if(accLeft_){
-        velocity_.x += std::min(ACCEL_RATE_NEG * dt.asSeconds(), MAX_X - velocity_.x);
+        velocity_.x -= std::min(ACCEL_RATE * dt.asSeconds(), std::abs(-MAX_X - velocity_.x));
     }
     else{
         if(velocity_.x < 0){

@@ -37,8 +37,6 @@ public:
 
     void Attack();
 
-    void load();
-
     //input handling methods, by Leo
     void accUp(bool);
     void accLeft(bool);
@@ -46,6 +44,8 @@ public:
     void accRight(bool);
 
 private:
+
+    sf::Texture texture_;
 
     sf::Sprite sprite_;
 

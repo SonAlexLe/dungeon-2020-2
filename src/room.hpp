@@ -3,8 +3,11 @@
 #include <utility>
 #include "projectile.hpp"
 #include "entity.hpp"
+#include "monster.hpp"
 
 class Entity;
+
+class Monster;
 
 class Room {
 public:
@@ -15,8 +18,8 @@ public:
 
     // Each room has containers for each type of entity contained in it and interfaces for accessing each container
     // Since all these objects share a base class you could just have one container for all of them but travesing this container would be very tedious.
-    void AddEnemy(Entity*);
-    std::list<Entity*> GetEnemies();
+    void AddEnemy(Monster*);
+    std::list<Monster*> GetEnemies();
     // Connection entities are doors/trapdoors/etc that connect to other rooms or floors
     std::list<Entity*> GetConnections();
     std::list<Projectile*> GetProjectiles();
@@ -34,7 +37,7 @@ protected:
     // Types for containers need to be updated once different types of entities are implemented
 
     sf::Vector2f size_;
-    std::list<Entity*> enemies_;
+    std::list<Monster*> enemies_;
     std::list<Entity*> connections_;
     std::list<Projectile*> projectiles_;
     std::list<Entity*> obstacles_;

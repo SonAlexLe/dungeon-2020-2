@@ -97,7 +97,7 @@ void Game::input()
     }
 }
 
-void    Game::update()
+void Game::update()
 {
     sf::Time time = clock_.getElapsedTime();
     sf::Time elapsed = time - lastUpdate_;
@@ -139,16 +139,20 @@ void Game::render()
     //if(DEBUGGING){std::cout << roomSize.x << " " << roomSize.y << std::endl;}
     sf::RectangleShape room(roomSize);
     room.setFillColor(sf::Color::White);
-    sf::CircleShape player(10);
-    player.setFillColor(sf::Color(100, 250, 50));
-    player.setPosition(p1_->GetPosition());
+    // sf::CircleShape player(10);
+    // player.setFillColor(sf::Color(100, 250, 50));
+    // player.setPosition(p1_->GetPosition());
     window_->draw(room);
-    window_->draw(player);
+    // window_->draw(player);
+    p1_->GetSprite().setPosition(p1_->GetPosition());
+    window_->draw(p1_->GetSprite());
     for(auto i : p1_->GetRoom()->GetEnemies()) {
-        sf::CircleShape monster(5);
-        monster.setFillColor(sf::Color(250, 50, 100));
-        monster.setPosition(i->GetPosition());
-        window_->draw(monster);
+        // sf::CircleShape monster(5);
+        // monster.setFillColor(sf::Color(250, 50, 100));
+        // monster.setPosition(i->GetPosition());
+        // window_->draw(monster);
+        i->GetSprite().setPosition(i->GetPosition());
+        window_->draw(i->GetSprite());
     }
     for(auto x : p1_->GetRoom()->GetProjectiles()){
         sf::CircleShape pew(x->GetDamage());

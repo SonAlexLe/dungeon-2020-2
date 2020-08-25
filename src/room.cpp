@@ -1,13 +1,13 @@
 #include "room.hpp"
 
 
-Room::Room() : size_(100,100) {}
+Room::Room() : size_(300,300) {}
 
-void Room::AddEnemy(Entity* e) {
+void Room::AddEnemy(Monster* e) {
     enemies_.push_back(e);
 }
 
-std::list<Entity*> Room::GetEnemies() {
+std::list<Monster*> Room::GetEnemies() {
     return enemies_;
 }
 

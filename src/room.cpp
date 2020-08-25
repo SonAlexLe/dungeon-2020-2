@@ -3,10 +3,6 @@
 
 Room::Room() : size_(100,100) {}
 
-std::list<Entity*> Room::GetPlayer() {
-    return player_;
-}
-
 std::list<Entity*> Room::GetEnemies() {
     return enemies_;
 }

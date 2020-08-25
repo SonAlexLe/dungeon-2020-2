@@ -16,7 +16,6 @@ public:
     // Each room has containers for each type of entity contained in it and interfaces for accessing each container
     // Since all these objects share a base class you could just have one container for all of them but travesing this container would be very tedious.
 
-    std::list<Entity*> GetPlayer();
     std::list<Entity*> GetEnemies();
     // Connection entities are doors/trapdoors/etc that connect to other rooms or floors
     std::list<Entity*> GetConnections();
@@ -35,7 +34,6 @@ protected:
     // Types for containers need to be updated once different types of entities are implemented
 
     sf::Vector2f size_;
-    std::list<Entity*> player_;
     std::list<Entity*> enemies_;
     std::list<Entity*> connections_;
     std::list<Projectile*> projectiles_;

@@ -15,11 +15,6 @@ int main()
 {
     sf::RenderWindow window(sf::VideoMode(1280, 720), "TEST GAME");
     Game game(&window);
-    if(DEBUGGING){
-        std::cout << "Window open" << std::endl;
-    }
-    game.init();
-
     while(game.isRunning())
     {
         game.input();

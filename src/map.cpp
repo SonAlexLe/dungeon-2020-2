@@ -4,14 +4,8 @@
 
 
 Map::Map(int difficulty) : difficulty_(difficulty) {
-    // map_init();   
     rooms_.push_back(new Room);
-}
-
-Map::~Map() {
-    for (Room* r : rooms_) {
-        delete r;
-    }
+    // map_init();
 }
 
 Room* Map::GetStartingRoom() {

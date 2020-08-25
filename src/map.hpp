@@ -36,8 +36,6 @@ public:
 
     Map(int difficulty);
 
-    ~Map();
-
     // Should be the head of rooms_
     Room* GetStartingRoom();
 

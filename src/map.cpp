@@ -156,7 +156,7 @@ Room* Map::room_init() {
     Player* p = rooms_.front()->GetPlayer();
 
     //Coords for the placements of monsters, (4 monsters in corners)
-    std::list<std::pair<float, float>> coords = { std::make_pair(10.0, 10.0), std::make_pair(90.0, 10.0), std::make_pair(10.0, 90.0), std::make_pair(90.0, 90.0) };
+    std::list<sf::Vector2f> coords = { sf::Vector2f(10.0, 10.0), sf::Vector2f(90.0, 10.0), sf::Vector2f(10.0, 90.0), sf::Vector2f(90.0, 90.0) };
 
 
     for (auto c : coords) {
@@ -166,7 +166,7 @@ Room* Map::room_init() {
         switch (monsters[idx]) {
 
             case 'O': {
-                Orc* orc = new Orc(c.first, c.second, p); 
+                Orc* orc = new Orc(c.x, c.y, p); 
                room->AddEnemy(orc);
             }
 

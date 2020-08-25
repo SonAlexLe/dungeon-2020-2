@@ -2,11 +2,6 @@
 //todo: version of generateMap() which returns a single square room
 
 #include "map.hpp"
-#include <iostream>
-#include <fstream>
-#include <ctime>
-#include <monster.hpp>
-
 
 
 Map::Map(int difficulty) : difficulty_(difficulty) {
@@ -47,7 +42,7 @@ void Map::map_init() {
         int x = rand() % 9;
         int y = rand() % 9;
 
-        if(map[x][y] = nullptr) {
+        if(map[x][y] == nullptr) {
 
             //Where 1 is north, 2 is east, 3 is south, 4 is west
             std::list<int>neighbors;

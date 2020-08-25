@@ -1,3 +1,4 @@
+#pragma once
 #include "entity.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>

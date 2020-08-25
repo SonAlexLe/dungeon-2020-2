@@ -1,6 +1,11 @@
+#pragma once
+
 #include "room.hpp"
 #include "connection.hpp"
-
+#include <iostream>
+#include <fstream>
+#include <ctime>
+#include <monster.hpp>
 
 //Map is a group of rooms that are connected by "Connection"-entities.
 
@@ -30,7 +35,7 @@ public:
 
     Map(int difficulty);
 
-    ~Map() {}
+    ~Map();
 
     // Should be the head of rooms_
     Room* GetStartingRoom();

@@ -43,3 +43,4 @@ void Connection::draw(sf::RenderWindow* window) { //Now only draws the sprite bu
     if(this->locked_ == false){ //Draw function should only draw the object if it's not equipped.
         window->draw(this->sprite_);
     }
+}

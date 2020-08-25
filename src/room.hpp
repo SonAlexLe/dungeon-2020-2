@@ -10,7 +10,7 @@
 #include <utility>
 
 class Entity;
-
+class Connection;
 class Monster;
 
 class Room {
@@ -19,7 +19,7 @@ public:
     Room();
 
     // Destructor needs to handle emptying all containers
-    ~Room() {}
+    ~Room();
 
     // Each room has containers for each type of entity contained in it and interfaces for accessing each container
     // Since all these objects share a base class you could just have one container for all of them but travesing this container would be very tedious.

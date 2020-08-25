@@ -1,9 +1,7 @@
 //A class to hold players collected items. A player can hold a single weapon and a single piece of armor.
-
 #pragma once
-#include "item.hpp"
-#include "player.hpp"
 #include "inventoryItems.hpp"
+class player;
 class Inventory {
 public:
     Inventory(Player* player) : player_(player)
@@ -13,16 +11,13 @@ public:
         heldConsumable_ = nullptr;
     }
     ~Inventory() {}
-    void addItem(Item* newItem);
 
-    int getArmorValue() {
-        return armor_->getValue();
-    }
-    int getDmgValue() {
-        return weapon_->getValue();
-    }
+    void addItem(Item* newItem);
+    int getArmorValue();
+    int getDmgValue();
     void useConsumable();
     sf::Vector2f Drop();
+
 private: // Player is able to hold one weapon, one armor and one consumable.
     Inventory& operator=(const Inventory&) = delete;
 

@@ -1,5 +1,20 @@
 #include "inventory.hpp"
+#include "player.hpp"
 #include <math.h> 
+
+int Inventory::getArmorValue() {
+    if (armor_ == nullptr) {
+        return 0;
+    }
+    return armor_->getValue();
+}
+
+int Inventory::getDmgValue() {
+    if (weapon_ == nullptr) {
+        return 0;
+    }
+    return weapon_->getValue();
+}
 
 void Inventory::addItem(Item* newItem)
 {

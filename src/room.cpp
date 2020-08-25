@@ -18,7 +18,7 @@ void Room::RemovePlayer() { player_ = nullptr; }
 
 void Room::AddPlayer(Player* p) { player_ = p; }
 
-std::list<Monster*> Room::GetEnemies() { return enemies_; }
+std::list<Monster*>& Room::GetEnemies() { return enemies_; }
 
 void Room::AddEnemy(Monster* e) { enemies_.push_back(e); }
 
@@ -47,11 +47,11 @@ void Room::AddProjectile(Projectile *pew){
 
 void Room::AddItem(Item* i) { item_ = i; }
 
-std::list<Connection*> Room::GetConnections() {return connections_; }
+std::list<Connection*>& Room::GetConnections() {return connections_; }
 
 void Room::AddConnection(Connection* c) { connections_.push_back(c); }
 
-// std::list<Entity*> Room::GetProjectiles() { return projectiles_; }
+std::list<Projectile*>& Room::GetProjectiles() { return projectiles_; }
 
 // std::list<Obstacle*> Room::GetObstacles() { return obstacles_; }
 

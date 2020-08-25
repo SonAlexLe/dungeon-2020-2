@@ -28,20 +28,20 @@ public:
 
     void RemovePlayer();
 
-    std::list<Monster*> GetEnemies();
+    std::list<Monster*>& GetEnemies();
 
     void AddEnemy(Monster*);
 
     void RemoveEnemy(Monster*);
 
     // Connection entities are doors/trapdoors/etc that connect to other rooms or floors
-    std::list<Connection*> GetConnections();
+    std::list<Connection*>& GetConnections();
 
     void AddConnection(Connection*);
 
     void AddItem(Item*);
     
-    std::list<Entity*> GetProjectiles();
+    std::list<Projectile*>& GetProjectiles();
 
     void AddProjectile(Projectile*);
 

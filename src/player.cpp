@@ -37,9 +37,13 @@ sf::Sprite& Player::GetSprite() { return sprite_; }
 
 const std::string Player::GetSpriteName() const { return "src/Sprites/player.png"; }
 
-Room *Player::GetRoom() { return room_;}
+Room *Player::GetRoom() { return room_; } 
+
+void Player::SetRoom(Room* r) { room_ = r; }
 
 float Player::GetReload() {return reload_;}
+
+
 
 /**
  * Formulas used: (for each component of the vector)

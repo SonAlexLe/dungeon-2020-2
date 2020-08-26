@@ -2,7 +2,11 @@
 
 Connection::Connection() : Entity() {}
 
-Connection::Connection(float x, float y, Player* p) : Entity(x, y, sf::Vector2f()), locked_(true), player_(p) {}
+Connection::Connection(float x, float y, Player* p) : Entity(x, y, sf::Vector2f()), locked_(true), player_(p) {
+    if (!texture_.loadFromFile("src/Sprites/door.png")) std::cout << "sprite error!" << std::endl;
+    sprite_.setTexture(texture_);
+    sprite_.setScale(sf::Vector2f(3.4f, 3.4f)); //Change later
+}
 
 void Connection::unlock() { locked_ = false;}
 
@@ -17,6 +21,7 @@ void Connection::update(sf::Time dt) {
 void Connection::load() {}
 
 void Connection::traverse() {
+    /*
     double size = player_->GetRoom()->GetHeight();
         if (currPos_.x == size / 2 && currPos_.y == 0.0) { //Connection is north
 
@@ -42,7 +47,10 @@ void Connection::traverse() {
             player_->SetRoom(en);
             player_->SetPosition(sf::Vector2f(0.0, size / 2));
         }
-    }  
+    }
+    */
+    player_->SetPosition(sf::Vector2f(200, 200));
+    std::cout << "Collision!" << std::endl;
 }
 
 void Connection::draw(sf::RenderWindow* window) { 
@@ -51,7 +59,7 @@ void Connection::draw(sf::RenderWindow* window) {
     sf::FloatRect m_rec = sprite_.getGlobalBounds();
     sf::RectangleShape m_box(sf::Vector2f(m_rec.width, m_rec.height));
     m_box.setOutlineThickness(2);
-    m_box.setOutlineColor(sf::Color::Red);
+    m_box.setOutlineColor(sf::Color::Blue);
     m_box.setFillColor(sf::Color::Transparent);
     m_box.setPosition(sf::Vector2f(currPos_.x*3, currPos_.y*3));
     window->draw(m_box);

@@ -132,6 +132,9 @@ void Game::update()
             i->setActive(false);
         }
     }
+    for (auto i: p1_->GetRoom()->GetConnections()) {
+        i->update(elapsed);
+    }
     //go through all the active entities in the current room and move them up to their speed.
     //enemy AI should happen here
     
@@ -166,6 +169,9 @@ void Game::render()
         if(x->isActive()){
             x->Draw(window_);
         }
+    }
+    for(auto x : p1_->GetRoom()->GetConnections()) {
+        x->draw(window_);
     }
     window_->draw(score);
     window_->display();

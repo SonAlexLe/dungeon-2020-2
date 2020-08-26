@@ -15,7 +15,7 @@ void Monster::Draw(sf::RenderWindow* w) {
     sf::FloatRect m_rec = sprite_.getGlobalBounds();
     sf::RectangleShape m_box(sf::Vector2f(m_rec.width, m_rec.height));
     m_box.setOutlineThickness(2);
-    m_box.setOutlineColor(sf::Color::Red);
+    m_box.setOutlineColor(sf::Color::Green);
     m_box.setFillColor(sf::Color::Transparent);
     m_box.setPosition(sf::Vector2f(currPos_.x*3, currPos_.y*3));
     w->draw(m_box);

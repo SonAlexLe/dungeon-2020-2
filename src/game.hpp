@@ -8,6 +8,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
+#include <list>
+#include <sstream>
 
 class Game
 {
@@ -42,5 +44,6 @@ private:
     Inventory* inventory_;
     sf::Clock clock_;
     sf::Time lastUpdate_;
+    sf::Font gamefont_;
     //add possible additional player...
 };

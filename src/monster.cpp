@@ -1,8 +1,8 @@
 #include "monster.hpp"
 #define ORC_SPEED 30.f
 #define ORGE_SPEED 10.f
-#define ORC_HP 200
-#define ORGE_HP 100
+#define ORC_HP 5
+#define ORGE_HP 10
 
 Monster::Monster() {}
 

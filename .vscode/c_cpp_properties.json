@@ -3,11 +3,7 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/src",
-                "/mnt/c/users/rashid/documents/koulu/2_vuosi/cplusplus/SFML-2.5.1/include",
-                "/mnt/c/users/rashid/documents/koulu/2_vuosi/cplusplus/SFML-2.5.1/lib"
-
-                
+                "${workspaceFolder}/src"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

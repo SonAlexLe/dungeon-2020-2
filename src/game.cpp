@@ -113,6 +113,13 @@ void Game::update()
         sf::Vector2f Ppos = i->GetPosition();
         if(Ppos.x >= 0 && Ppos.y >= 0 && Ppos.x < bounds.x && Ppos.y < bounds.y && i->isActive()){
             i->update(elapsed);
+            for(auto j : p1_->GetRoom()->GetEnemies()){
+                if(i->GetSprite().getGlobalBounds().intersects(j->GetSprite().getGlobalBounds())){
+                    i->setActive(false);
+                    j->SetHP(j->GetHP()-i->GetDamage());
+                    std::cout<<j->GetHP()<<std::endl;
+                }
+            }
         }
         else{
             i->setActive(false);
@@ -142,10 +149,7 @@ void Game::render()
     }
     for(auto x : p1_->GetRoom()->GetProjectiles()){
         if(x->isActive()){
-            sf::CircleShape pew(x->GetDamage());
-            pew.setFillColor(sf::Color::Blue);
-            pew.setPosition(sf::Vector2f(x->GetPosition().x*3,x->GetPosition().y*3));
-            window_->draw(pew);
+            x->Draw(window_);
         }
     }
     window_->display();

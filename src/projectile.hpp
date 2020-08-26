@@ -12,12 +12,20 @@ class Projectile: public Entity
 
     bool active_;
 
+    sf::Sprite sprite_;
+
+    sf::Texture texture_;
+
     public:
 
     //initial velocity of projectile is arbitrarily [0, 0]
     Projectile() = delete;
     Projectile(sf::Vector2f location,sf::Vector2f velocity, int damage, bool hostile) :
-    Entity(location.x,location.y,velocity), damage_(damage), hostile_(hostile), active_(true) {}
+    Entity(location.x,location.y,velocity), damage_(damage), hostile_(hostile), active_(true) {
+        if (!texture_.loadFromFile("src/Sprites/staggerbot.png")) std::cout << "sprite error" << std::endl;
+        sprite_.setTexture(texture_);
+        sprite_.setScale(sf::Vector2f(0.04f, 0.04f));
+    }
 
     void SetVelocity(sf::Vector2f velocity) { velocity_ = velocity; }
 
@@ -30,6 +38,20 @@ class Projectile: public Entity
     int GetDamage(){return damage_;}
 
     const std::string GetSpriteName() const { return "projectile.png"; }
+
+    sf::Sprite GetSprite() {return sprite_;}
+
+    void Draw(sf::RenderWindow* w) {
+    sf::FloatRect m_rec = sprite_.getGlobalBounds();
+    sf::RectangleShape m_box(sf::Vector2f(m_rec.width, m_rec.height));
+    m_box.setOutlineThickness(2);
+    m_box.setOutlineColor(sf::Color::Red);
+    m_box.setFillColor(sf::Color::Transparent);
+    m_box.setPosition(sf::Vector2f(currPos_.x*3, currPos_.y*3));
+    w->draw(m_box);
+    sprite_.setPosition(sf::Vector2f(currPos_.x*3, currPos_.y*3));
+    w->draw(sprite_);
+}
 
     void update(sf::Time dt) {
         currPos_ += dt.asSeconds() * velocity_;

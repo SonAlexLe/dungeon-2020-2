@@ -81,7 +81,7 @@ void Game::input()
                     if(p1_->GetReload() == 0){
                         float projectilespeed = 50;
                         std::cout << "shooting" << std::endl;
-                        sf::Vector2f projectile_direction = p1_->GetPosition() - sf::Vector2f(sf::Mouse::getPosition(*window_).x ,sf::Mouse::getPosition(*window_).y);
+                        sf::Vector2f projectile_direction = p1_->GetPosition() - sf::Vector2f(sf::Mouse::getPosition(*window_).x/3 ,sf::Mouse::getPosition(*window_).y/3);
                         float vlength = -1 * std::sqrt(projectile_direction.x*projectile_direction.x + projectile_direction.y * projectile_direction.y);
                         sf::Vector2f projectile_velocity(projectile_direction.x/vlength*projectilespeed,projectile_direction.y/vlength*projectilespeed);
                         p1_->GetRoom()->AddProjectile(new Projectile(p1_->GetPosition(),projectile_velocity, 1, false));
@@ -110,9 +110,12 @@ void Game::update()
     }
     sf::Vector2f bounds = p1_->GetRoom()->GetSize();
     for(auto i : p1_->GetRoom()->GetProjectiles()){
-        sf::Vector2f pPos = i->GetPosition();
-        if(pPos.x < 0 || pPos.x > bounds.x || pPos.y < 0 ||pPos.y > bounds.y){
-            delete i;
+        sf::Vector2f Ppos = i->GetPosition();
+        if(Ppos.x >= 0 && Ppos.y >= 0 && Ppos.x < bounds.x && Ppos.y < bounds.y && i->isActive()){
+            i->update(elapsed);
+        }
+        else{
+            i->setActive(false);
         }
     }
     
@@ -128,30 +131,25 @@ void Game::update()
 void Game::render()
 {
     window_->clear(sf::Color::Black);
-    double scale = std::min(window_->getSize().y/1080,window_->getSize().x/1900);
     //placeholder
     sf::Vector2f roomSize = p1_->GetRoom()->GetSize();
-    //if(DEBUGGING){std::cout << roomSize.x << " " << roomSize.y << std::endl;}
-    sf::RectangleShape room(roomSize);
+    sf::RectangleShape room(sf::Vector2f(roomSize.x*3,roomSize.y*3));
     room.setFillColor(sf::Color::White);
     window_->draw(room);
-    // sf::CircleShape player(10);
-    // player.setFillColor(sf::Color(100, 250, 50));
-    // player.setPosition(p1_->GetPosition());
-    // window_->draw(player);
-    p1_->Draw(window_);
+    p1_->GetSprite().setPosition(sf::Vector2f(p1_->GetPosition().x*3,p1_->GetPosition().y*3));
+    window_->draw(p1_->GetSprite());
     for(auto i : p1_->GetRoom()->GetEnemies()) {
-        // sf::CircleShape monster(5);
-        // monster.setFillColor(sf::Color(250, 50, 100));
-        // monster.setPosition(i->GetPosition());
-        // window_->draw(monster);
-        i->Draw(window_);
+        
+        i->GetSprite().setPosition(sf::Vector2f(i->GetPosition().x*3,i->GetPosition().y*3));
+        window_->draw(i->GetSprite());
     }
     for(auto x : p1_->GetRoom()->GetProjectiles()){
-        sf::CircleShape pew(x->GetDamage());
-        pew.setFillColor(sf::Color::Blue);
-        pew.setPosition(x->GetPosition());
-        window_->draw(pew);
+        if(x->isActive()){
+            sf::CircleShape pew(x->GetDamage());
+            pew.setFillColor(sf::Color::Blue);
+            pew.setPosition(sf::Vector2f(x->GetPosition().x*3,x->GetPosition().y*3));
+            window_->draw(pew);
+        }
     }
     window_->display();
 }

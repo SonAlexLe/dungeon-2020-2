@@ -1,7 +1,7 @@
 #include "room.hpp"
 
 
-Room::Room() : size_(300, 300), player_(nullptr), item_(nullptr), Nconn_(nullptr), Sconn_(nullptr), Wconn_(nullptr), Econn_(nullptr) {
+Room::Room() : size_(300, 300), item_(nullptr), Nconn_(nullptr), Sconn_(nullptr), Wconn_(nullptr), Econn_(nullptr) {
 
 }
 
@@ -17,11 +17,11 @@ Room::~Room() {
     }
 }
 
-Player* Room::GetPlayer() { return player_; }
+/* Player* Room::GetPlayer() { return player_; }
 
 void Room::RemovePlayer() { player_ = nullptr; }
 
-void Room::AddPlayer(Player* p) { player_ = p; }
+void Room::AddPlayer(Player* p) { player_ = p; } */
 
 std::list<Monster*>& Room::GetEnemies() {
     return enemies_;

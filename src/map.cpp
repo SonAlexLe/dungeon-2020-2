@@ -16,7 +16,7 @@ Room* Map::GetStartingRoom() {
 void Map::map_init() {
 
     //Some preliminary parameters for how many rooms are generated
-    int nofRooms = 10 + difficulty_;
+    int nofRooms = 5 + difficulty_;
 
     //Init layout and starting room
     Room* map[5][5] = { {nullptr} };
@@ -73,9 +73,9 @@ void Map::map_init() {
             if(neighbors.size() >= 1 && neighbors.size() < 3) {
 
                 //All conditions are met, create a room
-                // Room* room = room_init();
+                Room* room = room_init();
 
-                Room* room = new Room;
+                // Room* room = new Room;
                 map[x][y] = room;
                 rooms_.push_back(room);
 
@@ -172,11 +172,31 @@ void Map::map_init() {
             else { neighbors.clear(); }
         }
     }
+    std::cout << std::endl << "Connections in each room:" << std::endl;
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
+            if (map[i][j] != nullptr) { 
+                std::cout << map[i][j]->GetConnections().size();
+            }
+            else { std::cout << "#"; } 
+        }
+        std::cout << std::endl;
+    }
+    std::cout << "Enemies in each room:" << std::endl;
+    std::cout << std::endl;
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
+            if (map[i][j] != nullptr) { 
+                std::cout << map[i][j]->GetEnemies().size();
+            }
+            else { std::cout << "#"; } 
+        }
+        std::cout << std::endl;
+    }
 }
 //Fills room with monsters
 Room* Map::room_init() {
 
-    Player* p = rooms_.front()->GetPlayer();
     int size = rooms_.front()->GetWidth();
     srand(time(nullptr));
 
@@ -222,12 +242,12 @@ Room* Map::room_init() {
         switch (monsters[rand() % 2]) {
 
             case 'O': {
-                Orc* orc = new Orc(pos.x, pos.y, p); 
+                Orc* orc = new Orc(pos.x, pos.y, p_); 
                room->AddEnemy(orc);
             }
 
             case 'G': {
-                Orge* orge = new Orge(pos.x, pos.y, p);
+                Orge* orge = new Orge(pos.x, pos.y, p_);
                 room->AddEnemy(orge);
             }
 

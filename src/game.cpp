@@ -118,7 +118,7 @@ void Game::update()
         if(Ppos.x >= 0 && Ppos.y >= 0 && Ppos.x < bounds.x && Ppos.y < bounds.y && i->isActive()){
             i->update(elapsed);
             for(auto j : p1_->GetRoom()->GetEnemies()){
-                if(i->GetSprite().getGlobalBounds().intersects(j->GetSprite().getGlobalBounds())){
+                if(j->GetHP()>0 && i->GetSprite().getGlobalBounds().intersects(j->GetSprite().getGlobalBounds())){
                     i->setActive(false);
                     j->SetHP(j->GetHP()-i->GetDamage());
                     std::cout<<j->GetHP()<<std::endl;

@@ -1,5 +1,5 @@
 #include "game.hpp"
-#include <list>
+
 Game::Game(sf::RenderWindow *window) : score_(0), difficulty_(0), window_(window) 
 {
     dungeon_ = new Map(difficulty_);
@@ -7,6 +7,10 @@ Game::Game(sf::RenderWindow *window) : score_(0), difficulty_(0), window_(window
     p1_->GetRoom()->AddEnemy(new Orc(100, 100, p1_));
     p1_->GetRoom()->AddEnemy(new Orge(0, 0, p1_));
     inventory_ = new Inventory(p1_);
+    if (!gamefont_.loadFromFile("src/sprites/arial.ttf"))
+    {
+        std::cout << "font error" << std::endl;
+    }
     clock_.restart();
     isRunning_ = true;
 }
@@ -133,6 +137,14 @@ void Game::update()
 }
 void Game::render()
 {
+    std::stringstream ss;
+    ss<< "Score: " << score_;
+    sf::Text score;
+    score.setFont(gamefont_);
+    score.setString(ss.str());
+    score.setCharacterSize(25);
+    score.setFillColor(sf::Color::Green);
+    score.setStyle(sf::Text::Underlined);
     window_->clear(sf::Color::Black);
     //placeholder
     sf::Vector2f roomSize = p1_->GetRoom()->GetSize();
@@ -152,6 +164,7 @@ void Game::render()
             x->Draw(window_);
         }
     }
+    window_->draw(score);
     window_->display();
 }
 

@@ -10,6 +10,11 @@
 #include <SFML/System.hpp>
 #include <list>
 #include <sstream>
+/* 
+** The game class is a container class for all the contents of the game.
+** It handles entity updating, input and graphics.
+** The same instance of Game is kept around until the program is closed.
+*/
 
 class Game
 {
@@ -19,8 +24,6 @@ public:
     Game(const Game&) = delete;
     Game operator=(const Game&) = delete;
     ~Game();
-
-    bool checkBounds(Entity *);
     
     void init();
     void input();
@@ -34,16 +37,18 @@ public:
 
 private:
     bool isRunning_;
-
     int score_;
     int difficulty_;
 
     sf::RenderWindow* window_;
-    Map* dungeon_;
-    Player* p1_;
-    Inventory* inventory_;
+    sf::Font gamefont_;
+
+//for determining deltatime
     sf::Clock clock_;
     sf::Time lastUpdate_;
-    sf::Font gamefont_;
-    //add possible additional player...
+
+    Map* dungeon_;
+
+    Player* p1_;
+    Inventory* inventory_;
 };

@@ -64,11 +64,19 @@ public:
 
     void SetNConn(Room* r);
 
+    Room* GetNConn();
+
     void SetSConn(Room* r);
+
+    Room* GetSConn();
 
     void SetWConn(Room* r);
 
+    Room* GetWConn();
+
     void SetEConn(Room* r);
+
+    Room* GetEConn();
 
 
 protected:

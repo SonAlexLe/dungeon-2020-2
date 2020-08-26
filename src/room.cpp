@@ -61,8 +61,16 @@ double Room::GetHeight() { return size_.y; }
 
 void Room::SetNConn(Room* r) { Nconn_ = r; }
 
+Room* Room::GetNConn() { return Nconn_; }
+
 void Room::SetSConn(Room* r) { Sconn_ = r; }
+
+Room* Room::GetSConn() { return Sconn_; }
 
 void Room::SetWConn(Room* r) { Wconn_ = r; }
 
+Room* Room::GetWConn() { return Wconn_; }
+
 void Room::SetEConn(Room* r) { Econn_ = r; }
+
+Room* Room::GetEConn() { return Econn_; }

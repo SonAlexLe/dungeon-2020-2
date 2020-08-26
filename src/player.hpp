@@ -30,6 +30,8 @@ public:
 
     Room *GetRoom();
 
+    void SetRoom(Room* r);
+
     sf::Sprite& GetSprite();
 
     float GetReload();

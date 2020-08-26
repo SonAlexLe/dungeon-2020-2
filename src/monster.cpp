@@ -55,7 +55,7 @@ void Orc::update(sf::Time dt) {
         p_->SetHP(p_->GetHP()-1);
     }
     //when a monster dies it disappears and gives the player score
-    if(hp_ <= 0) {
+    if (hp_ <= 0) {
         active_ = false;
         p_->AddScore(5);
     }
@@ -82,7 +82,7 @@ void Orge::update(sf::Time dt) {
     }
     currPos_ += dt.asSeconds() * velocity_;
     //when a monster dies it disappears and gives the player score
-    if(hp_ <= 0) {
+    if (hp_ <= 0) {
         active_ = false;
         p_->AddScore(20);
     }

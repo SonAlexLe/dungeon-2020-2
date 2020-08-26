@@ -22,7 +22,7 @@ Game::Game(sf::RenderWindow *window) : difficulty_(0), window_(window)
     //Game is now running, moving to the main loop.
     isRunning_ = true;
 }
-Game::~Game(){}
+Game::~Game() {}
 
 void Game::input()
 {
@@ -107,7 +107,7 @@ void Game::input()
 
 void Game::update()
 {
-    if(p1_->GetHP() > 0){
+    if (p1_->GetHP() > 0) {
         //calculate time since last update
         sf::Time time = clock_.getElapsedTime();
         sf::Time elapsed = time - lastUpdate_;
@@ -115,23 +115,18 @@ void Game::update()
         //update player
         p1_->update(elapsed);
         //update all enemies within the active room
-        for(auto i : p1_->GetRoom()->GetEnemies()) {
-            if(i->isActive())
-                {i->update(elapsed);}
-        }
+        for (auto i : p1_->GetRoom()->GetEnemies())
+            if (i->isActive()) i->update(elapsed);
         //update all projectiles, bounds is used for checking projectile collision with walls
         sf::Vector2f bounds = p1_->GetRoom()->GetSize();
     
-        for(auto i : p1_->GetRoom()->GetProjectiles()){
+        for (auto i : p1_->GetRoom()->GetProjectiles()) {
             sf::Vector2f Ppos = i->GetPosition();
-        
-            if(Ppos.x >= 0 && Ppos.y >= 0 && Ppos.x < bounds.x && Ppos.y < bounds.y && i->isActive()){
+            if (Ppos.x >= 0 && Ppos.y >= 0 && Ppos.x < bounds.x && Ppos.y < bounds.y && i->isActive()) {
                 i->update(elapsed);
-            
-                for(auto j : p1_->GetRoom()->GetEnemies()){
-                
+                for (auto j : p1_->GetRoom()->GetEnemies()) {
                 //check projectile collision with an enemy. projectile disappears on hitting an enemy.
-                    if(j->GetHP()>0 && i->GetSprite().getGlobalBounds().intersects(j->GetSprite().getGlobalBounds())){
+                    if (j->GetHP()>0 && i->GetSprite().getGlobalBounds().intersects(j->GetSprite().getGlobalBounds())) {
                         i->setActive(false);
                     //calculate new hp for damaged enemy
                         j->SetHP(j->GetHP()-i->GetDamage());
@@ -140,7 +135,7 @@ void Game::update()
                 }
             }
             //if a projectile hits a wall, it is deactivated and no longer updated or drawn
-            else{
+            else {
                 i->setActive(false);
             }
         }
@@ -163,16 +158,12 @@ void Game::render()
     p1_->Draw(window_);
 
     //draw all enemies with more than 0hp
-    for(auto i : p1_->GetRoom()->GetEnemies()) { 
-        if (i->isActive()) {i->Draw(window_);}
-    }
+    for (auto i : p1_->GetRoom()->GetEnemies())
+        if (i->isActive()) i->Draw(window_);
 
     //draw all active projectiles
-    for(auto x : p1_->GetRoom()->GetProjectiles()){
-        if(x->isActive()){
-            x->Draw(window_);
-        }
-    }
+    for (auto x : p1_->GetRoom()->GetProjectiles())
+        if (x->isActive()) x->Draw(window_);
     
     //generate and draw score & hp text on screen
     std::stringstream ss;
@@ -196,15 +187,16 @@ void Game::render()
     window_->draw(hp);
     //display graphics
 
-    //GAME OVER TEXT FOR WHEN HP = 0
-    if(p1_->GetHP()<= 0){
+    //GAME OVER TEXT FOR WHEN PLAYER HP = 0
+    if (p1_->GetHP()<= 0) {
         sf::Text gameover;
         gameover.setFont(gamefont_);
         gameover.setCharacterSize(100);
         gameover.setString("GAME OVER!");
         gameover.setFillColor(sf::Color::Red);
         gameover.setStyle(sf::Text::Underlined | sf::Text::Bold);
-        gameover.setPosition(sf::Vector2f(window_->getSize().x/2 - gameover.getGlobalBounds().width/2, window_->getSize().y/2 - gameover.getGlobalBounds().height/2));
+        gameover.setPosition(sf::Vector2f(window_->getSize().x/2 - gameover.getGlobalBounds().width/2,
+                            window_->getSize().y/2 - gameover.getGlobalBounds().height/2));
         window_->draw(gameover);
     }
 

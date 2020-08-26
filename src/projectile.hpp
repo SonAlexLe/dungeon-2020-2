@@ -42,16 +42,16 @@ class Projectile: public Entity
     sf::Sprite GetSprite() {return sprite_;}
 
     void Draw(sf::RenderWindow* w) {
-    sf::FloatRect m_rec = sprite_.getGlobalBounds();
-    sf::RectangleShape m_box(sf::Vector2f(m_rec.width, m_rec.height));
-    m_box.setOutlineThickness(2);
-    m_box.setOutlineColor(sf::Color::Red);
-    m_box.setFillColor(sf::Color::Transparent);
-    m_box.setPosition(sf::Vector2f(currPos_.x*3, currPos_.y*3));
-    w->draw(m_box);
-    sprite_.setPosition(sf::Vector2f(currPos_.x*3, currPos_.y*3));
-    w->draw(sprite_);
-}
+        sf::FloatRect p_rec = sprite_.getGlobalBounds();
+        sf::RectangleShape p_box(sf::Vector2f(p_rec.width, p_rec.height));
+        p_box.setOutlineThickness(0.5);
+        p_box.setOutlineColor(sf::Color::Red);
+        p_box.setFillColor(sf::Color::Transparent);
+        p_box.setPosition(sf::Vector2f(currPos_.x*3, currPos_.y*3));
+        w->draw(p_box);
+        sprite_.setPosition(sf::Vector2f(currPos_.x*3, currPos_.y*3));
+        w->draw(sprite_);
+    }
 
     void update(sf::Time dt) {
         currPos_ += dt.asSeconds() * velocity_;

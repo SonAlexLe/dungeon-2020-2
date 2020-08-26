@@ -145,7 +145,7 @@ void Game::render()
     for(auto i : p1_->GetRoom()->GetEnemies()) { 
         // i->GetSprite().setPosition(sf::Vector2f(i->GetPosition().x*3,i->GetPosition().y*3));
         // window_->draw(i->GetSprite());
-        i->Draw(window_);
+        if (i->GetHP() > 0) i->Draw(window_);
     }
     for(auto x : p1_->GetRoom()->GetProjectiles()){
         if(x->isActive()){

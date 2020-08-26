@@ -1,20 +1,11 @@
 //map generation
 //todo: version of generateMap() which returns a single square room
-
 #include "map.hpp"
 
 
 Map::Map(int difficulty) : difficulty_(difficulty) {
-    rooms_.push_back(new Room); 
-
+    rooms_.push_back(new Room);
     // map_init();
-
-}
-
-Map::~Map() {
-    for (Room* r : rooms_) {
-        delete r;
-    }
 }
 
 Room* Map::GetStartingRoom() {

@@ -35,7 +35,7 @@ public:
 
     Map(int difficulty);
 
-    ~Map();
+    ~Map() { for(auto i : rooms_) delete i; }
 
     // Should be the head of rooms_
     Room* GetStartingRoom();

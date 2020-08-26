@@ -2,20 +2,13 @@
 #include <list>
 Game::Game(sf::RenderWindow *window) : score_(0), difficulty_(0), window_(window) 
 {
-    dungeon_ = Map(difficulty_);
-    std::cout << "map generation succesful" << std::endl;
-    p1_ = new Player(dungeon_.GetStartingRoom());
-    std::cout << "player added succesfully" << std::endl;
+    dungeon_ = new Map(difficulty_);
+    p1_ = new Player(dungeon_->GetStartingRoom());
     p1_->GetRoom()->AddEnemy(new Orc(100, 100, p1_));
-    std::cout << "orc added succesfully" << std::endl;
     p1_->GetRoom()->AddEnemy(new Orge(0, 0, p1_));
-    std::cout << "Orge added succesfully" << std::endl;
     inventory_ = new Inventory(p1_);
-    std::cout << "inventory created" << std::endl;
     clock_.restart();
-    std::cout << "clock started" << std::endl;
     isRunning_ = true;
-    std::cout << "game is running" << std::endl;
 }
 Game::~Game(){}
 
@@ -167,9 +160,9 @@ void Game::render()
 
 void Game::clean()
 {
-    delete &dungeon_;
-    delete inventory_;
     delete p1_;
+    delete inventory_;
+    delete dungeon_;
     window_->close();
     //memory cleanup on game close, will be created later...
 }

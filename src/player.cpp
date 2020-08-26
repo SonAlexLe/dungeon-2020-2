@@ -27,9 +27,9 @@ void Player::Draw(sf::RenderWindow* w) {
     p_box.setOutlineThickness(2);
     p_box.setOutlineColor(sf::Color::Red);
     p_box.setFillColor(sf::Color::Transparent);
-    p_box.setPosition(currPos_);
+    p_box.setPosition(sf::Vector2f(currPos_.x*3, currPos_.y*3));
     w->draw(p_box);
-    sprite_.setPosition(currPos_);
+    sprite_.setPosition(sf::Vector2f(currPos_.x*3, currPos_.y*3));
     w->draw(sprite_);
 }
 

@@ -103,10 +103,10 @@ void Game::update()
     p1_->update(elapsed);
     for(auto i : p1_->GetRoom()->GetEnemies()) {
         i->update(elapsed);
-        if(i->GetHP() <= 0) {
-            score_ += 1;
-            delete i;
-        }
+        // if(i->GetHP() <= 0) {
+        //     score_ += 1;
+        //     delete i;
+        // }
     }
     sf::Vector2f bounds = p1_->GetRoom()->GetSize();
     for(auto i : p1_->GetRoom()->GetProjectiles()){
@@ -118,14 +118,10 @@ void Game::update()
             i->setActive(false);
         }
     }
-    
-
     //go through all the active entities in the current room and move them up to their speed.
     //enemy AI should happen here
     
     //check for entity & projectile collision
-    //
-
     lastUpdate_ = time;
 }
 void Game::render()
@@ -136,12 +132,13 @@ void Game::render()
     sf::RectangleShape room(sf::Vector2f(roomSize.x*3,roomSize.y*3));
     room.setFillColor(sf::Color::White);
     window_->draw(room);
-    p1_->GetSprite().setPosition(sf::Vector2f(p1_->GetPosition().x*3,p1_->GetPosition().y*3));
-    window_->draw(p1_->GetSprite());
-    for(auto i : p1_->GetRoom()->GetEnemies()) {
-        
-        i->GetSprite().setPosition(sf::Vector2f(i->GetPosition().x*3,i->GetPosition().y*3));
-        window_->draw(i->GetSprite());
+    // p1_->GetSprite().setPosition(sf::Vector2f(p1_->GetPosition().x*3,p1_->GetPosition().y*3));
+    // window_->draw(p1_->GetSprite());
+    p1_->Draw(window_);
+    for(auto i : p1_->GetRoom()->GetEnemies()) { 
+        // i->GetSprite().setPosition(sf::Vector2f(i->GetPosition().x*3,i->GetPosition().y*3));
+        // window_->draw(i->GetSprite());
+        i->Draw(window_);
     }
     for(auto x : p1_->GetRoom()->GetProjectiles()){
         if(x->isActive()){

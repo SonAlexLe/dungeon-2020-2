@@ -17,9 +17,9 @@ void Monster::Draw(sf::RenderWindow* w) {
     m_box.setOutlineThickness(2);
     m_box.setOutlineColor(sf::Color::Red);
     m_box.setFillColor(sf::Color::Transparent);
-    m_box.setPosition(currPos_);
+    m_box.setPosition(sf::Vector2f(currPos_.x*3, currPos_.y*3));
     w->draw(m_box);
-    sprite_.setPosition(currPos_);
+    sprite_.setPosition(sf::Vector2f(currPos_.x*3, currPos_.y*3));
     w->draw(sprite_);
 }
 
@@ -42,12 +42,16 @@ Orc::Orc(float x, float y, Player* p)
 }
 
 void Orc::update(sf::Time dt) {
-    if(currPos_.x >= p_->GetRoom()->GetWidth() && currPos_.y >= p_->GetRoom()->GetHeight())
-        velocity_ = sf::Vector2f(-ORC_SPEED, -ORC_SPEED);
-    if(currPos_.x < 0 && currPos_.y < 0) {
-        velocity_ = sf::Vector2f(ORC_SPEED, ORC_SPEED);
+    if (!sprite_.getGlobalBounds().intersects(p_->GetSprite().getGlobalBounds())) {
+        if(currPos_.x >= p_->GetRoom()->GetWidth() && currPos_.y >= p_->GetRoom()->GetHeight())
+            velocity_ = sf::Vector2f(-ORC_SPEED, -ORC_SPEED);
+        else if(currPos_.x < 0 && currPos_.y < 0)
+            velocity_ = sf::Vector2f(ORC_SPEED, ORC_SPEED);
+        currPos_ += dt.asSeconds() * velocity_;
+    } else {
+        hp_--;
+        p_->SetHP(p_->GetHP()-1);
     }
-    currPos_ += dt.asSeconds() * velocity_;
 }
 
 Orge::Orge(float x, float y, Player* p)
@@ -59,9 +63,15 @@ Orge::Orge(float x, float y, Player* p)
 }
 
 void Orge::update(sf::Time dt) {
-    sf::Vector2f target = p_->GetPosition();
-    sf::Vector2f diff = target - currPos_;
-    diff = diff/(float)sqrt(diff.x*diff.x + diff.y*diff.y);
-    velocity_ = diff * ORGE_SPEED;
+    if (sprite_.getGlobalBounds().intersects(p_->GetSprite().getGlobalBounds())) {
+        hp_--;
+        p_->SetHP(p_->GetHP()-3);
+        velocity_ = sf::Vector2f(0.f, 0.f);
+    } else {
+        sf::Vector2f target = p_->GetPosition();
+        sf::Vector2f diff = target - currPos_;
+        diff = diff/(float)sqrt(diff.x*diff.x + diff.y*diff.y);
+        velocity_ = diff * ORGE_SPEED;
+    }
     currPos_ += dt.asSeconds() * velocity_;
 }

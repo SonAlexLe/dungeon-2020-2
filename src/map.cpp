@@ -4,8 +4,8 @@
 
 
 Map::Map(int difficulty, Player* p) : difficulty_(difficulty), p_(p) {
-    rooms_.push_back(new Room);
-    // map_init();
+    // rooms_.push_back(new Room);
+    map_init();
 }
 
 Room* Map::GetStartingRoom() {
@@ -19,11 +19,19 @@ void Map::map_init() {
     int nofRooms = 10 + difficulty_;
 
     //Init layout and starting room
-    Room* map[9][9] = { {nullptr} };
+    Room* map[5][5] = { {nullptr} };
     Room* start = new Room();
     double size = start->GetHeight();
-    map[5][5] = start;
+    map[2][2] = start;
     rooms_.push_back(start);
+
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
+            if (map[i][j] == nullptr) { std::cout << "#"; } else { std::cout << "X"; } 
+        }
+        std::cout << std::endl;
+    }
+    std::cout << std::endl;
 
     //Create a random seed
     srand(time(nullptr));
@@ -31,28 +39,49 @@ void Map::map_init() {
     while (nofRooms > 0) {
 
         //Pick a random cell in array
-        int x = rand() % 9;
-        int y = rand() % 9;
+        int x = rand() % 5;
+        int y = rand() % 5;
+
+        // std::cout << "Accessing " << x << " " << y << std::endl;
 
         if(map[x][y] == nullptr) {
+ 
+            // std::cout << "Found nullptr" << std::endl;
 
             //Where 1 is north, 2 is east, 3 is south, 4 is west
             std::list<int>neighbors;
 
             //Count how many neighbors the cell has
-            if ( (x != 8) && map[x + 1][y] != nullptr) { neighbors.push_back(2);}
-            if ( (x != 0) && map[x - 1][y] != nullptr) { neighbors.push_back(4);}
-            if ( (y != 8) && map[x][y + 1] != nullptr) { neighbors.push_back(1);}
-            if ( (y != 0) && map[x][y - 1] != nullptr) { neighbors.push_back(3);}
+            if ( (x != 4) && map[x + 1][y] != nullptr) { neighbors.push_back(3);} // Check South
+            if ( (x != 0) && map[x - 1][y] != nullptr) { neighbors.push_back(1);} // Check North
+
+            if ( (y != 4) && map[x][y + 1] != nullptr) { neighbors.push_back(2);} // Check East
+            if ( (y != 0) && map[x][y - 1] != nullptr) { neighbors.push_back(4);} // Check West
+
+            /*std::cout << "Cell has: " << neighbors.size() << " neighbros ";
+            if (!neighbors.empty()) {
+                std::cout << "And they are: ";
+                for (auto i : neighbors) {
+                    std::cout << i << " ";
+            }
+            }
+            std::cout << std::endl;
+            */
+            
 
             //The maximum amount of neighbors can be tweaked to change the layout of the maps
-            if(neighbors.size() > 1 && neighbors.size() < 3) {
+            if(neighbors.size() >= 1 && neighbors.size() < 3) {
 
                 //All conditions are met, create a room #####UNCOMMENT THIS TO TEST ROOM_INIT####
                 // Room* room = Map::room_init();
 
                 Room* room = new Room;
                 map[x][y] = room;
+                rooms_.push_back(room);
+
+                std::cout << "Room created @ " << x << " " << y  << std::endl;
+
+
 
                 /*Generate item room when there are X rooms to generate
                 if (nofRooms == 6) {
@@ -71,70 +100,77 @@ void Map::map_init() {
                 }
 
                 */
-
                 nofRooms--;
-                std::cout << nofRooms;
+                std::cout << nofRooms << std::endl;
 
-                //Setup connections for the new room
-                for (int dir : neighbors) {
-                    switch (dir) {
-
-                        //For a northern connection c1 is on the northern wall and c2 on the southern wall (Coordinates are placeholder)
-                        case 1: {
+                //Setup connections to neighboring rooms
+                for (auto it = neighbors.begin(); it != neighbors.end(); it++) {
+                    if (*it == 1 ) {
+                            std::cout << "Creating north connections"  << std::endl;
                             Connection* c1 = new Connection(size / 2, 0.0, p_);
                             Connection* c2 = new Connection(size / 2, size, p_);
 
-                            room->AddConnection(c1);
-                            room->SetNConn(map[x][y + 1]);
+                            Room* neighbor = map[x - 1][y];
 
-                            map[x][y + 1]->AddConnection(c2);
-                            map[x][y + 1]->SetSConn(room);
+                            room->AddConnection(c1);
+                            room->SetNConn(neighbor);
+
+                            neighbor->AddConnection(c2);
+                            neighbor->SetSConn(room);
 
                         }
-                        //For an eastern connection c1 is east and c2 west
-                        case 2: {
+                    if (*it == 2) {
+                            std::cout << "Creating east connections"  << std::endl;
                             Connection* c1 = new Connection(size, size / 2, p_);
                             Connection* c2 = new Connection(0.0, size / 2, p_);
 
-                            room->AddConnection(c1);
-                            room->SetEConn(map[x - 1][y]);
+                            Room* neighbor = map[x][y + 1];
 
-                            map[x - 1][y]->AddConnection(c2);
-                            map[x - 1][y]->SetWConn(room);
+                            room->AddConnection(c1);
+                            room->SetNConn(neighbor);
+
+                            neighbor->AddConnection(c2);
+                            neighbor->SetSConn(room);
                         }
-                        //For a southern connection c1 is south and c2 north
-                        case 3: {
+                    if (*it == 3) {
+                            std::cout << "Creating south connections"  << std::endl;
                             Connection* c1 = new Connection(size / 2, size, p_);
                             Connection* c2 = new Connection(size / 2, 0.0, p_);
 
-                            room->AddConnection(c1);
-                            room->SetSConn(map[x][y - 1]);
+                            Room* neighbor = map[x + 1][y];
 
-                            map[x][y - 1]->AddConnection(c2);
-                            map[x][y - 1]->SetNConn(room);
+                            room->AddConnection(c1);
+                            room->SetNConn(neighbor);
+
+                            neighbor->AddConnection(c2);
+                            neighbor->SetSConn(room);
                         }
-                        //For a western connection c1 is west and c2 east
-                        case 4: {
+                    if (*it == 4) {
+                        {
+                            std::cout << "Creating west connections"  << std::endl;
                             Connection* c1 = new Connection(0.0, size / 2, p_);
                             Connection* c2 = new Connection(size, size / 2, p_);
 
-                            room->AddConnection(c1);
-                            room->SetWConn(map[x + 1][y]);
+                            Room* neighbor = map[x][y - 1];
 
-                            map[x + 1][y]->AddConnection(c2);
-                            map[x + 1][y]->SetEConn(room);
+                            room->AddConnection(c1);
+                            room->SetNConn(neighbor);
+
+                            neighbor->AddConnection(c2);
+                            neighbor->SetSConn(room);
                         }
                     }
                 }
+                neighbors.clear();
+                for (int i = 0; i < 5; i++) {
+                    for (int j = 0; j < 5; j++) {
+                        if (map[i][j] == nullptr) { std::cout << "#"; } else { std::cout << "X"; } 
+                    }
+                    std::cout << std::endl;
+                }
             }
-
+            else { neighbors.clear(); }
         }
-    }
-    for (int i = 0; i < 9; i++) {
-        for (int j = 0; j < 9; j++) {
-            if (map[i][j] == nullptr) { std::cout << "#"; } else { std::cout << "X"; } 
-        }
-        std::cout << std::endl;
     }
 }
 //Fills room with monsters

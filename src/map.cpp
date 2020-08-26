@@ -72,8 +72,8 @@ void Map::map_init() {
             //The maximum amount of neighbors can be tweaked to change the layout of the maps
             if(neighbors.size() >= 1 && neighbors.size() < 3) {
 
-                //All conditions are met, create a room #####UNCOMMENT THIS TO TEST ROOM_INIT####
-                // Room* room = Map::room_init();
+                //All conditions are met, create a room
+                // Room* room = room_init();
 
                 Room* room = new Room;
                 map[x][y] = room;
@@ -107,8 +107,8 @@ void Map::map_init() {
                 for (auto it = neighbors.begin(); it != neighbors.end(); it++) {
                     if (*it == 1 ) {
                             std::cout << "Creating north connections"  << std::endl;
-                            Connection* c1 = new Connection(size / 2, 0.0, p_);
-                            Connection* c2 = new Connection(size / 2, size, p_);
+                            Connection* c1 = new Connection(size / 2, 0.0, "north", p_);
+                            Connection* c2 = new Connection(size / 2, size, "south", p_);
 
                             Room* neighbor = map[x - 1][y];
 
@@ -121,8 +121,8 @@ void Map::map_init() {
                         }
                     if (*it == 2) {
                             std::cout << "Creating east connections"  << std::endl;
-                            Connection* c1 = new Connection(size, size / 2, p_);
-                            Connection* c2 = new Connection(0.0, size / 2, p_);
+                            Connection* c1 = new Connection(size, size / 2, "east", p_);
+                            Connection* c2 = new Connection(0.0, size / 2, "west", p_);
 
                             Room* neighbor = map[x][y + 1];
 
@@ -134,8 +134,8 @@ void Map::map_init() {
                         }
                     if (*it == 3) {
                             std::cout << "Creating south connections"  << std::endl;
-                            Connection* c1 = new Connection(size / 2, size, p_);
-                            Connection* c2 = new Connection(size / 2, 0.0, p_);
+                            Connection* c1 = new Connection(size / 2, size, "south", p_);
+                            Connection* c2 = new Connection(size / 2, 0.0, "north", p_);
 
                             Room* neighbor = map[x + 1][y];
 
@@ -148,8 +148,8 @@ void Map::map_init() {
                     if (*it == 4) {
                         {
                             std::cout << "Creating west connections"  << std::endl;
-                            Connection* c1 = new Connection(0.0, size / 2, p_);
-                            Connection* c2 = new Connection(size, size / 2, p_);
+                            Connection* c1 = new Connection(0.0, size / 2, "west", p_);
+                            Connection* c2 = new Connection(size, size / 2, "east", p_);
 
                             Room* neighbor = map[x][y - 1];
 
@@ -176,22 +176,26 @@ void Map::map_init() {
 //Fills room with monsters
 Room* Map::room_init() {
 
-    Room* room = new Room;
+    Player* p = rooms_.front()->GetPlayer();
+    int size = rooms_.front()->GetWidth();
+    srand(time(nullptr));
 
+    Room* room = new Room;
 
     //Pick a monster randomly from monsters
     //Expand as more monsters are added
-    char monsters[1] = { 'O' };
-    srand(time(nullptr));
-    Player* p = rooms_.front()->GetPlayer();
+
+    char monsters[2] = { 'O', 'G' };
+
 
     //Coords for the placements of monsters, (4 monsters in corners)
+    /*
     std::list<sf::Vector2f> coords = { sf::Vector2f(10.0, 10.0), sf::Vector2f(90.0, 10.0), sf::Vector2f(10.0, 90.0), sf::Vector2f(90.0, 90.0) };
 
 
     for (auto c : coords) {
 
-        int idx = rand() % 1;
+        int idx = rand() % 2;
 
         switch (monsters[idx]) {
 
@@ -200,7 +204,34 @@ Room* Map::room_init() {
                room->AddEnemy(orc);
             }
 
+            case 'G': {
+                Orge* orge = new Orge(c.x, c.y, p);
+                room->AddEnemy(orge);
+            }
+
         }
+    }*/
+    //Alternatively if monsters are just placed willy nilly
+
+    int nofMonsters = 3 + difficulty_;
+
+    for (int i = 0; i < nofMonsters; i++) {
+
+        sf::Vector2f pos = sf::Vector2f(rand() % size, rand() % size);
+
+        switch (monsters[rand() % 2]) {
+
+            case 'O': {
+                Orc* orc = new Orc(pos.x, pos.y, p); 
+               room->AddEnemy(orc);
+            }
+
+            case 'G': {
+                Orge* orge = new Orge(pos.x, pos.y, p);
+                room->AddEnemy(orge);
+            }
+
+        }       
     }
     return room;
 }

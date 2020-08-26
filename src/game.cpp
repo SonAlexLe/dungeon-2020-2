@@ -8,7 +8,6 @@ Game::Game(sf::RenderWindow *window) : score_(0), difficulty_(0), window_(window
     p1_->SetRoom(dungeon_->GetStartingRoom());
     // p1_->GetRoom()->AddEnemy(new Orc(100, 100, p1_));
     // p1_->GetRoom()->AddEnemy(new Orge(0, 0, p1_));
-    p1_->GetRoom()->AddConnection(new Connection(50, 50, p1_));
     inventory_ = new Inventory(p1_);
     if (!gamefont_.loadFromFile("src/sprites/arial.ttf"))
     {

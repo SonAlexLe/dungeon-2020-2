@@ -17,7 +17,7 @@ class Connection : public Entity {
 public:
     Connection();
 
-    Connection(float x, float y, Player* p);
+    Connection(float x, float y, std::string f, Player* p);
     
     void unlock();
 
@@ -36,6 +36,8 @@ public:
 private:
 
     bool locked_;
+
+    std::string facing_;
 
     sf::Texture texture_; 
 

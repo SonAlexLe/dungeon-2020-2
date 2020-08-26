@@ -42,6 +42,10 @@ public:
     void accDown(bool);
     void accRight(bool);
 
+    void SetHP(int hp) { hp_ = hp; }
+
+    int GetHP() { return hp_; }
+
 private:
 
     sf::Texture texture_;
@@ -52,13 +56,15 @@ private:
 
     Room* room_;
 
-    //for tracking reload rate
-    float reload_;
-
     //input handling, by Leo
     bool accUp_;
     bool accLeft_;
     bool accRight_;
     bool accDown_;
+
+    //for tracking reload rate
+    float reload_;
+
+    int hp_;
 
 };

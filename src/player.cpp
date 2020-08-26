@@ -4,6 +4,7 @@
 #define ACCEL_RATE 30.f
 #define ACCEL_RATE_NEG -ACCEL_RATE
 #define DECCEL_RATE 20.f
+#define PLR_HP 500
 
 //initial velocity is 0, default constructor
 //TODO: change intitial position of projectile is 0, 0
@@ -13,7 +14,7 @@
 }
 */
 Player::Player(Room* room) : room_(room), Entity(room->GetWidth()/2,room->GetHeight()/2, sf::Vector2f(0,0)), 
-accDown_(false), accUp_(false), accLeft_(false), accRight_(false), reload_(0)
+accDown_(false), accUp_(false), accLeft_(false), accRight_(false), reload_(0), hp_(PLR_HP)
 {
     if (!texture_.loadFromFile("src/Sprites/player.png")) std::cout << "sprite error" << std::endl;
     sprite_.setTexture(texture_);
@@ -69,9 +70,6 @@ void Player::update(sf::Time dt) {
             velocity_.y -= DECCEL_RATE * dt.asSeconds();
         }
     }
-    
-
-
     if(accRight_){
         velocity_.x += std::min(ACCEL_RATE * dt.asSeconds(), MAX_X - velocity_.x);
     }
@@ -84,65 +82,7 @@ void Player::update(sf::Time dt) {
     if(reload_ > 0) {
         reload_ -= std::min(dt.asSeconds(),reload_);
     }
-/* obsolete code, included above                
-        } else { // slowing down if a key is not pressed
-            switch(i.first) {
-                case sf::Keyboard::W:
-                    if (velocity_.y > -MAX_Y) velocity_.y += ACCEL_RATE_NEG * dt.asSeconds();
-                    else velocity_.y = -MAX_Y;
-                    break;
-                case sf::Keyboard::A:
-                    if (velocity_.x > -MAX_X) velocity_.x += ACCEL_RATE_NEG * dt.asSeconds();
-                    else velocity_.x = -MAX_X;
-                    break;
-                case sf::Keyboard::S:
-                    if (velocity_.y < MAX_Y) velocity_.y += ACCEL_RATE * dt.asSeconds();
-                    else velocity_.y = MAX_Y;
-                    break;
-                case sf::Keyboard::D:
-                    if (velocity_.x < MAX_X) velocity_.x += ACCEL_RATE * dt.asSeconds();
-                    else velocity_.x = MAX_X;
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-    */
-   /* below code has been included in the if else statements above
-    // velocity cannot be too high
-    if (velocity_.y < -MAX_Y) velocity_.y = -MAX_Y;
-    if (velocity_.x < -MAX_X) velocity_.x = -MAX_X;
-    if (velocity_.y > MAX_Y) velocity_.y = MAX_Y;
-    if (velocity_.x > MAX_X) velocity_.x = MAX_X;
-    */
-    // updating the position
    currPos_ += 0.5f * dt.asSeconds() * (velocity_ + v0);
-/* for now ignore mouse input
-    for(auto i : mousebutts) {
-        if(i.second) { // if a mouse button is pressed
-            switch(i.first) {
-                case sf::Mouse::Left:
-                    projectile_.SetVelocity(this->velocity_ * 2.f);
-                    //sets the projectile's position to the player's current position
-                    if (projectile_.GetPosition().x == 0 && projectile_.GetPosition().y == 0)
-                    projectile_.SetPosition(GetPosition());
-                    break;
-                default:
-                    break;
-            }
-        } else { // if a mouse button is not pressed
-            switch(i.first) {
-                case sf::Mouse::Left:
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-    */
-    //also updates the projectile's position
-    //projectile_.SetPosition(projectile_.GetPosition() + projectile_.GetVelocity());
     if(DEBUGGING){
         std::cout << accUp_<< " " <<accDown_<<" " << accLeft_<<" "<<accRight_<<" "<< std::endl;
     }

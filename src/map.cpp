@@ -124,7 +124,6 @@ void Map::map_init() {
                     }
                 }
             }
-
         }
     }
 }

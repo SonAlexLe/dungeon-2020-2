@@ -24,12 +24,12 @@ void Map::map_init() {
     map[2][2] = start;
     rooms_.push_back(start);
 
-    for (int i = 0; i < 5; i++) {
+    /* for (int i = 0; i < 5; i++) {
         for (int j = 0; j < 5; j++) {
             if (map[i][j] == nullptr) { std::cout << "#"; } else { std::cout << "X"; } 
         }
         std::cout << std::endl;
-    }
+    } */
     std::cout << std::endl;
 
     //Create a random seed
@@ -161,12 +161,12 @@ void Map::map_init() {
                     }
                 }
                 neighbors.clear();
-                for (int i = 0; i < 5; i++) {
+            /*    for (int i = 0; i < 5; i++) {
                     for (int j = 0; j < 5; j++) {
                         if (map[i][j] == nullptr) { std::cout << "#"; } else { std::cout << "X"; } 
                     }
                     std::cout << std::endl;
-                }
+                } */
             }
             else { neighbors.clear(); }
         }

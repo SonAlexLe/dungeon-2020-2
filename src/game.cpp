@@ -110,9 +110,12 @@ void Game::update()
     }
     sf::Vector2f bounds = p1_->GetRoom()->GetSize();
     for(auto i : p1_->GetRoom()->GetProjectiles()){
-        sf::Vector2f pPos = i->GetPosition();
-        if(pPos.x < 0 || pPos.x > bounds.x || pPos.y < 0 ||pPos.y > bounds.y){
-            delete i;
+        sf::Vector2f Ppos = i->GetPosition();
+        if(Ppos.x >= 0 && Ppos.y >= 0 && Ppos.x < bounds.x && Ppos.y < bounds.y && i->isActive()){
+            i->update(elapsed);
+        }
+        else{
+            i->setActive(false);
         }
     }
     
@@ -150,10 +153,12 @@ void Game::render()
         window_->draw(i->GetSprite());
     }
     for(auto x : p1_->GetRoom()->GetProjectiles()){
-        sf::CircleShape pew(x->GetDamage());
-        pew.setFillColor(sf::Color::Blue);
-        pew.setPosition(x->GetPosition());
-        window_->draw(pew);
+        if(x->isActive()){
+            sf::CircleShape pew(x->GetDamage());
+            pew.setFillColor(sf::Color::Blue);
+            pew.setPosition(x->GetPosition());
+            window_->draw(pew);
+        }
     }
     window_->display();
 }

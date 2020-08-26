@@ -45,6 +45,8 @@ public:
     
     std::list<Projectile*>& GetProjectiles();
 
+    void CheckProjectiles();
+
     void AddProjectile(Projectile*);
 
     void RemoveProjectile(Projectile*);

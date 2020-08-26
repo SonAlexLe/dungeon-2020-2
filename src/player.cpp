@@ -21,6 +21,18 @@ accDown_(false), accUp_(false), accLeft_(false), accRight_(false), reload_(0), h
     sprite_.setScale(sf::Vector2f(0.1f, 0.1f));
 }
 
+void Player::Draw(sf::RenderWindow* w) {
+    sf::FloatRect p_rec = sprite_.getGlobalBounds();
+    sf::RectangleShape p_box(sf::Vector2f(p_rec.width, p_rec.height));
+    p_box.setOutlineThickness(2);
+    p_box.setOutlineColor(sf::Color::Red);
+    p_box.setFillColor(sf::Color::Transparent);
+    p_box.setPosition(currPos_);
+    w->draw(p_box);
+    sprite_.setPosition(currPos_);
+    w->draw(sprite_);
+}
+
 sf::Sprite& Player::GetSprite() { return sprite_; }
 
 const std::string Player::GetSpriteName() const { return "src/Sprites/player.png"; }

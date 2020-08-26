@@ -46,6 +46,8 @@ public:
 
     int GetHP() { return hp_; }
 
+    void Draw(sf::RenderWindow*);
+
 private:
 
     sf::Texture texture_;

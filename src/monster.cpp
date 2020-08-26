@@ -11,6 +11,18 @@ Monster::Monster(float x, float y, sf::Vector2f velocity, int hp, Player* p)
 
 const std::string Monster::GetSpriteName() const { return "monster.png"; }
 
+void Monster::Draw(sf::RenderWindow* w) {
+    sf::FloatRect m_rec = sprite_.getGlobalBounds();
+    sf::RectangleShape m_box(sf::Vector2f(m_rec.width, m_rec.height));
+    m_box.setOutlineThickness(2);
+    m_box.setOutlineColor(sf::Color::Red);
+    m_box.setFillColor(sf::Color::Transparent);
+    m_box.setPosition(currPos_);
+    w->draw(m_box);
+    sprite_.setPosition(currPos_);
+    w->draw(sprite_);
+}
+
 void Monster::SetHP(int hp) { hp_ = hp; }
 
 int Monster::GetHP() { return hp_; }

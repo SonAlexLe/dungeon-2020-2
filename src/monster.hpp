@@ -11,6 +11,8 @@ public:
 
     Monster(float x, float y, sf::Vector2f velocity, int hp, Player* p);
 
+    void Draw(sf::RenderWindow*);
+
     const std::string GetSpriteName() const;
 
     sf::Sprite& GetSprite();

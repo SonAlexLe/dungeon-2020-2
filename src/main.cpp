@@ -13,14 +13,20 @@
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(900, 900), "TEST GAME");
+    sf::RenderWindow window(sf::VideoMode(900, 900), "Dungeons I");
+    //create and initialize game object
     Game game(&window);
+
     while(game.isRunning())
     {
+        //handle player input
         game.input();
+        //update game entities
         game.update();
+        //draw graphics
         game.render();
     }
+    //clean up memory
     game.clean();
 
 }

@@ -19,13 +19,17 @@ public:
 
     int GetHP();
 
+    bool isActive();
+
     void SetHP(int);
 
     void SetPlayer(Player*);
 
     Player* GetPlayer();
 
-    protected:
+protected:
+
+    bool active_;
 
     sf::Texture texture_;
 

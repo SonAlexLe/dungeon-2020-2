@@ -1,5 +1,5 @@
 #include "monster.hpp"
-#define ORC_SPEED 30.f
+#define ORC_SPEED 15.f
 #define ORGE_SPEED 10.f
 #define ORC_HP 5
 #define ORGE_HP 10
@@ -7,7 +7,7 @@
 Monster::Monster() {}
 
 Monster::Monster(float x, float y, sf::Vector2f velocity, int hp, Player* p)
-    : Entity(x, y, velocity), hp_(hp), p_(p) {}
+    : Entity(x, y, velocity), hp_(hp), p_(p), active_(true) {}
 
 const std::string Monster::GetSpriteName() const { return "monster.png"; }
 
@@ -15,7 +15,7 @@ void Monster::Draw(sf::RenderWindow* w) {
     sf::FloatRect m_rec = sprite_.getGlobalBounds();
     sf::RectangleShape m_box(sf::Vector2f(m_rec.width, m_rec.height));
     m_box.setOutlineThickness(2);
-    m_box.setOutlineColor(sf::Color::Green);
+    m_box.setOutlineColor(sf::Color::Transparent);
     m_box.setFillColor(sf::Color::Transparent);
     m_box.setPosition(sf::Vector2f(currPos_.x*3, currPos_.y*3));
     w->draw(m_box);
@@ -26,6 +26,8 @@ void Monster::Draw(sf::RenderWindow* w) {
 void Monster::SetHP(int hp) { hp_ = hp; }
 
 int Monster::GetHP() { return hp_; }
+
+bool Monster::isActive() {return active_;}
 
 void Monster::SetPlayer(Player* p) { p_ = p; }
 
@@ -52,6 +54,11 @@ void Orc::update(sf::Time dt) {
         hp_--;
         p_->SetHP(p_->GetHP()-1);
     }
+    //when a monster dies it disappears and gives the player score
+    if(hp_ <= 0) {
+        active_ = false;
+        p_->AddScore(5);
+    }
 }
 
 Orge::Orge(float x, float y, Player* p)
@@ -74,4 +81,9 @@ void Orge::update(sf::Time dt) {
         velocity_ = diff * ORGE_SPEED;
     }
     currPos_ += dt.asSeconds() * velocity_;
+    //when a monster dies it disappears and gives the player score
+    if(hp_ <= 0) {
+        active_ = false;
+        p_->AddScore(20);
+    }
 }

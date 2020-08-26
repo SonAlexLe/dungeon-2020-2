@@ -9,11 +9,6 @@
 
 //Map is a group of rooms that are connected by "Connection"-entities.
 
-//Another simpler implementation would be to initialize a 2D grid as an array, have the starting room be in the middle of the grid, then create a room on one of its neighbors and 
-// recursively repeat on that neighbor and its neighbors until the desired amount of rooms have been placed.
- 
-
-
 //player object should have reference to the room it is in as a variable.
 //rooms should be adressable individually
 

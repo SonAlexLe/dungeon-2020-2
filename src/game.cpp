@@ -167,6 +167,9 @@ void Game::render()
 
 void Game::clean()
 {
+    delete &dungeon_;
+    delete inventory_;
+    delete p1_;
     window_->close();
     //memory cleanup on game close, will be created later...
 }

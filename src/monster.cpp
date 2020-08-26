@@ -7,7 +7,7 @@
 Monster::Monster() {}
 
 Monster::Monster(float x, float y, sf::Vector2f velocity, int hp, Player* p)
-    : Entity(x, y, velocity), hp_(hp), p_(p) {}
+    : Entity(x, y, velocity), hp_(hp), p_(p), active_(true) {}
 
 const std::string Monster::GetSpriteName() const { return "monster.png"; }
 
@@ -26,6 +26,8 @@ void Monster::Draw(sf::RenderWindow* w) {
 void Monster::SetHP(int hp) { hp_ = hp; }
 
 int Monster::GetHP() { return hp_; }
+
+bool Monster::isActive() {return active_;}
 
 void Monster::SetPlayer(Player* p) { p_ = p; }
 
@@ -52,6 +54,11 @@ void Orc::update(sf::Time dt) {
         hp_--;
         p_->SetHP(p_->GetHP()-1);
     }
+    //when a monster dies it disappears and gives the player score
+    if(hp_ <= 0) {
+        active_ = false;
+        p_->AddScore(5);
+    }
 }
 
 Orge::Orge(float x, float y, Player* p)
@@ -74,4 +81,9 @@ void Orge::update(sf::Time dt) {
         velocity_ = diff * ORGE_SPEED;
     }
     currPos_ += dt.asSeconds() * velocity_;
+    //when a monster dies it disappears and gives the player score
+    if(hp_ <= 0) {
+        active_ = false;
+        p_->AddScore(20);
+    }
 }

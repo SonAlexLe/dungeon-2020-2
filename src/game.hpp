@@ -37,7 +37,6 @@ public:
 
 private:
     bool isRunning_;
-    int score_;
     int difficulty_;
 
     sf::RenderWindow* window_;

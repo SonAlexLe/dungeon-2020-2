@@ -4,7 +4,7 @@
 #define ACCEL_RATE 80.f
 #define ACCEL_RATE_NEG -ACCEL_RATE
 #define DECCEL_RATE 20.f
-#define PLR_HP 500
+#define PLR_HP 10
 
 Player::Player(Room* room) : room_(room), Entity(room->GetWidth()/2,room->GetHeight()/2, sf::Vector2f(0,0)), 
 accDown_(false), accUp_(false), accLeft_(false), accRight_(false), reload_(0), hp_(PLR_HP)

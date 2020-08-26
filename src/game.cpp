@@ -1,6 +1,6 @@
 #include "game.hpp"
 
-Game::Game(sf::RenderWindow *window) : score_(0), difficulty_(0), window_(window) 
+Game::Game(sf::RenderWindow *window) : difficulty_(0), window_(window) 
 {
     //Generate a new dungeon floor as the starting map
     dungeon_ = new Map(difficulty_);
@@ -116,7 +116,8 @@ void Game::update()
         p1_->update(elapsed);
         //update all enemies within the active room
         for(auto i : p1_->GetRoom()->GetEnemies()) {
-            i->update(elapsed);
+            if(i->isActive())
+                {i->update(elapsed);}
         }
         //update all projectiles, bounds is used for checking projectile collision with walls
         sf::Vector2f bounds = p1_->GetRoom()->GetSize();
@@ -163,7 +164,7 @@ void Game::render()
 
     //draw all enemies with more than 0hp
     for(auto i : p1_->GetRoom()->GetEnemies()) { 
-        if (i->GetHP() > 0) i->Draw(window_);
+        if (i->isActive()) {i->Draw(window_);}
     }
 
     //draw all active projectiles
@@ -175,16 +176,16 @@ void Game::render()
     
     //generate and draw score & hp text on screen
     std::stringstream ss;
-    ss<< "Score: " << score_;
+    ss<< "Score: " << p1_->GetScore();
     sf::Text score;
     score.setFont(gamefont_);
     score.setString(ss.str());
     score.setCharacterSize(25);
-    score.setFillColor(sf::Color::Green);
+    score.setFillColor(sf::Color::Blue);
     score.setStyle(sf::Text::Underlined);
     window_->draw(score);
     std::stringstream ss2;
-    ss << "HP: "<< p1_->GetHP();
+    ss2 << "HP: "<< p1_->GetHP();
     sf::Text hp;
     hp.setFont(gamefont_);
     hp.setString(ss2.str());
@@ -194,6 +195,19 @@ void Game::render()
     hp.setPosition(0,30);
     window_->draw(hp);
     //display graphics
+
+    //GAME OVER TEXT FOR WHEN HP = 0
+    if(p1_->GetHP()<= 0){
+        sf::Text gameover;
+        gameover.setFont(gamefont_);
+        gameover.setCharacterSize(100);
+        gameover.setString("GAME OVER!");
+        gameover.setFillColor(sf::Color::Red);
+        gameover.setStyle(sf::Text::Underlined | sf::Text::Bold);
+        gameover.setPosition(sf::Vector2f(window_->getSize().x/2 - gameover.getGlobalBounds().width/2, window_->getSize().y/2 - gameover.getGlobalBounds().height/2));
+        window_->draw(gameover);
+    }
+
     window_->display();
 }
 

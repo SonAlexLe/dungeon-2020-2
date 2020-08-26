@@ -13,7 +13,7 @@
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(1280, 720), "TEST GAME");
+    sf::RenderWindow window(sf::VideoMode(900, 900), "TEST GAME");
     Game game(&window);
     while(game.isRunning())
     {

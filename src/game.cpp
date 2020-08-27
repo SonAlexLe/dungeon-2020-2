@@ -23,7 +23,7 @@ Game::Game(sf::RenderWindow *window) : difficulty_(0), window_(window)
     o->SetHP(0);
     p1_->GetRoom()->AddEnemy(o); */
 
-    p1_->GetRoom()->AddEnemy(std::make_shared<Orge>(100, 100, p1_));
+    p1_->GetRoom()->AddEnemy(std::make_shared<Orc>(100, 100, p1_));
     //Create an inventory
     inventory_ = std::make_shared<Inventory>(p1_);
     //Start the dT timer

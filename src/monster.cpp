@@ -38,14 +38,19 @@ Orc::Orc(float x, float y, std::shared_ptr<Player> p)
 {
     sprite_ = sf::Sprite(p->GetTexture(), sf::IntRect(32,160,16,16));
     sprite_.setScale(sf::Vector2f(2, 2));
+    auto bounds = sprite_.getGlobalBounds();
+    if (currPos_.x+bounds.width/3 > p_->GetRoom()->GetWidth()-1)
+        currPos_ = sf::Vector2f(p_->GetRoom()->GetWidth()-bounds.width/3, currPos_.y);
+    if (currPos_.y+bounds.height/3 > p_->GetRoom()->GetHeight()-1)
+        currPos_ = sf::Vector2f(currPos_.x, p_->GetRoom()->GetHeight()-bounds.height/3);
 }
 
 void Orc::update(sf::Time dt) {
     auto bounds = sprite_.getGlobalBounds();
     if (!p_->CanDie() || !bounds.intersects(p_->GetSprite().getGlobalBounds())) {
-        if((bounds.left+bounds.width)/3 > p_->GetRoom()->GetWidth()-1 && (bounds.top+bounds.height)/3 > p_->GetRoom()->GetHeight()-1)
+        if(currPos_.x+bounds.width/3 > p_->GetRoom()->GetWidth()-1 || currPos_.y+bounds.height/3 > p_->GetRoom()->GetHeight()-1)
             velocity_ = sf::Vector2f(-ORC_SPEED, -ORC_SPEED);
-        else if(currPos_.x < 1 && currPos_.y < 1)
+        else if(currPos_.x < 1 || currPos_.y < 1)
             velocity_ = sf::Vector2f(ORC_SPEED, ORC_SPEED);
         currPos_ += dt.asSeconds() * velocity_;
     } else {
@@ -68,6 +73,11 @@ Orge::Orge(float x, float y, std::shared_ptr<Player> p)
 {
     sprite_ = sf::Sprite(p->GetTexture(), sf::IntRect(101,181,22,28));
     sprite_.setScale(sf::Vector2f(2, 2));
+    auto bounds = sprite_.getGlobalBounds();
+    if (currPos_.x+bounds.width/3 > p_->GetRoom()->GetWidth()-1)
+        currPos_ = sf::Vector2f(p_->GetRoom()->GetWidth()-bounds.width/3, currPos_.y);
+    if (currPos_.y+bounds.height/3 > p_->GetRoom()->GetHeight()-1)
+        currPos_ = sf::Vector2f(currPos_.x, p_->GetRoom()->GetHeight()-bounds.height/3);
 }
 
 void Orge::update(sf::Time dt) {

@@ -13,7 +13,7 @@ void Monster::Draw(sf::RenderWindow* w) {
     sf::FloatRect m_rec = sprite_.getGlobalBounds();
     sf::RectangleShape m_box(sf::Vector2f(m_rec.width, m_rec.height));
     m_box.setOutlineThickness(2);
-    m_box.setOutlineColor(sf::Color::Transparent);
+    m_box.setOutlineColor(sf::Color::Red);
     m_box.setFillColor(sf::Color::Transparent);
     m_box.setPosition(sf::Vector2f(currPos_.x*3, currPos_.y*3));
     w->draw(m_box);
@@ -41,10 +41,11 @@ Orc::Orc(float x, float y, std::shared_ptr<Player> p)
 }
 
 void Orc::update(sf::Time dt) {
-    if (!p_->CanDie() || !sprite_.getGlobalBounds().intersects(p_->GetSprite().getGlobalBounds())) {
-        if(currPos_.x >= p_->GetRoom()->GetWidth() && currPos_.y >= p_->GetRoom()->GetHeight())
+    auto bounds = sprite_.getGlobalBounds();
+    if (!p_->CanDie() || !bounds.intersects(p_->GetSprite().getGlobalBounds())) {
+        if((bounds.left+bounds.width)/3 > p_->GetRoom()->GetWidth()-1 && (bounds.top+bounds.height)/3 > p_->GetRoom()->GetHeight()-1)
             velocity_ = sf::Vector2f(-ORC_SPEED, -ORC_SPEED);
-        else if(currPos_.x < 0 && currPos_.y < 0)
+        else if(currPos_.x < 1 && currPos_.y < 1)
             velocity_ = sf::Vector2f(ORC_SPEED, ORC_SPEED);
         currPos_ += dt.asSeconds() * velocity_;
     } else {

@@ -12,7 +12,7 @@ Player::Player(std::shared_ptr<Room> room, sf::Texture& t)
     reload_(0), hp_(PLR_HP), score_(0), immortal_(true), texture_(t)
 {
     //load player sprite
-    sprite_ = sf::Sprite(t, sf::IntRect(96,139,16,32));
+    sprite_ = sf::Sprite(t, sf::IntRect(96,139,16,22));
     sprite_.setScale(sf::Vector2f(2, 2));
 }
 

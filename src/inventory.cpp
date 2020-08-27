@@ -4,7 +4,7 @@
 Inventory::Inventory(std::shared_ptr<Player> player) : player_(player)
 {
     armor_ = std::make_shared<Armor>(0.f, 0.f, sf::Vector2f(0.f, 0.f), "T-shirt", player, 1);
-    weapon_ = std::make_shared<Weapon>(0.f, 0.f, sf::Vector2f(0.f,0.f), "Stick", player, 1);
+    weapon_ = std::make_shared<Weapon>(0.f, 0.f, sf::Vector2f(0.f, 0.f), "Stick", player, 1);
 }
 
 
@@ -64,15 +64,15 @@ void Inventory::addItem(std::shared_ptr<Item> newItem)
 }
 
 sf::Vector2f Inventory::Drop() { // Function to calculate the spot to drop the held item when a new one is picked up.
-    float unitX = player_->GetVelocity().x / (sqrt(pow(player_->GetVelocity().x , 2.0f) + pow(player_->GetVelocity().y, 2.0f)));
-    float unitY = player_->GetVelocity().y / (sqrt(pow(player_->GetVelocity().x , 2.0f) + pow(player_->GetVelocity().y, 2.0f)));
+    float unitX = player_->GetVelocity().x / (sqrt(pow(player_->GetVelocity().x, 2.0f) + pow(player_->GetVelocity().y, 2.0f)));
+    float unitY = player_->GetVelocity().y / (sqrt(pow(player_->GetVelocity().x, 2.0f) + pow(player_->GetVelocity().y, 2.0f)));
     unitX = unitX * (-1) * 115 + player_->GetSprite().getPosition().x;
     unitY = unitY * (-1) * 115 + player_->GetSprite().getPosition().y;
     sf::Vector2f v1(unitX, unitY);
     return v1;
 }
 
-void Inventory::useConsumable(){
+void Inventory::useConsumable() {
     if (heldConsumable_ != nullptr) {
         heldConsumable_->use();
         heldConsumable_ = nullptr;

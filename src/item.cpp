@@ -6,7 +6,7 @@
 #include <time.h>       
 
 // Item class functions below.
-Item::Item(float x, float y, sf::Vector2f vector, const std::string name, std::shared_ptr<Player> player, int value) : 
+Item::Item(float x, float y, sf::Vector2f vector, const std::string name, std::shared_ptr<Player> player, int value) :
     Entity(x, y, vector), name_(name), player_(player), armorDmgValue_(value)
 {
     equipped_ = false;

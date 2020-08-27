@@ -49,7 +49,7 @@ protected:
 
 class itemGenerator {
 public:
-    itemGenerator() {gameLvl_ = 1;};
+    itemGenerator() { gameLvl_ = 1; };
     ~itemGenerator() {};
 
     std::shared_ptr<Item> createEquipment(float x, float y, std::shared_ptr<Player> player); // Need to give the position for the created item and the player.

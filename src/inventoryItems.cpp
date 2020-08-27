@@ -38,7 +38,7 @@ void HealingPotion::load() {
     sprite_ = sf::Sprite(player_->GetTexture(), sf::IntRect(32, 160, 16, 16));
     sprite_.setScale(sf::Vector2f(2, 2));
 }
-void HealingPotion::use() { 
+void HealingPotion::use() {
     player_->SetHPtoMax();
     delete this;
 }

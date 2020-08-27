@@ -19,7 +19,7 @@ public:
 };
 
 
-class Weapon : public Item 
+class Weapon : public Item
 {
 public:
     Weapon(float x, float y, sf::Vector2f vector, const std::string name, std::shared_ptr<Player> player, int value);
@@ -36,7 +36,7 @@ private:
 };
 
 class HealingPotion : public Item // Single use item that heals the player to full hp.
-{ 
+{
 public:
     HealingPotion(float x, float y, sf::Vector2f vector, const std::string name, std::shared_ptr<Player> player, int value);
 
@@ -45,7 +45,7 @@ public:
     const std::string GetSpriteName() const { return "consumableOnTheGround.png"; }
 
     void use();
-    
+
     void load(); //Creates a texture that shows the armor on the ground. Loads the picture form a file named "armorOnTheGround.png".
 };
 

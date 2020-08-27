@@ -23,7 +23,7 @@ Game::Game(sf::RenderWindow *window) : difficulty_(0), window_(window)
     o->SetHP(0);
     p1_->GetRoom()->AddEnemy(o); */
 
-    p1_->GetRoom()->AddEnemy(std::make_shared<Orc>(100, 100, p1_));
+    p1_->GetRoom()->AddEnemy(std::make_shared<Orge>(100, 100, p1_));
     //Create an inventory
     inventory_ = std::make_shared<Inventory>(p1_);
     //Start the dT timer
@@ -253,11 +253,11 @@ void Game::render()
     
 
     //GAME OVER TEXT FOR WHEN THE PLAYER DIES
-    if(p1_->GetHP()<= 0){
+    if(p1_->GetHP() <= 0){
         sf::Text gameover;
         gameover.setFont(gamefont_);
         gameover.setCharacterSize(100);
-        gameover.setString("GAME OVER!");
+        gameover.setString("YOU DIE");
         gameover.setFillColor(sf::Color::Red);
         gameover.setStyle(sf::Text::Underlined | sf::Text::Bold);
         gameover.setPosition(sf::Vector2f(window_->getSize().x/2 - gameover.getGlobalBounds().width/2, window_->getSize().y/2 - gameover.getGlobalBounds().height));

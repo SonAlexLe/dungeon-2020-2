@@ -1,6 +1,6 @@
 #include "monster.hpp"
 #define ORC_SPEED 15.f
-#define ORGE_SPEED 10.f
+#define ORGE_SPEED 5.f
 #define ORC_HP 5
 #define ORGE_HP 10
 
@@ -66,7 +66,7 @@ void Orc::update(sf::Time dt) {
 Orge::Orge(float x, float y, std::shared_ptr<Player> p)
     : Monster(x, y, sf::Vector2f(0, 0), ORGE_HP, p), aggro_(1)
 {
-    sprite_ = sf::Sprite(p->GetTexture(), sf::IntRect(96,176,32,32));
+    sprite_ = sf::Sprite(p->GetTexture(), sf::IntRect(101,181,22,28));
     sprite_.setScale(sf::Vector2f(2, 2));
 }
 

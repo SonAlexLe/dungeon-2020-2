@@ -7,13 +7,14 @@
 #include "map.hpp"
 #include "player.hpp"
 #include "inventory.hpp"
+#include <memory>
 
 #include <iostream>
 
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(900, 900), "Dungeons I");
+    sf::RenderWindow window(sf::VideoMode(950, 950), "Dungeons I");
     //create and initialize game object
     Game game(&window);
 

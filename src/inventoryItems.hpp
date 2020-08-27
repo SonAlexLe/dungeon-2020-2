@@ -8,7 +8,7 @@ class player;
 class Armor : public Item
 {
 public:
-    Armor(float x, float y, sf::Vector2f vector, const std::string name, Player* player, int value)
+    Armor(float x, float y, sf::Vector2f vector, const std::string name, std::shared_ptr<Player> player, int value)
         :
         Item(x, y, vector, name, player, value)
     {
@@ -23,7 +23,7 @@ public:
 
 class Weapon : public Item {
 public:
-    Weapon(float x, float y, sf::Vector2f vector, const std::string name, Player* player, int value) : Item(x, y, vector, name, player, value)
+    Weapon(float x, float y, sf::Vector2f vector, const std::string name, std::shared_ptr<Player> player, int value) : Item(x, y, vector, name, player, value)
     {
         type_ = weapon;
         attackInterval = sf::seconds(0.1f * value);
@@ -40,7 +40,7 @@ private:
 
 class HealingPotion : public Item { // Single use item that heals the player to full hp.
 public:
-    HealingPotion(float x, float y, sf::Vector2f vector, const std::string name, Player* player, int value) 
+    HealingPotion(float x, float y, sf::Vector2f vector, const std::string name, std::shared_ptr<Player> player, int value) 
         :
         Item(x, y, vector, name, player, value)
     {

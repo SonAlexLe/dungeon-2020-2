@@ -8,7 +8,7 @@ class Monster : public Entity
 public:
 
     Monster();
-    Monster(float x, float y, sf::Vector2f velocity, int hp, Player* p);
+    Monster(float x, float y, sf::Vector2f velocity, int hp, std::shared_ptr<Player> p);
 
     void Draw(sf::RenderWindow*);
 
@@ -19,8 +19,8 @@ public:
 
     bool isActive();
 
-    void SetPlayer(Player*);
-    Player* GetPlayer();
+    void SetPlayer(std::shared_ptr<Player>);
+    std::shared_ptr<Player> GetPlayer();
 
 protected:
 
@@ -32,7 +32,7 @@ protected:
 
     int hp_;
 
-    Player* p_;
+    std::shared_ptr<Player> p_;
 
 };
 
@@ -40,7 +40,7 @@ class Orc : public Monster
 {
     public:
     Orc() = delete;
-    Orc(float x, float y, Player* p);
+    Orc(float x, float y, std::shared_ptr<Player> p);
     void update(sf::Time dt);
 };
 
@@ -48,7 +48,7 @@ class Orge : public Monster
 {
     public:
     Orge() = delete;
-    Orge(float x, float y, Player* p);
+    Orge(float x, float y, std::shared_ptr<Player> p);
     void update(sf::Time dt);
     float aggro_;
 };

@@ -16,7 +16,7 @@ int Inventory::getDmgValue() {
     return weapon_->getValue();
 }
 
-void Inventory::addItem(Item* newItem)
+void Inventory::addItem(std::shared_ptr<Item> newItem)
 {
     switch (newItem->getType())
     {

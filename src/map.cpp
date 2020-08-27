@@ -3,11 +3,11 @@
 
 
 Map::Map(int difficulty) : difficulty_(difficulty) {
-    rooms_.push_back(new Room);
+    rooms_.push_back(std::make_shared<Room>());
     // map_init();
 }
 
-Room* Map::GetStartingRoom() {
+std::shared_ptr<Room> Map::GetStartingRoom() {
     return rooms_.front();
 }
 
@@ -18,8 +18,8 @@ void Map::map_init() {
     int nofRooms = 10 + difficulty_;
 
     //Init layout and starting room
-    Room* map[9][9] = { {nullptr} };
-    Room* start = new Room();
+    std::shared_ptr<Room> map[9][9] = { {nullptr} };
+    std::shared_ptr<Room> start = std::make_shared<Room>();
     map[5][5] = start;
     rooms_.push_back(start);
 
@@ -47,9 +47,9 @@ void Map::map_init() {
             if(neighbors.size() > 1 && neighbors.size() < 3) {
 
                 //All conditions are met, create a room #####UNCOMMENT THIS TO TEST ROOM_INIT####
-                // Room* room = Map::room_init();
+                // std::shared_ptr<Room> room = Map::room_init();
 
-                Room* room = new Room;
+                std::shared_ptr<Room> room = std::make_shared<Room>();
                 map[x][y] = room;
 
                 /*Generate item room when there are X rooms to generate
@@ -72,14 +72,14 @@ void Map::map_init() {
 
                 nofRooms--;
 
-                //Setup connections for the new room
+                //Setup connections for the std::make_shared<Room>
                 for (int dir : neighbors) {
                     switch (dir) {
 
                         //For a northern connection c1 is on the northern wall and c2 on the southern wall (Coordinates are placeholder)
                         case 1: {
-                            Connection* c1 = new Connection(50.0, 0.0);
-                            Connection* c2 = new Connection(50.0, 100.0);
+                            std::shared_ptr<Connection> c1 = std::make_shared<Connection>(50.0, 0.0);
+                            std::shared_ptr<Connection> c2 = std::make_shared<Connection>(50.0, 100.0);
 
                             room->AddConnection(c1);
                             room->SetNConn(map[x][y + 1]);
@@ -90,8 +90,8 @@ void Map::map_init() {
                         }
                         //For an eastern connection c1 is east and c2 west
                         case 2: {
-                            Connection* c1 = new Connection(100.0, 50.0);
-                            Connection* c2 = new Connection(0.0, 50.0);
+                            std::shared_ptr<Connection> c1 = std::make_shared<Connection>(100.0, 50.0);
+                            std::shared_ptr<Connection> c2 = std::make_shared<Connection>(0.0, 50.0);
 
                             room->AddConnection(c1);
                             room->SetEConn(map[x - 1][y]);
@@ -101,8 +101,8 @@ void Map::map_init() {
                         }
                         //For a southern connection c1 is south and c2 north
                         case 3: {
-                            Connection* c1 = new Connection(50.0, 100.0);
-                            Connection* c2 = new Connection(50.0, 0.0);
+                            std::shared_ptr<Connection> c1 = std::make_shared<Connection>(50.0, 100.0);
+                            std::shared_ptr<Connection> c2 = std::make_shared<Connection>(50.0, 0.0);
 
                             room->AddConnection(c1);
                             room->SetSConn(map[x][y - 1]);
@@ -112,8 +112,8 @@ void Map::map_init() {
                         }
                         //For a western connection c1 is west and c2 east
                         case 4: {
-                            Connection* c1 = new Connection(0.0, 50.0);
-                            Connection* c2 = new Connection(100.0, 50.0);
+                            std::shared_ptr<Connection> c1 = std::make_shared<Connection>(0.0, 50.0);
+                            std::shared_ptr<Connection> c2 = std::make_shared<Connection>(100.0, 50.0);
 
                             room->AddConnection(c1);
                             room->SetWConn(map[x + 1][y]);
@@ -128,16 +128,16 @@ void Map::map_init() {
     }
 }
 //Fills room with monsters
-Room* Map::room_init() {
+std::shared_ptr<Room> Map::room_init() {
 
-    Room* room = new Room;
+    std::shared_ptr<Room> room = std::make_shared<Room>();
 
 
     //Pick a monster randomly from monsters
     //Expand as more monsters are added
     char monsters[1] = { 'O' };
     srand(time(nullptr));
-    Player* p = rooms_.front()->GetPlayer();
+    std::shared_ptr<Player> p = rooms_.front()->GetPlayer();
 
     //Coords for the placements of monsters, (4 monsters in corners)
     std::list<sf::Vector2f> coords = { sf::Vector2f(10.0, 10.0), sf::Vector2f(90.0, 10.0), sf::Vector2f(10.0, 90.0), sf::Vector2f(90.0, 90.0) };
@@ -150,7 +150,7 @@ Room* Map::room_init() {
         switch (monsters[idx]) {
 
             case 'O': {
-                Orc* orc = new Orc(c.x, c.y, p ); 
+                std::shared_ptr<Orc> orc = std::make_shared<Orc>(c.x, c.y, p ); 
                room->AddEnemy(orc);
             }
 

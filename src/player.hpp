@@ -13,15 +13,15 @@ class Player : public Entity
 public:
 
     Player() = delete;
-    Player(Room* room); 
+    Player(std::shared_ptr<Room> room); 
     ~Player() {}
 
     //inventory management methods
-    Inventory* GetInventory() { return inventory_; }
-    void SetInventory(Inventory* inventory) { inventory_ = inventory; }
+    std::shared_ptr<Inventory> GetInventory() { return inventory_; }
+    void SetInventory(std::shared_ptr<Inventory> inventory) { inventory_ = inventory; }
 
     //Getters for interfacing
-    Room *GetRoom();
+    std::shared_ptr<Room> GetRoom();
     sf::Sprite& GetSprite();
     float GetReload();
 
@@ -52,8 +52,8 @@ private:
     sf::Texture texture_;
     sf::Sprite sprite_;
 
-    Inventory* inventory_;
-    Room* room_;
+    std::shared_ptr<Inventory> inventory_;
+    std::shared_ptr<Room> room_;
 
     //input handling
     bool accUp_;
@@ -64,9 +64,10 @@ private:
     //for tracking reload rate
     float reload_;
 
+    int score_;
     int hp_;
     //for invincibility frames
     float immortal_;
-    int score_;
+
 
 };

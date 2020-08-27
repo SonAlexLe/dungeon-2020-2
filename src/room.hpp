@@ -15,7 +15,7 @@ class Monster;
 
 class Room {
 public:
-    // For simplicity sake all rooms will be squares of the same size so all rooms are default constructed
+    //constructs a new square room
     Room();
 
     // Destructor needs to handle emptying all containers
@@ -24,51 +24,31 @@ public:
     // Each room has containers for each type of entity contained in it and interfaces for accessing each container
     // Since all these objects share a base class you could just have one container for all of them but travesing this container would be very tedious.
 
-    Player* GetPlayer();
-
-    void AddPlayer(Player* p);
-
+    std::shared_ptr<Player> GetPlayer();
+    void AddPlayer(std::shared_ptr<Player> p);
     void RemovePlayer();
 
-    std::list<Monster*>& GetEnemies();
-
-    void AddEnemy(Monster*);
-
-    void RemoveEnemy(Monster*);
+    std::list<std::shared_ptr<Monster>>& GetEnemies();
+    void AddEnemy(std::shared_ptr<Monster>);
 
     // Connection entities are doors/trapdoors/etc that connect to other rooms or floors
-    std::list<Connection*>& GetConnections();
+    std::list<std::shared_ptr<Connection>>& GetConnections();
+    void AddConnection(std::shared_ptr<Connection>);
 
-    void AddConnection(Connection*);
-
-    void AddItem(Item*);
+    void AddItem(std::shared_ptr<Item>);
     
-    std::list<Projectile*>& GetProjectiles();
-
+    std::list<std::shared_ptr<Projectile>>& GetProjectiles();
     void CheckProjectiles();
-
-    void AddProjectile(Projectile*);
-
-    void RemoveProjectile(Projectile*);
-
-    // Obstacles can be unpassable map geometry. Hazards(lava/spikes) could also be in obstacles or could be considered enemies without movement
-    // std::list<Obstacle*> GetObstacles();
-
-    // void AddObstacle(Obstacle*);
+    void AddProjectile(std::shared_ptr<Projectile>);
 
     double GetWidth();
-
     double GetHeight();
-
     sf::Vector2f GetSize();
 
-    void SetNConn(Room* r);
-
-    void SetSConn(Room* r);
-
-    void SetWConn(Room* r);
-
-    void SetEConn(Room* r);
+    void SetNConn(std::shared_ptr<Room> r);
+    void SetSConn(std::shared_ptr<Room> r);
+    void SetWConn(std::shared_ptr<Room> r);
+    void SetEConn(std::shared_ptr<Room> r);
 
 
 protected:
@@ -77,25 +57,23 @@ protected:
 
     sf::Vector2f size_;
 
-    Player* player_;
+    std::shared_ptr<Player> player_;
 
-    std::list<Monster*> enemies_;
+    std::list<std::shared_ptr<Monster>> enemies_;
 
-    std::list<Connection*> connections_;
+    std::list<std::shared_ptr<Connection>> connections_;
 
-    Item* item_;
+    std::shared_ptr<Item> item_;
 
-    std::list<Projectile*> projectiles_;
-
-    // std::list<Obstacle*> obstacles_;
+    std::list<std::shared_ptr<Projectile>> projectiles_;
 
     //Rooms neighbors
-    Room* Nconn_;
+    std::shared_ptr<Room> Nconn_;
 
-    Room* Sconn_;
+    std::shared_ptr<Room> Sconn_;
 
-    Room* Wconn_;
+    std::shared_ptr<Room> Wconn_;
 
-    Room* Econn_;
+    std::shared_ptr<Room> Econn_;
 
 };

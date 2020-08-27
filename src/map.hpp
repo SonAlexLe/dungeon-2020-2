@@ -30,10 +30,10 @@ public:
 
     Map(int difficulty);
 
-    ~Map() { for(auto i : rooms_) delete i; }
+    ~Map() {}
 
     // Should be the head of rooms_
-    Room* GetStartingRoom();
+    std::shared_ptr<Room> GetStartingRoom();
 
 
 private:
@@ -41,11 +41,11 @@ private:
 // Helper functions to break down constructing a map
     void map_init();
 
-    Room* room_init();
+    std::shared_ptr<Room> room_init();
 
     int difficulty_;
 
-    std::list<Room*> rooms_;
+    std::list<std::shared_ptr<Room>> rooms_;
 
     // std::list<Connection*> connections_;
 

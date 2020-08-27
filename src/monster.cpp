@@ -6,7 +6,7 @@
 
 Monster::Monster() {}
 
-Monster::Monster(float x, float y, sf::Vector2f velocity, int hp, Player* p)
+Monster::Monster(float x, float y, sf::Vector2f velocity, int hp, std::shared_ptr<Player> p)
     : Entity(x, y, velocity), hp_(hp), p_(p), active_(true) {}
 
 void Monster::Draw(sf::RenderWindow* w) {
@@ -27,13 +27,13 @@ int Monster::GetHP() { return hp_; }
 
 bool Monster::isActive() {return active_;}
 
-void Monster::SetPlayer(Player* p) { p_ = p; }
-Player* Monster::GetPlayer() { return p_; }
+void Monster::SetPlayer(std::shared_ptr<Player> p) { p_ = p; }
+std::shared_ptr<Player> Monster::GetPlayer() { return p_; }
 
 sf::Sprite& Monster::GetSprite() { return sprite_; }
 
 //subclass orc, patrols from one corner to the opposite one.
-Orc::Orc(float x, float y, Player* p)
+Orc::Orc(float x, float y, std::shared_ptr<Player> p)
     : Monster(x, y, sf::Vector2f(ORC_SPEED, ORC_SPEED), ORC_HP, p)
 {
     if (!texture_.loadFromFile("src/Sprites/game_texture.png")) std::cout << "sprite error" << std::endl;
@@ -63,7 +63,7 @@ void Orc::update(sf::Time dt) {
 
 
 //subclass orge, chases the player at constantly increasing speed
-Orge::Orge(float x, float y, Player* p)
+Orge::Orge(float x, float y, std::shared_ptr<Player> p)
     : Monster(x, y, sf::Vector2f(0, 0), ORGE_HP, p), aggro_(1)
 {
     if (!texture_.loadFromFile("src/Sprites/game_texture.png")) std::cout << "sprite error" << std::endl;

@@ -3,15 +3,15 @@
 Game::Game(sf::RenderWindow *window) : difficulty_(0), window_(window) 
 {
     //Generate a new dungeon floor as the starting map
-    dungeon_ = new Map(difficulty_);
+    dungeon_ = std::make_shared<Map>(difficulty_);
     //Create a player object and place them in the starting room of the map
-    p1_ = new Player(dungeon_->GetStartingRoom());
+    p1_ = std::make_shared<Player>(dungeon_->GetStartingRoom());
 
     //TODO move this into map gen
-    p1_->GetRoom()->AddEnemy(new Orc(100, 100, p1_));
-    p1_->GetRoom()->AddEnemy(new Orge(0, 0, p1_));
+    p1_->GetRoom()->AddEnemy(std::make_shared<Orc>(100, 100, p1_));
+    p1_->GetRoom()->AddEnemy(std::make_shared<Orge>(100, 100, p1_));
     //Create an inventory
-    inventory_ = new Inventory(p1_);
+    inventory_ = std::make_shared<Inventory>(p1_);
     //load the resources to be used
     if (!gamefont_.loadFromFile("src/sprites/arial.ttf"))
     {
@@ -98,7 +98,7 @@ void Game::input()
                         //velocity = unit direction vector * speed
                         sf::Vector2f projectile_velocity(projectile_direction.x/vlength*projectilespeed,projectile_direction.y/vlength*projectilespeed);
                         //create new projectile, the creation point is the middle of player instead of the top-left corner, the coefficient is 6 because graphics are scaled 3 times from the actual game logic.
-                        p1_->GetRoom()->AddProjectile(new Projectile(sf::Vector2f(p1_->GetPosition().x + (p1_->GetSprite().getGlobalBounds().width/6),p1_->GetPosition().y+ p1_->GetSprite().getGlobalBounds().height/6),projectile_velocity, 1, false));
+                        p1_->GetRoom()->AddProjectile(std::make_shared<Projectile>(sf::Vector2f(p1_->GetPosition().x + (p1_->GetSprite().getGlobalBounds().width/6),p1_->GetPosition().y+ p1_->GetSprite().getGlobalBounds().height/6),projectile_velocity, 1, false));
                         //set the player reload time, reload must finish before firing
                         p1_->Attack();
                     }
@@ -222,9 +222,6 @@ void Game::render()
 
 void Game::clean()
 {
-    delete p1_;
-    delete inventory_;
-    delete dungeon_;
     window_->close();
     //memory cleanup on game close, will be created later...
 }

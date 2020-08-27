@@ -10,6 +10,7 @@
 #include <SFML/System.hpp>
 #include <list>
 #include <sstream>
+#include <memory>
 /* 
 ** The game class is a container class for all the contents of the game.
 ** It handles entity updating, input and graphics.
@@ -47,8 +48,8 @@ private:
     sf::Clock clock_;
     sf::Time lastUpdate_;
 
-    Map* dungeon_;
+    std::shared_ptr<Map> dungeon_;
 
-    Player* p1_;
-    Inventory* inventory_;
+    std::shared_ptr<Player> p1_;
+    std::shared_ptr<Inventory> inventory_;
 };

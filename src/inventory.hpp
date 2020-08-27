@@ -4,7 +4,7 @@
 class player;
 class Inventory {
 public:
-    Inventory(Player* player) : player_(player)
+    Inventory(std::shared_ptr<Player> player) : player_(player)
     {
         weapon_ = nullptr;
         armor_ = nullptr;
@@ -12,7 +12,7 @@ public:
     }
     ~Inventory() {}
 
-    void addItem(Item* newItem);
+    void addItem(std::shared_ptr<Item> newItem);
     int getArmorValue();
     int getDmgValue();
     void useConsumable(); // Uses the held consumable.
@@ -21,8 +21,8 @@ public:
 private: // Player is able to hold one weapon, one armor and one consumable.
     Inventory& operator=(const Inventory&) = delete;
 
-    Player* player_;
-    Item* armor_;
-    Item* weapon_;
-    Item* heldConsumable_;
+    std::shared_ptr<Player> player_;
+    std::shared_ptr<Item> armor_;
+    std::shared_ptr<Item> weapon_;
+    std::shared_ptr<Item> heldConsumable_;
 };

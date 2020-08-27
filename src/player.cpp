@@ -6,7 +6,7 @@
 #define DECCEL_RATE 20.f
 #define PLR_HP 10
 
-Player::Player(Room* room) : room_(room), Entity(room->GetWidth()/2,room->GetHeight()/2, sf::Vector2f(0,0)), 
+Player::Player(std::shared_ptr<Room> room) : room_(room), Entity(room->GetWidth()/2,room->GetHeight()/2, sf::Vector2f(0,0)), 
 accDown_(false), accUp_(false), accLeft_(false), accRight_(false), reload_(0), hp_(PLR_HP), score_(0), immortal_(true)
 {
     //load player texture
@@ -31,7 +31,7 @@ void Player::Draw(sf::RenderWindow* w) {
 
 //getter functions
 sf::Sprite& Player::GetSprite() { return sprite_; }
-Room *Player::GetRoom() { return room_; }
+std::shared_ptr<Room> Player::GetRoom() { return room_; }
 float Player::GetReload() {return reload_; }
 
 /**
@@ -86,7 +86,6 @@ void Player::update(sf::Time dt) {
 //track reload rate
     if(reload_ > 0) {
         reload_ -= std::min(dt.asSeconds(),reload_);
-        if(reload_ == 0) {std::cout << "LOADED" << std::endl;}
     }
 //track invincibility frames
     if(immortal_ > 0) {

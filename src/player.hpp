@@ -42,7 +42,7 @@ public:
 
     //hp & score access and management
     void SetHP(int hp) { hp_ = hp; if (hp_ < 0) hp_ = 0;}
-    void SetHPtoMax() { hp_ = maxHP_; }
+    void SetHPtoMax() { hp_ = 10; }
     int GetHP() { return hp_; }
     int GetScore() { return score_; }
     void AddScore(int b) { score_ += b; }

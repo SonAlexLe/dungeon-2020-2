@@ -152,7 +152,6 @@ void Game::update()
                         i->setActive(false);
                     //calculate new hp for damaged enemy
                         j->SetHP(j->GetHP()-i->GetDamage());
-                        std::cout<<j->GetHP()<<std::endl;
                     }
                 }
             }
@@ -180,7 +179,7 @@ void Game::render()
     //draw the room
     // sf::Sprite roomsprite(gametexture_, sf::IntRect(0,90,64,48));
     sf::Vector2f roomSize = p1_->GetRoom()->GetSize();
-    sf::RectangleShape room(sf::Vector2f(roomSize.x*3,roomSize.y*3));
+    sf::RectangleShape room(sf::Vector2f((roomSize.x+16)*3,(roomSize.y+16)*3));
     room.setTexture(&gametexture_);
     room.setTextureRect(sf::IntRect(0,90,64,48));
     // room.setFillColor(sf::Color::White);
@@ -190,10 +189,23 @@ void Game::render()
     
     //draw the player
     p1_->Draw(window_);
-
+    int charsize = 20;
+    int counter = 0;
     //draw all enemies with more than 0hp
     for(auto i : p1_->GetRoom()->GetEnemies()) { 
-        if (i->isActive()) {i->Draw(window_);}
+        if (i->isActive()) {
+            i->Draw(window_);
+            std::stringstream ss;
+            ss << (dynamic_cast<Orc*>(i.get()) ? "Orc" : (dynamic_cast<Orge*>(i.get()) ? "Orge" : "Boss")) << " HP: " << i->GetHP();
+            sf::Text hp;
+            hp.setFont(gamefont_);
+            hp.setString(ss.str());
+            hp.setCharacterSize(charsize);
+            auto bounds = hp.getGlobalBounds();
+            hp.setPosition(roomSize.x*3-bounds.width-10,2+(charsize+5)*counter++);
+            hp.setFillColor(sf::Color::Yellow);
+            window_->draw(hp);
+        }
     }
 
     //draw all active projectiles
@@ -215,7 +227,7 @@ void Game::render()
     score.setFont(gamefont_);
     score.setString(ss.str());
     score.setCharacterSize(25);
-    score.setFillColor(sf::Color::Blue);
+    score.setFillColor(sf::Color::White);
     score.setStyle(sf::Text::Underlined);
     window_->draw(score);
     std::stringstream ss2;
@@ -253,15 +265,26 @@ void Game::render()
     
 
     //GAME OVER TEXT FOR WHEN THE PLAYER DIES
-    if(p1_->GetHP()<= 0){
+    if(p1_->GetHP() <= 0){
         sf::Text gameover;
         gameover.setFont(gamefont_);
         gameover.setCharacterSize(100);
-        gameover.setString("GAME OVER!");
+        gameover.setString("YOU DIE");
         gameover.setFillColor(sf::Color::Red);
         gameover.setStyle(sf::Text::Underlined | sf::Text::Bold);
-        gameover.setPosition(sf::Vector2f(window_->getSize().x/2 - gameover.getGlobalBounds().width/2, window_->getSize().y/2 - gameover.getGlobalBounds().height/2));
+        gameover.setPosition(sf::Vector2f(window_->getSize().x/2 - gameover.getGlobalBounds().width/2, window_->getSize().y/2 - gameover.getGlobalBounds().height));
         window_->draw(gameover);
+
+        sf::Text FinalScore;
+        FinalScore.setFont(gamefont_);
+        FinalScore.setCharacterSize(60);
+        std::stringstream finalscore;
+        finalscore << "Score:" << p1_->GetScore();
+        FinalScore.setString(finalscore.str());
+        FinalScore.setFillColor(sf::Color::Red);
+        FinalScore.setStyle(sf::Text::Bold);
+        FinalScore.setPosition(sf::Vector2f(window_->getSize().x/2 - FinalScore.getGlobalBounds().width/2, window_->getSize().y/2 + gameover.getGlobalBounds().height));
+        window_->draw(FinalScore);
     }
 
     //display graphics

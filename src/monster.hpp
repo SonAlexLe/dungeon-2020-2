@@ -33,6 +33,8 @@ protected:
 
     std::shared_ptr<Player> p_;
 
+    void AdjustSpawn();
+
 };
 
 class Orc : public Monster
@@ -49,5 +51,17 @@ class Orge : public Monster
     Orge() = delete;
     Orge(float x, float y, std::shared_ptr<Player> p);
     void update(sf::Time dt);
+    private:
     float aggro_;
+};
+
+class Boss : public Monster
+{
+    public:
+    Boss() = delete;
+    Boss(float x, float y, std::shared_ptr<Player> p);
+    void update(sf::Time dt);
+    private:
+    //for circular motion
+    sf::Clock clock_;
 };

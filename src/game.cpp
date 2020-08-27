@@ -64,6 +64,8 @@ void Game::input()
             case sf::Keyboard::D:
                 p1_->accRight(true);
                 break;
+            case sf::Keyboard::E: // E key uses the held consumable.
+                inventory_->useConsumable();
             default:
                 //could add other keys here...
                 break;

@@ -17,20 +17,12 @@ void Map::map_init() {
     //Some preliminary parameters for how many rooms are generated
     int nofRooms = 5 + difficulty_;
 
-    //Init layout and starting room
+    //Init helper layout and starting room
     std::shared_ptr<Room> map[5][5] = { {nullptr} };
     std::shared_ptr<Room> start = std::make_shared<Room>();
     double size = start->GetHeight();
     map[2][2] = start;
     rooms_.push_back(start);
-
-    /* for (int i = 0; i < 5; i++) {
-        for (int j = 0; j < 5; j++) {
-            if (map[i][j] == nullptr) { std::cout << "#"; } else { std::cout << "X"; } 
-        }
-        std::cout << std::endl;
-    } */
-    std::cout << std::endl;
 
     //Create a random seed
     srand(time(nullptr));
@@ -41,12 +33,8 @@ void Map::map_init() {
         int x = rand() % 5;
         int y = rand() % 5;
 
-        // std::cout << "Accessing " << x << " " << y << std::endl;
-
         if(map[x][y] == nullptr) {
  
-            // std::cout << "Found nullptr" << std::endl;
-
             //Where 1 is north, 2 is east, 3 is south, 4 is west
             std::list<int>neighbors;
 
@@ -57,49 +45,45 @@ void Map::map_init() {
             if ( (y != 4) && map[x][y + 1] != nullptr) { neighbors.push_back(2);} // Check East
             if ( (y != 0) && map[x][y - 1] != nullptr) { neighbors.push_back(4);} // Check West
 
-            /*std::cout << "Cell has: " << neighbors.size() << " neighbros ";
-            if (!neighbors.empty()) {
-                std::cout << "And they are: ";
-                for (auto i : neighbors) {
-                    std::cout << i << " ";
-            }
-            }
-            std::cout << std::endl; */
-
-            
 
             //The maximum amount of neighbors can be tweaked to change the layout of the maps
             if(neighbors.size() >= 1 && neighbors.size() < 3) {
 
-                //All conditions are met, create a room
-                
-                std::shared_ptr<Room> room = room_init();
+                std::shared_ptr<Room> room = std::make_shared<Room>();
 
-                // Room* room = new Room;
+                if (nofRooms == 3) {
+
+                    //Generate two random pieces of equipment and a consumable in the item room
+                    std::shared_ptr<itemGenerator> gen = std::make_shared<itemGenerator>();
+                    std::shared_ptr<Item> item1 = gen->createEquipment(150.f, 200.f, p_);
+                    //std::shared_ptr<Item> item2 = gen->createEquipment(150.f, 100.f, p_);
+                    //std::shared_ptr<Item> cons = gen->createConsumable(200.f, 150.f, p_);
+
+                    room->SetType("Item");
+                    room->AddItem(item1);
+
+                }
+
+                else if (nofRooms == 1) {
+
+                    //Set the room type to Boss (could be useful for win condition logic)
+                    room->SetType("Boss");
+
+                    //For now init an ogre in the middle of the room, can be replaced by a boss
+                    std::shared_ptr<Orge> boss = std::make_shared<Orge>(150.f, 150.f, p_);
+
+                    room->AddEnemy(boss);
+
+                }
+
+                //All conditions are met, create a room               
+                else { room = room_init(); }
+
                 map[x][y] = room;
-                rooms_.push_back(room);
+                rooms_.push_back(room); 
 
                 std::cout << "Room created @ " << x << " " << y  << std::endl;
 
-
-
-                /*Generate item room when there are X rooms to generate
-                if (nofRooms == 6) {
-                    $$Item generator goes here$$
-                    Item* item = Item::generate;
-                    room->AddItem(item);
-                    nofRooms--;
-                    
-                } */
-
-                /* Last will be a boss room
-                if (nofRooms == 1) {
-                    Monster* boss = new Boss(50.0, 50.0);
-                    room->AddEnemy(Boss);
-                    nofRooms--;
-                }
-
-                */
                 nofRooms--;
                 std::cout << nofRooms << std::endl;
 
@@ -162,12 +146,6 @@ void Map::map_init() {
                     }
                 }
                 neighbors.clear();
-            /*    for (int i = 0; i < 5; i++) {
-                    for (int j = 0; j < 5; j++) {
-                        if (map[i][j] == nullptr) { std::cout << "#"; } else { std::cout << "X"; } 
-                    }
-                    std::cout << std::endl;
-                } */
             }
             else { neighbors.clear(); }
         }
@@ -193,6 +171,19 @@ void Map::map_init() {
         }
         std::cout << std::endl;
     }
+    std::cout << "Special rooms:" << std::endl;
+    std::cout << std::endl;
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
+            if (map[i][j] != nullptr) { 
+                std::string tmp = map[i][j]->GetType();
+                if (tmp == "Boss") {std::cout << "B";} else if (tmp == "Item") { std::cout << "I"; } else { std::cout << "X"; }
+            }
+            else { std::cout << "#"; } 
+        }
+        std::cout << std::endl;
+    }
+
 }
 //Fills room with monsters
 std::shared_ptr<Room> Map::room_init() {
@@ -203,36 +194,9 @@ std::shared_ptr<Room> Map::room_init() {
     std::shared_ptr<Room> room = std::make_shared<Room>();
 
     //Pick a monster randomly from monsters
-    //Expand as more monsters are added
 
     //O for Orc and G for Ogre :^) <- spelled orge
     char monsters[2] = { 'O', 'G' };
-
-
-    //Coords for the placements of monsters, (4 monsters in corners)
-    /*
-    std::list<sf::Vector2f> coords = { sf::Vector2f(10.0, 10.0), sf::Vector2f(90.0, 10.0), sf::Vector2f(10.0, 90.0), sf::Vector2f(90.0, 90.0) };
-
-
-    for (auto c : coords) {
-
-        int idx = rand() % 2;
-
-        switch (monsters[idx]) {
-
-            case 'O': {
-                std::shared_ptr<Orc> orc = std::make_shared<Orc>(c.x, c.y, p ); 
-               room->AddEnemy(orc);
-            }
-
-            case 'G': {
-                Orge* orge = new Orge(c.x, c.y, p);
-                room->AddEnemy(orge);
-            }
-
-        }
-    }*/
-    //Alternatively if monsters are just placed willy nilly
 
     int nofMonsters = 1 + difficulty_;
 

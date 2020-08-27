@@ -13,11 +13,11 @@ void Connection::unlock() { locked_ = false;}
 const std::string Connection::GetSpriteName() const {return "door.png";}
 
 void Connection::update(sf::Time dt) {
-    if (player_->GetRoom()->GetEnemies().empty()) {
+    /* if (player_->GetRoom()->GetEnemies().empty()) {
         this->unlock();
         std::cout << "Door unlocked" << std::endl;
-    }
-    if (this->sprite_.getGlobalBounds().intersects(player_->GetSprite().getGlobalBounds()) && !locked_) {
+    }*/
+    if (this->sprite_.getGlobalBounds().intersects(player_->GetSprite().getGlobalBounds()) ) {
         std::cout << "collision" << std::endl;
         traverse();
     }
@@ -28,7 +28,7 @@ void Connection::load() {}
 void Connection::traverse() {
     double size = player_->GetRoom()->GetHeight();
         //if (currPos_.x == size / 2 && currPos_.y == 0.0) { //Connection is north
-        if (this->facing_ == "north") {
+        /*if (this->facing_ == "north") {
             std::cout << "North door" << std::endl;
 
             Room* nn = player_->GetRoom()->GetNConn();
@@ -66,14 +66,12 @@ void Connection::traverse() {
             std::cout << "Swapped room" << std::endl;
             player_->SetPosition(sf::Vector2f(0, 0));
             // player_->SetPosition(sf::Vector2f(0.0, size / 2));
-        }
-   //std::cout << "This door is facing: " << facing_ << std::endl;
+        } */
+    std::cout << "This door is facing: " << facing_ << std::endl;
     //player_->SetPosition(sf::Vector2f(200, 200));
 }
 
 void Connection::draw(sf::RenderWindow* window) { 
-    if(!this->locked_) {
-
     sf::FloatRect m_rec = sprite_.getGlobalBounds();
     sf::RectangleShape m_box(sf::Vector2f(m_rec.width, m_rec.height));
     m_box.setOutlineThickness(2);
@@ -84,5 +82,3 @@ void Connection::draw(sf::RenderWindow* window) {
     sprite_.setPosition(sf::Vector2f(currPos_.x*3, currPos_.y*3));
     window->draw(sprite_);
     }
- 
-}

@@ -12,7 +12,7 @@ Game::Game(sf::RenderWindow *window) : difficulty_(0), window_(window)
 
     //TODO move this into map gen
     p1_->GetRoom()->AddEnemy(new Orc(100, 100, p1_));
-    // p1_->GetRoom()->AddEnemy(new Orge(0, 0, p1_));
+    p1_->GetRoom()->AddEnemy(new Orge(0, 0, p1_));
     //Create an inventory
     inventory_ = new Inventory(p1_);
     //load the resources to be used

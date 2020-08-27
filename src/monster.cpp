@@ -3,6 +3,9 @@
 #define ORGE_SPEED 5.f
 #define ORC_HP 5
 #define ORGE_HP 10
+#define BOSS_HP 30
+#define BOSS_N_SPEED 100.f //normal speed
+#define BOSS_H_SPEED 50.f //enraged speed (H for hard)
 
 Monster::Monster() {}
 
@@ -44,9 +47,9 @@ bool Monster::isActive() { return active_; }
 //No part of a monster's sprite should be outside of the room on spawn
 void Monster::AdjustSpawn() {
     auto bounds = sprite_.getGlobalBounds();
-    if (currPos_.x+bounds.width/3 > p_->GetRoom()->GetWidth()-1)
+    if (currPos_.x+bounds.width/3 > p_->GetRoom()->GetWidth())
         currPos_ = sf::Vector2f(p_->GetRoom()->GetWidth()-bounds.width/3, currPos_.y);
-    if (currPos_.y+bounds.height/3 > p_->GetRoom()->GetHeight()-1)
+    if (currPos_.y+bounds.height/3 > p_->GetRoom()->GetHeight())
         currPos_ = sf::Vector2f(currPos_.x, p_->GetRoom()->GetHeight()-bounds.height/3);
 }
 
@@ -112,4 +115,25 @@ void Orge::update(sf::Time dt) {
         active_ = false;
         p_->AddScore(20);
     }
+}
+
+//subclass Boss, the boss of the game. Defeat it for something interesting.
+
+Boss::Boss(float x, float y, std::shared_ptr<Player> p)
+    : Monster(x, y, sf::Vector2f(0, 0), BOSS_HP, p)
+{
+    sprite_ = sf::Sprite(p->GetTexture(), sf::IntRect(160,177,33,31));
+    sprite_.setScale(sf::Vector2f(2, 2));
+    AdjustSpawn();
+    clock_.restart();
+}
+
+//Boss moves in a circle around the center of the room
+void Boss::update(sf::Time dt) {
+    auto bounds = sprite_.getGlobalBounds();
+    sf::Vector2f center = p_->GetRoom()->GetSize()*(float)0.5-sf::Vector2f(bounds.width/6,bounds.height/6);
+    sf::Vector2f accdir = currPos_ - center;
+    float radius = std::sqrt(accdir.x*accdir.x + accdir.y*accdir.y);
+    float elapsed = clock_.getElapsedTime().asSeconds();
+    currPos_ = center + sf::Vector2f(std::cos(BOSS_N_SPEED/radius*elapsed), std::sin(BOSS_N_SPEED/radius*elapsed))*radius;
 }

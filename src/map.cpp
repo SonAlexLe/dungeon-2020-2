@@ -70,9 +70,8 @@ void Map::map_init() {
                     room->SetType("Boss");
 
                     //For now init an ogre in the middle of the room, can be replaced by a boss
-                    std::shared_ptr<Orge> boss = std::make_shared<Orge>(150.f, 150.f, p_);
 
-                    room->AddEnemy(boss);
+                    room->AddEnemy(std::make_shared<Boss>(225.f, 225.f, p_));
 
                 }
 

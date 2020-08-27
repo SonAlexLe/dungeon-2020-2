@@ -102,9 +102,16 @@ void Player::update(sf::Time dt) {
 
 //make sure the player stays within the play area.
    if(currPos_.x < 0) { currPos_.x = 0; velocity_.x = 0; }
-   if(currPos_.x > room_->GetWidth()) { currPos_.x = room_->GetWidth(); velocity_.x = 0; }
    if(currPos_.y < 0) { currPos_.y = 0; velocity_.y = 0; }
-   if(currPos_.y > room_->GetHeight()) { currPos_.y = room_->GetHeight(); velocity_.y = 0; }
+    auto bounds = sprite_.getGlobalBounds();
+    if (currPos_.x+bounds.width/3 > GetRoom()->GetWidth()) {
+        currPos_ = sf::Vector2f(GetRoom()->GetWidth()-bounds.width/3, currPos_.y);
+        velocity_.x = 0;
+    }
+    if (currPos_.y+bounds.height/3 > GetRoom()->GetHeight()) {
+        currPos_ = sf::Vector2f(currPos_.x, GetRoom()->GetHeight()-bounds.height/3);
+        velocity_.y = 0;
+    }
 }
 
 void Player::Attack() 

@@ -196,7 +196,7 @@ void Game::render()
         if (i->isActive()) {
             i->Draw(window_);
             std::stringstream ss;
-            ss << (dynamic_cast<Orc*>(i.get()) ? "Orc" : "Orge" ) << " HP: " << i->GetHP();
+            ss << (dynamic_cast<Orc*>(i.get()) ? "Orc" : (dynamic_cast<Orge*>(i.get()) ? "Orge" : "Boss")) << " HP: " << i->GetHP();
             sf::Text hp;
             hp.setFont(gamefont_);
             hp.setString(ss.str());

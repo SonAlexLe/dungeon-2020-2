@@ -18,11 +18,7 @@ class Player;
 class Inventory;
 class Item : public Entity { //Inherits from the entity class.
 public:
-    Item(float x, float y,sf::Vector2f vector, const std::string name, std::shared_ptr<Player> player, int value)
-        : Entity(x, y, vector), name_(name), player_(player), armorDmgValue_(value)
-    {
-        equipped_ = false;
-    }
+    Item(float x, float y, sf::Vector2f vector, const std::string name, std::shared_ptr<Player> player, int value);
 
     std::string getName() const;
     int getType() const;
@@ -34,6 +30,7 @@ public:
     void setEquipped();
     void update(sf::Time dt);
     void draw(sf::RenderWindow* window);
+    virtual void load() = 0;
     void use() { return; } // Function for the consumables. Armor and weapon use function does nothing.
 
 protected:

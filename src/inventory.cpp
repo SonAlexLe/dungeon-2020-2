@@ -1,6 +1,12 @@
 #include "inventory.hpp"
-#include "player.hpp"
 #include <math.h> 
+
+Inventory::Inventory(std::shared_ptr<Player> player) : player_(player)
+{
+    armor_ = std::make_shared<Armor>(0.f, 0.f, sf::Vector2f(0.f, 0.f), "T-shirt", player, 1);
+    weapon_ = std::make_shared<Weapon>(0.f, 0.f, sf::Vector2f(0.f,0.f), "Stick", player, 1);
+}
+
 
 int Inventory::getArmorValue() {
     if (armor_ == nullptr) {

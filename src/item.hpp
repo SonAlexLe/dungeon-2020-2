@@ -58,6 +58,7 @@ public:
     std::shared_ptr<Item> createEquipment(float x, float y, std::shared_ptr<Player> player); // Need to give the position for the created item and the player.
     std::shared_ptr<Item> createConsumable(float x, float y, std::shared_ptr<Player> player); // Creates a random consumable.
 private:
+    itemGenerator(const itemGenerator&) = delete;
     std::vector<std::string> quality_ = { "Poor", "Good", "Great" }; // Strings to determine the equipment.
     std::vector<std::string> material_ = { "wooden", "bronze", "iron", "platinum" }; // Strings to determine the equipment.
     int gameLvl_;

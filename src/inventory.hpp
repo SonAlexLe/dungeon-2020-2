@@ -6,8 +6,8 @@ class Inventory {
 public:
     Inventory(std::shared_ptr<Player> player) : player_(player)
     {
-        weapon_ = nullptr;
-        armor_ = nullptr;
+        auto weapon_ = new Weapon(0.f, 0.f,sf::Vector2f(0.f,0.f), "Stick", player, 1); //Starting weapon
+        auto armor_ = new Armor(0.f, 0.f,sf::Vector2f(0.f,0.f), "T-shirt", player, 0); //Starting armor
         heldConsumable_ = nullptr;
     }
     ~Inventory() {}

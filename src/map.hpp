@@ -28,7 +28,7 @@ public:
 
     Map() {}
 
-    Map(int difficulty);
+    Map(int difficulty, Player* p);
 
     ~Map() { for(auto i : rooms_) delete i; }
 
@@ -46,6 +46,8 @@ private:
     int difficulty_;
 
     std::list<Room*> rooms_;
+
+    Player* p_;
 
     // std::list<Connection*> connections_;
 

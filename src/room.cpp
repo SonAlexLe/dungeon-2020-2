@@ -1,7 +1,7 @@
 #include "room.hpp"
 
 
-Room::Room() : size_(300, 300), player_(nullptr), item_(nullptr), Nconn_(nullptr), Sconn_(nullptr), Wconn_(nullptr), Econn_(nullptr) {
+Room::Room() : size_(300, 300), item_(nullptr), Nconn_(nullptr), Sconn_(nullptr), Wconn_(nullptr), Econn_(nullptr) {
 
 }
 
@@ -17,11 +17,11 @@ Room::~Room() {
     }
 }
 
-Player* Room::GetPlayer() { return player_; }
+/* Player* Room::GetPlayer() { return player_; }
 
 void Room::RemovePlayer() { player_ = nullptr; }
 
-void Room::AddPlayer(Player* p) { player_ = p; }
+void Room::AddPlayer(Player* p) { player_ = p; } */
 
 std::list<Monster*>& Room::GetEnemies() {
     return enemies_;
@@ -51,6 +51,14 @@ void Room::AddConnection(Connection* c) { connections_.push_back(c); }
 
 std::list<Projectile*>& Room::GetProjectiles() { return projectiles_; }
 
+bool Room::IsClear() {
+    bool ret = true;
+    for (auto m : enemies_) {
+        ret = ret & !(m->isActive());
+    }
+    return ret;
+}
+
 // std::list<Obstacle*> Room::GetObstacles() { return obstacles_; }
 
 // void Room::AddObstacle(Obstacle* r) { obstacles_.push_back(r); }
@@ -61,8 +69,16 @@ double Room::GetHeight() { return size_.y; }
 
 void Room::SetNConn(Room* r) { Nconn_ = r; }
 
+Room* Room::GetNConn() { return Nconn_; }
+
 void Room::SetSConn(Room* r) { Sconn_ = r; }
+
+Room* Room::GetSConn() { return Sconn_; }
 
 void Room::SetWConn(Room* r) { Wconn_ = r; }
 
+Room* Room::GetWConn() { return Wconn_; }
+
 void Room::SetEConn(Room* r) { Econn_ = r; }
+
+Room* Room::GetEConn() { return Econn_; }

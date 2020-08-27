@@ -17,7 +17,7 @@ class Connection : public Entity {
 public:
     Connection();
 
-    Connection(float x, float y);
+    Connection(float x, float y, std::string f, Player* p);
     
     void unlock();
 
@@ -29,7 +29,7 @@ public:
 
     /*WIP. Maybe should take the player as a parameter or is called when a connection and a player collide.
      Also needs to place the player on the correct spot after traversing. (Tried to connect connections together) */
-    void traverse(Player* p);
+    void traverse();
 
     void draw(sf::RenderWindow* window);
 
@@ -37,7 +37,11 @@ private:
 
     bool locked_;
 
+    std::string facing_;
+
     sf::Texture texture_; 
 
     sf::Sprite sprite_;
+
+    Player* player_;
 };

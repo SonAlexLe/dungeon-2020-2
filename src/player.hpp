@@ -22,6 +22,9 @@ public:
 
     //Getters for interfacing
     Room *GetRoom();
+
+    void SetRoom(Room* r);
+
     sf::Sprite& GetSprite();
     float GetReload();
 

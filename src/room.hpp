@@ -24,11 +24,11 @@ public:
     // Each room has containers for each type of entity contained in it and interfaces for accessing each container
     // Since all these objects share a base class you could just have one container for all of them but travesing this container would be very tedious.
 
-    Player* GetPlayer();
+    /* Player* GetPlayer();
 
     void AddPlayer(Player* p);
 
-    void RemovePlayer();
+    void RemovePlayer(); */
 
     std::list<Monster*>& GetEnemies();
 
@@ -51,6 +51,8 @@ public:
 
     void RemoveProjectile(Projectile*);
 
+    bool IsClear();
+
     // Obstacles can be unpassable map geometry. Hazards(lava/spikes) could also be in obstacles or could be considered enemies without movement
     // std::list<Obstacle*> GetObstacles();
 
@@ -64,11 +66,19 @@ public:
 
     void SetNConn(Room* r);
 
+    Room* GetNConn();
+
     void SetSConn(Room* r);
+
+    Room* GetSConn();
 
     void SetWConn(Room* r);
 
+    Room* GetWConn();
+
     void SetEConn(Room* r);
+
+    Room* GetEConn();
 
 
 protected:
@@ -77,7 +87,7 @@ protected:
 
     sf::Vector2f size_;
 
-    Player* player_;
+    //Player* player_;
 
     std::list<Monster*> enemies_;
 

@@ -2,45 +2,72 @@
 
 Connection::Connection() : Entity() {}
 
-Connection::Connection(float x, float y) : Entity(x, y, sf::Vector2f()), locked_(true) {}
+Connection::Connection(float x, float y, std::string f, Player* p) : Entity(x, y, sf::Vector2f()), locked_(true), facing_(f), player_(p) {
+    if (!texture_.loadFromFile("src/Sprites/door.png")) std::cout << "sprite error!" << std::endl;
+    sprite_.setTexture(texture_);
+    sprite_.setScale(sf::Vector2f(2.4f, 2.4f)); //Change later
+}
 
 void Connection::unlock() { locked_ = false;}
 
-//Needs to be updated once sprites are figured out
 const std::string Connection::GetSpriteName() const {return "door.png";}
 
-void Connection::update(sf::Time dt) {}
+void Connection::update(sf::Time dt) {
+    if (this->sprite_.getGlobalBounds().intersects(player_->GetSprite().getGlobalBounds()) ) {
+        std::cout << "collision" << std::endl;
+        std::cout << "This door is facing: " << facing_ << std::endl;
+        traverse();
+    }
+}
 
 void Connection::load() {}
 
-//Should probably be on update
-void Connection::traverse(Player* p) {
-    if(locked_ == false && this->sprite_.getGlobalBounds().intersects(p->GetSprite().getGlobalBounds())){ //Checks collision 
-        if (currPos_.x == 50.0 && currPos_.y == 0.0) { //Connection is north
-            /*
-            p->room_ = connected_to_;
-            p->currPos_ = 100.0 50.0 */
-        if (currPos_.x == 100.0 && currPos_.y == 50.0) {
-            /*
-            p->room_ = connected_to_;
-            p->currPos_ = 0.0 50.0 */
+
+void Connection::traverse() {
+    double size = player_->GetRoom()->GetHeight();
+        if (this->facing_ == "north") {
+
+            std::cout << "North door" << std::endl;
+            Room* nn = player_->GetRoom()->GetNConn();
+            player_->SetRoom(nn);
+            std::cout << "Swapped room" << std::endl;
+            player_->SetPosition(sf::Vector2f(150, 150));
+            //player_->SetPosition(sf::Vector2f(size / 2, size));
         }
-        if (currPos_.x == 50.0 && currPos_.y == 100.0) {
-            /*
-            p->room_ = connected_to_;
-            p->currPos_ = 50.0 0.0 */
+        else if (this->facing_ == "south") {
+
+            Room* sn = player_->GetRoom()->GetSConn();
+            player_->SetRoom(sn);
+            std::cout << "Swapped room" << std::endl;
+            player_->SetPosition(sf::Vector2f(150, 150));
+            //player_->SetPosition(sf::Vector2f(size / 2, 0.0));
         }
-        if (currPos_.x == 50.0 && currPos_.y == 100.0) {
-            /*
-            p->room_ = connected_to_;
-            p->currPos_ = 50.0 0.0 */
+        else if (this->facing_ == "west") {
+
+            Room* wn = player_->GetRoom()->GetWConn();
+            player_->SetRoom(wn);
+            std::cout << "Swapped room" << std::endl;
+            player_->SetPosition(sf::Vector2f(150, 150));
+            //player_->SetPosition(sf::Vector2f(size, size / 2));
         }
-    }
-    }  
+        else if (this->facing_ == "east") {
+
+            Room* en = player_->GetRoom()->GetEConn();
+            player_->SetRoom(en);
+            std::cout << "Swapped room" << std::endl;
+            player_->SetPosition(sf::Vector2f(150, 150));
+            //player_->SetPosition(sf::Vector2f(0.0, size / 2));
+        }
 }
 
-void Connection::draw(sf::RenderWindow* window) { //Now only draws the sprite but it also should draw the name of the item under it.
-    if(this->locked_ == false){ //Draw function should only draw the object if it's not equipped.
-        window->draw(this->sprite_);
+void Connection::draw(sf::RenderWindow* window) { 
+    sf::FloatRect m_rec = sprite_.getGlobalBounds();
+    sf::RectangleShape m_box(sf::Vector2f(m_rec.width, m_rec.height));
+    m_box.setOutlineThickness(2);
+    m_box.setOutlineColor(sf::Color::Blue);
+    m_box.setFillColor(sf::Color::Transparent);
+    m_box.setPosition(sf::Vector2f(currPos_.x*3, currPos_.y*3));
+    window->draw(m_box);
+    sprite_.setPosition(sf::Vector2f(currPos_.x*3, currPos_.y*3));
+    window->draw(sprite_);
     }
-}

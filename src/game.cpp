@@ -179,7 +179,7 @@ void Game::render()
     //draw the room
     // sf::Sprite roomsprite(gametexture_, sf::IntRect(0,90,64,48));
     sf::Vector2f roomSize = p1_->GetRoom()->GetSize();
-    sf::RectangleShape room(roomSize*3.f);
+    sf::RectangleShape room(sf::Vector2f((roomSize.x+16)*3,(roomSize.y+16)*3));
     room.setTexture(&gametexture_);
     room.setTextureRect(sf::IntRect(0,90,64,48));
     // room.setFillColor(sf::Color::White);
@@ -227,7 +227,7 @@ void Game::render()
     score.setFont(gamefont_);
     score.setString(ss.str());
     score.setCharacterSize(25);
-    score.setFillColor(sf::Color::Blue);
+    score.setFillColor(sf::Color::White);
     score.setStyle(sf::Text::Underlined);
     window_->draw(score);
     std::stringstream ss2;
@@ -272,8 +272,19 @@ void Game::render()
         gameover.setString("YOU DIE");
         gameover.setFillColor(sf::Color::Red);
         gameover.setStyle(sf::Text::Underlined | sf::Text::Bold);
-        gameover.setPosition(sf::Vector2f(window_->getSize().x/2 - gameover.getGlobalBounds().width/2, window_->getSize().y/2 - gameover.getGlobalBounds().height/2));
+        gameover.setPosition(sf::Vector2f(window_->getSize().x/2 - gameover.getGlobalBounds().width/2, window_->getSize().y/2 - gameover.getGlobalBounds().height));
         window_->draw(gameover);
+
+        sf::Text FinalScore;
+        FinalScore.setFont(gamefont_);
+        FinalScore.setCharacterSize(60);
+        std::stringstream finalscore;
+        finalscore << "Score:" << p1_->GetScore();
+        FinalScore.setString(finalscore.str());
+        FinalScore.setFillColor(sf::Color::Red);
+        FinalScore.setStyle(sf::Text::Bold);
+        FinalScore.setPosition(sf::Vector2f(window_->getSize().x/2 - FinalScore.getGlobalBounds().width/2, window_->getSize().y/2 + gameover.getGlobalBounds().height));
+        window_->draw(FinalScore);
     }
 
     //display graphics

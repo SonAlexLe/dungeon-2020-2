@@ -228,6 +228,28 @@ void Game::render()
     hp.setStyle(sf::Text::Bold);
     hp.setPosition(0,30);
     window_->draw(hp);
+    //generate attack & defense values on screen
+    std::stringstream ss3;
+    ss3 << "ATK: " << inventory_->getDmgValue();
+    sf::Text ATK;
+    ATK.setFont(gamefont_);
+    ATK.setString(ss3.str());
+    ATK.setCharacterSize(25);
+    ATK.setFillColor(sf::Color::Red);
+    ATK.setStyle(sf::Text::Bold);
+    ATK.setPosition(0, 60);
+    window_->draw(ATK);
+    //---DEF
+    std::stringstream ss4;
+    ss4 << "DEF: " << inventory_->getArmorValue();
+    sf::Text DEF;
+    DEF.setFont(gamefont_);
+    DEF.setString(ss4.str());
+    DEF.setCharacterSize(25);
+    DEF.setFillColor(sf::Color::Yellow);
+    DEF.setStyle(sf::Text::Bold);
+    DEF.setPosition(0, 90);
+    window_->draw(DEF);
     
 
     //GAME OVER TEXT FOR WHEN THE PLAYER DIES

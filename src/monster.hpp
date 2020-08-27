@@ -27,7 +27,6 @@ protected:
     //is the monster updated & rendered? 
     bool active_;
 
-    sf::Texture texture_;
     sf::Sprite sprite_;
 
     int hp_;

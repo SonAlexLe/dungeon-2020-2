@@ -2,9 +2,17 @@
 
 Game::Game(sf::RenderWindow *window) : difficulty_(0), window_(window) 
 {
+    //load the resources to be used
+    if (!gamefont_.loadFromFile("src/sprites/arial.ttf"))
+    {
+        std::cout << "font error" << std::endl;
+    }
+    if(!gametexture_.loadFromFile("src/sprites/game_texture.png")){
+        std::cout << "sprite error" << std::endl;
+    }
     //Generate a new dungeon floor as the starting map
     std::shared_ptr<Room> room = std::make_shared<Room>();
-    p1_ = std::make_shared<Player>(room);
+    p1_ = std::make_shared<Player>(room, gametexture_);
     dungeon_ = std::make_shared<Map>(difficulty_, p1_);
     p1_->SetRoom(dungeon_->GetStartingRoom());
 
@@ -16,17 +24,8 @@ Game::Game(sf::RenderWindow *window) : difficulty_(0), window_(window)
     p1_->GetRoom()->AddEnemy(o); */
 
     p1_->GetRoom()->AddEnemy(std::make_shared<Orc>(100, 100, p1_));
-    // p1_->GetRoom()->AddEnemy(new Orge(0, 0, p1_));
     //Create an inventory
     inventory_ = std::make_shared<Inventory>(p1_);
-    //load the resources to be used
-    if (!gamefont_.loadFromFile("src/sprites/arial.ttf"))
-    {
-        std::cout << "font error" << std::endl;
-    }
-    if(!gametexture_.loadFromFile("src/sprites/game_texture.png")){
-        std::cout << "sprite error" << std::endl;
-    }
     //Start the dT timer
     clock_.restart();
     //Game is now running, moving to the main loop.
@@ -45,31 +44,31 @@ void Game::input()
         {
         case sf::Event::Closed:
             //handle window close
-                isRunning_ = false;
-                break;
+            isRunning_ = false;
+            break;
 
         case sf::Event::KeyPressed:
             //Handling keyboard input. Pressing down and releasing a key are treated as separate events.
             //WASD control the movement, toggling the player acceleration in a given direction on or off.
-                switch (event.key.code)
-                {
-                case sf::Keyboard::W:
-                    p1_->accUp(true);
-                    break;
-                case sf::Keyboard::A:
-                    p1_->accLeft(true);
-                    break;
-                case sf::Keyboard::S:
-                    p1_->accDown(true);
-                    break;
-                case sf::Keyboard::D:
-                    p1_->accRight(true);
-                    break;
-                default:
-                //could add other keys here...
-                    break;
-                }
+            switch (event.key.code)
+            {
+            case sf::Keyboard::W:
+                p1_->accUp(true);
                 break;
+            case sf::Keyboard::A:
+                p1_->accLeft(true);
+                break;
+            case sf::Keyboard::S:
+                p1_->accDown(true);
+                break;
+            case sf::Keyboard::D:
+                p1_->accRight(true);
+                break;
+            default:
+                //could add other keys here...
+                break;
+            }
+            break;
 
         case sf::Event::KeyReleased:
             switch (event.key.code)
@@ -94,23 +93,27 @@ void Game::input()
 
         case sf::Event::MouseButtonPressed:
         //Clicking the left mouse button fires a projectile towards the direction of the mouse. 
-                if(event.mouseButton.button == sf::Mouse::Button::Left)
-                {
-                    if(p1_->GetReload() == 0){
-                        float projectilespeed = 150;
-                        //calculate the direction of the projectile with the linear combination of the mouse and player location vectors. 
-                        sf::Vector2f projectile_direction = p1_->GetPosition() - sf::Vector2f(sf::Mouse::getPosition(*window_).x/3 ,sf::Mouse::getPosition(*window_).y/3);
-                        //calculate speed with the pythagoran theorem
-                        float vlength = -1 * std::sqrt(projectile_direction.x*projectile_direction.x + projectile_direction.y * projectile_direction.y);
-                        //velocity = unit direction vector * speed
-                        sf::Vector2f projectile_velocity(projectile_direction.x/vlength*projectilespeed,projectile_direction.y/vlength*projectilespeed);
-                        //create new projectile, the creation point is the middle of player instead of the top-left corner, the coefficient is 6 because graphics are scaled 3 times from the actual game logic.
-                        p1_->GetRoom()->AddProjectile(std::make_shared<Projectile>(sf::Vector2f(p1_->GetPosition().x + (p1_->GetSprite().getGlobalBounds().width/6),p1_->GetPosition().y+ p1_->GetSprite().getGlobalBounds().height/6),projectile_velocity, 1, false));
-                        //set the player reload time, reload must finish before firing
-                        p1_->Attack();
-                    }
+            if(event.mouseButton.button == sf::Mouse::Button::Left)
+            {
+                if(p1_->GetReload() == 0){
+                    float projectilespeed = 150;
+                    //calculate the direction of the projectile with the linear combination of the mouse and player location vectors. 
+                    sf::Vector2f projectile_direction = p1_->GetPosition() - sf::Vector2f(sf::Mouse::getPosition(*window_).x/3 ,sf::Mouse::getPosition(*window_).y/3);
+                    //calculate speed with the pythagoran theorem
+                    float vlength = -1 * std::sqrt(projectile_direction.x*projectile_direction.x + projectile_direction.y * projectile_direction.y);
+                    //velocity = unit direction vector * speed
+                    sf::Vector2f projectile_velocity(projectile_direction.x/vlength*projectilespeed,
+                                                    projectile_direction.y/vlength*projectilespeed);
+                    //create new projectile, the creation point is the middle of player instead of the top-left corner, the coefficient is 6 because graphics are scaled 3 times from the actual game logic.
+                    p1_->GetRoom()->AddProjectile(std::make_shared<Projectile>(
+                        sf::Vector2f(p1_->GetPosition().x + (p1_->GetSprite().getGlobalBounds().width/6),
+                        p1_->GetPosition().y+ p1_->GetSprite().getGlobalBounds().height/6),
+                        projectile_velocity, 1, false, gametexture_));
+                    //set the player reload time, reload must finish before firing
+                    p1_->Attack();
                 }
-                break;
+            }
+            break;
         default:
             break;
         }
@@ -173,13 +176,15 @@ void Game::render()
     window_->clear(sf::Color::Black);
 
     //draw the room
-    sf::Sprite roomsprite(gametexture_, sf::IntRect(0,90,64,48));
+    // sf::Sprite roomsprite(gametexture_, sf::IntRect(0,90,64,48));
     sf::Vector2f roomSize = p1_->GetRoom()->GetSize();
     sf::RectangleShape room(sf::Vector2f(roomSize.x*3,roomSize.y*3));
-    room.setFillColor(sf::Color::White);
-    roomsprite.setScale(sf::Vector2f(6, 6));
+    room.setTexture(&gametexture_);
+    room.setTextureRect(sf::IntRect(0,90,64,48));
+    // room.setFillColor(sf::Color::White);
+    // roomsprite.setScale(sf::Vector2f(6, 6));
     window_->draw(room);
-    window_->draw(roomsprite);
+    // window_->draw(roomsprite);
     
     //draw the player
     p1_->Draw(window_);

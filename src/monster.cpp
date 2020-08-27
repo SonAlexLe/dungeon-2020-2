@@ -36,8 +36,7 @@ sf::Sprite& Monster::GetSprite() { return sprite_; }
 Orc::Orc(float x, float y, std::shared_ptr<Player> p)
     : Monster(x, y, sf::Vector2f(ORC_SPEED, ORC_SPEED), ORC_HP, p)
 {
-    if (!texture_.loadFromFile("src/Sprites/game_texture.png")) std::cout << "sprite error" << std::endl;
-    sprite_ = sf::Sprite(texture_,sf::IntRect(32,160,16,16));
+    sprite_ = sf::Sprite(p->GetTexture(), sf::IntRect(32,160,16,16));
     sprite_.setScale(sf::Vector2f(2, 2));
 }
 
@@ -66,8 +65,7 @@ void Orc::update(sf::Time dt) {
 Orge::Orge(float x, float y, std::shared_ptr<Player> p)
     : Monster(x, y, sf::Vector2f(0, 0), ORGE_HP, p), aggro_(1)
 {
-    if (!texture_.loadFromFile("src/Sprites/game_texture.png")) std::cout << "sprite error" << std::endl;
-    sprite_ = sf::Sprite(texture_,sf::IntRect(96,176,32,32));
+    sprite_ = sf::Sprite(p->GetTexture(), sf::IntRect(96,176,32,32));
     sprite_.setScale(sf::Vector2f(2, 2));
 }
 

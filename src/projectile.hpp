@@ -18,16 +18,13 @@ class Projectile: public Entity
 
     sf::Sprite sprite_;
 
-    sf::Texture texture_;
-
     public:
 
     //initial velocity of projectile is arbitrarily [0, 0]
     Projectile() = delete;
-    Projectile(sf::Vector2f location,sf::Vector2f velocity, int damage, bool hostile) :
+    Projectile(sf::Vector2f location,sf::Vector2f velocity, int damage, bool hostile, sf::Texture& t) :
     Entity(location.x,location.y,velocity), damage_(damage), hostile_(hostile), active_(true) {
-        if (!texture_.loadFromFile("src/Sprites/game_texture.png")) {std::cout << "sprite error" << std::endl;}
-        sprite_ = sf::Sprite(texture_,sf::IntRect(146,8,10,25));
+        sprite_ = sf::Sprite(t, sf::IntRect(146,8,10,25));
         //rotate the projectile
         float angle = 0;
         if( velocity_.x == 0 && velocity_.y < 0) {angle = 0;}

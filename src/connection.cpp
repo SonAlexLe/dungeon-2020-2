@@ -70,4 +70,4 @@ void Connection::draw(sf::RenderWindow* window) {
     window->draw(m_box);
     sprite_.setPosition(sf::Vector2f(currPos_.x*3, currPos_.y*3));
     window->draw(sprite_);
-    }
+}

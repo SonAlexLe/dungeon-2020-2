@@ -72,9 +72,10 @@ void Map::map_init() {
             if(neighbors.size() >= 1 && neighbors.size() < 3) {
 
                 //All conditions are met, create a room
-                Room* room = room_init();
+                
+                // Room* room = room_init();
 
-                // Room* room = new Room;
+                Room* room = new Room;
                 map[x][y] = room;
                 rooms_.push_back(room);
 

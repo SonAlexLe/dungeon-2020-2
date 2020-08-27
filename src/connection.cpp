@@ -13,9 +13,11 @@ void Connection::unlock() { locked_ = false;}
 const std::string Connection::GetSpriteName() const {return "door.png";}
 
 void Connection::update(sf::Time dt) {
-    std::cout << "Door is @ " << currPos_.x << " " << currPos_.y << std::endl;
-    std::cout << "Player is @ " << player_->GetPosition().x << " " << player_->GetPosition().y << std::endl;
-    if (sprite_.getGlobalBounds().intersects(player_->GetSprite().getGlobalBounds())) {
+    if (player_->GetRoom()->GetEnemies().empty()) {
+        this->unlock();
+        std::cout << "Door unlocked" << std::endl;
+    }
+    if (this->sprite_.getGlobalBounds().intersects(player_->GetSprite().getGlobalBounds()) && !locked_) {
         std::cout << "collision" << std::endl;
         traverse();
     }
@@ -36,7 +38,7 @@ void Connection::traverse() {
             // player_->SetPosition(sf::Vector2f(size / 2, size));
         }   
         //if (currPos_.x == size && currPos_.y == size / 2) { // South
-        if (this->facing_ == "south") {
+        else if (this->facing_ == "south") {
             std::cout << "South door" << std::endl;
 
             Room* sn = player_->GetRoom()->GetSConn();
@@ -46,7 +48,7 @@ void Connection::traverse() {
             // player_->SetPosition(sf::Vector2f(size / 2, 0.0));
         }
         //if (currPos_.x == 0 && currPos_.y == size / 2) { // West
-        if (this->facing_ == "west") {
+        else if (this->facing_ == "west") {
             std::cout << "West door" << std::endl;
 
             Room* wn = player_->GetRoom()->GetWConn();
@@ -56,7 +58,7 @@ void Connection::traverse() {
             // player_->SetPosition(sf::Vector2f(size, size / 2));
         }
         //if (currPos_.x == size && currPos_.y == size / 2) { // East
-        if (this->facing_ == "east") {
+        else if (this->facing_ == "east") {
             std::cout << "East door" << std::endl;
 
             Room* en = player_->GetRoom()->GetEConn();
@@ -70,7 +72,7 @@ void Connection::traverse() {
 }
 
 void Connection::draw(sf::RenderWindow* window) { 
-    // if(this->locked_ == false){}
+    if(!this->locked_) {
 
     sf::FloatRect m_rec = sprite_.getGlobalBounds();
     sf::RectangleShape m_box(sf::Vector2f(m_rec.width, m_rec.height));
@@ -81,5 +83,6 @@ void Connection::draw(sf::RenderWindow* window) {
     window->draw(m_box);
     sprite_.setPosition(sf::Vector2f(currPos_.x*3, currPos_.y*3));
     window->draw(sprite_);
-    
+    }
+ 
 }

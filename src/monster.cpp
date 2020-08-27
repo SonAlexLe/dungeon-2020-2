@@ -51,9 +51,6 @@ void Orc::update(sf::Time dt) {
             velocity_ = sf::Vector2f(ORC_SPEED, ORC_SPEED);
         currPos_ += dt.asSeconds() * velocity_;
     } else {
-        std::cout << "Monster is @ " << currPos_.x << " " << currPos_.y << std::endl;
-        std::cout << "Player is @ " << p_->GetPosition().x << " " << p_->GetPosition().y << std::endl;
-        std::cout << "monster collision" << std::endl;
         hp_--;
         p_->SetHP(p_->GetHP()-1);
     }

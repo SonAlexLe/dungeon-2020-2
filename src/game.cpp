@@ -260,8 +260,19 @@ void Game::render()
         gameover.setString("GAME OVER!");
         gameover.setFillColor(sf::Color::Red);
         gameover.setStyle(sf::Text::Underlined | sf::Text::Bold);
-        gameover.setPosition(sf::Vector2f(window_->getSize().x/2 - gameover.getGlobalBounds().width/2, window_->getSize().y/2 - gameover.getGlobalBounds().height/2));
+        gameover.setPosition(sf::Vector2f(window_->getSize().x/2 - gameover.getGlobalBounds().width/2, window_->getSize().y/2 - gameover.getGlobalBounds().height));
         window_->draw(gameover);
+
+        sf::Text FinalScore;
+        FinalScore.setFont(gamefont_);
+        FinalScore.setCharacterSize(60);
+        std::stringstream finalscore;
+        finalscore << "Score:" << p1_->GetScore();
+        FinalScore.setString(finalscore.str());
+        FinalScore.setFillColor(sf::Color::Red);
+        FinalScore.setStyle(sf::Text::Bold);
+        FinalScore.setPosition(sf::Vector2f(window_->getSize().x/2 - FinalScore.getGlobalBounds().width/2, window_->getSize().y/2 + gameover.getGlobalBounds().height));
+        window_->draw(FinalScore);
     }
 
     //display graphics

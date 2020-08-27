@@ -49,7 +49,7 @@ public:
 
     //Update methods
     void update(sf::Time dt);
-    void Draw(sf::RenderWindow*);
+    void Draw(sf::RenderWindow*, sf::Color c = sf::Color::Transparent);
     sf::Texture& GetTexture() { return texture_; }
 
 private:

@@ -10,7 +10,7 @@ public:
     Monster();
     Monster(float x, float y, sf::Vector2f velocity, int hp, std::shared_ptr<Player> p);
 
-    void Draw(sf::RenderWindow*);
+    void Draw(sf::RenderWindow*, sf::Color c = sf::Color::Transparent);
 
 //Getters and setters
     sf::Sprite& GetSprite();

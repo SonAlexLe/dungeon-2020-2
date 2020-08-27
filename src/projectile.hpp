@@ -52,11 +52,11 @@ class Projectile: public Entity
     
     sf::Sprite GetSprite() {return sprite_;}
 
-    void Draw(sf::RenderWindow* w) {
+    void Draw(sf::RenderWindow* w, sf::Color c = sf::Color::Transparent) {
         sf::FloatRect p_rec = sprite_.getGlobalBounds();
         sf::RectangleShape p_box(sf::Vector2f(p_rec.width, p_rec.height));
         p_box.setOutlineThickness(0.5);
-        p_box.setOutlineColor(sf::Color::Transparent);
+        p_box.setOutlineColor(c);
         p_box.setFillColor(sf::Color::Transparent);
         p_box.setPosition(sf::Vector2f(currPos_.x*3, currPos_.y*3));
         w->draw(p_box);

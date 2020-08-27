@@ -2,9 +2,8 @@
 #define MAX_X 50.f
 #define MAX_Y 50.f
 #define ACCEL_RATE 80.f
-#define ACCEL_RATE_NEG -ACCEL_RATE
 #define DECCEL_RATE 20.f
-#define PLR_HP 10
+#define PLR_HP 30
 
 Player::Player(std::shared_ptr<Room> room, sf::Texture& t)
     : Entity(room->GetWidth()/2,room->GetHeight()/2, sf::Vector2f(0,0)), room_(room),
@@ -16,12 +15,12 @@ Player::Player(std::shared_ptr<Room> room, sf::Texture& t)
     sprite_.setScale(sf::Vector2f(2, 2));
 }
 
-void Player::Draw(sf::RenderWindow* w) {
+void Player::Draw(sf::RenderWindow* w, sf::Color c) {
     sf::FloatRect p_rec = sprite_.getGlobalBounds();
     sf::RectangleShape p_box(sf::Vector2f(p_rec.width, p_rec.height));
     //Boundary box for collision detection
     p_box.setOutlineThickness(2);
-    p_box.setOutlineColor(sf::Color::Red);
+    p_box.setOutlineColor(c);
     p_box.setFillColor(sf::Color::Transparent);
     p_box.setPosition(sf::Vector2f(currPos_.x*3, currPos_.y*3));
     w->draw(p_box);
@@ -101,8 +100,8 @@ void Player::update(sf::Time dt) {
    currPos_ += 0.5f * dt.asSeconds() * (velocity_ + v0);
 
 //make sure the player stays within the play area.
-   if(currPos_.x < 0) { currPos_.x = 0; velocity_.x = 0; }
-   if(currPos_.y < 0) { currPos_.y = 0; velocity_.y = 0; }
+    if(currPos_.x < 0) { currPos_.x = 0; velocity_.x = 0; }
+    if(currPos_.y < 0) { currPos_.y = 0; velocity_.y = 0; }
     auto bounds = sprite_.getGlobalBounds();
     if (currPos_.x+bounds.width/3 > GetRoom()->GetWidth()) {
         currPos_ = sf::Vector2f(GetRoom()->GetWidth()-bounds.width/3, currPos_.y);

@@ -4,9 +4,9 @@
 #define ORC_HP 5
 #define ORGE_HP 10
 #define BOSS_HP 30
-#define BOSS_N_SPEED 100.f //normal speed
-#define BOSS_H_SPEED 50.f //enraged speed (H for hard)
-#define BOSS_COOLDOWN 3
+#define BOSS_SPEED 100.f
+#define BOSS_DECCEL 30.f
+#define BOSS_COOLDOWN 1.5
 #define BOSS_RAGE_LIMIT 0.9
 
 Monster::Monster() {}
@@ -22,11 +22,11 @@ Monster::Monster(float x, float y, sf::Vector2f velocity, int hp, std::shared_pt
     : Entity(x, y, velocity), hp_(hp), p_(p), active_(true) {}
 
 //renders a monster onscreen
-void Monster::Draw(sf::RenderWindow* w) {
+void Monster::Draw(sf::RenderWindow* w, sf::Color c) {
     sf::FloatRect m_rec = sprite_.getGlobalBounds();
     sf::RectangleShape m_box(sf::Vector2f(m_rec.width, m_rec.height));
     m_box.setOutlineThickness(2);
-    m_box.setOutlineColor(sf::Color::Red);
+    m_box.setOutlineColor(c);
     m_box.setFillColor(sf::Color::Transparent);
     m_box.setPosition(sf::Vector2f(currPos_.x*3, currPos_.y*3));
     w->draw(m_box);
@@ -109,8 +109,8 @@ void Orge::update(sf::Time dt) {
         sf::Vector2f diff = target - currPos_;
         diff = diff/(float)sqrt(diff.x*diff.x + diff.y*diff.y);
         velocity_ = diff * ORGE_SPEED * aggro_;
+        currPos_ += dt.asSeconds() * velocity_;
     }
-    currPos_ += dt.asSeconds() * velocity_;
     //aggro determines how fast the orge chases the player, increases over time
     aggro_ += dt.asSeconds() * 0.25;
     //when a monster dies it disappears and gives the player score
@@ -140,24 +140,43 @@ void Boss::update(sf::Time dt) {
         std::cout << "BIG OOF!" << std::endl;
         if (!(hp_ > BOSS_HP*BOSS_RAGE_LIMIT)) cooldown_ = BOSS_COOLDOWN;
     }
-    if (hp_ > BOSS_HP*BOSS_RAGE_LIMIT) {
+    if (hp_ > BOSS_HP*BOSS_RAGE_LIMIT) { // normal boss
         auto bounds = sprite_.getGlobalBounds();
         sf::Vector2f center = p_->GetRoom()->GetSize()*(float)0.5-sf::Vector2f(bounds.width/6,bounds.height/6);
         sf::Vector2f accdir = currPos_ - center;
         float radius = std::sqrt(accdir.x*accdir.x + accdir.y*accdir.y);
         float elapsed = clock_.getElapsedTime().asSeconds();
-        currPos_ = center + sf::Vector2f(std::cos(BOSS_N_SPEED/radius*elapsed), std::sin(BOSS_N_SPEED/radius*elapsed))*radius;
-    } else if (cooldown_ == 0) {
+        currPos_ = center + sf::Vector2f(std::cos(BOSS_SPEED/radius*elapsed), std::sin(BOSS_SPEED/radius*elapsed))*radius;
+    } else { // enraged boss
+        sf::Vector2f v0(velocity_);
         sf::Vector2f target = p_->GetPosition();
         sf::Vector2f diff = target - currPos_;
         diff = diff/(float)sqrt(diff.x*diff.x + diff.y*diff.y);
-        velocity_ = diff * BOSS_N_SPEED;
-        currPos_ += dt.asSeconds() * velocity_;
-    } else {
-        cooldown_ -= std::min(dt.asSeconds(), cooldown_);
+        if (cooldown_ == 0) { // charge towards player
+            velocity_ = diff * BOSS_SPEED;
+        }
+        else {
+            cooldown_ -= std::min(dt.asSeconds(), cooldown_);
+            if (velocity_.y < 0) velocity_.y += BOSS_DECCEL * dt.asSeconds();
+            if (velocity_.x < 0) velocity_.x += BOSS_DECCEL * dt.asSeconds();
+            if (velocity_.y > 0) velocity_.y -= BOSS_DECCEL * dt.asSeconds();
+            if (velocity_.x > 0) velocity_.x -= BOSS_DECCEL * dt.asSeconds();
+        }
+        currPos_ += 0.5f * dt.asSeconds() * (velocity_ + v0);
     }
     if (hp_ <= 0) {
         active_ = false;
         p_->AddScore(100);
+    }
+    if(currPos_.x < 0) { currPos_.x = 0; velocity_.x = 0; }
+    if(currPos_.y < 0) { currPos_.y = 0; velocity_.y = 0; }
+    auto bounds = sprite_.getGlobalBounds();
+    if (currPos_.x+bounds.width/3 > p_->GetRoom()->GetWidth()) {
+        currPos_ = sf::Vector2f(p_->GetRoom()->GetWidth()-bounds.width/3, currPos_.y);
+        velocity_.x = 0;
+    }
+    if (currPos_.y+bounds.height/3 > p_->GetRoom()->GetHeight()) {
+        currPos_ = sf::Vector2f(currPos_.x, p_->GetRoom()->GetHeight()-bounds.height/3);
+        velocity_.y = 0;
     }
 }

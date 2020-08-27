@@ -64,8 +64,8 @@ void Map::map_init() {
                     std::cout << i << " ";
             }
             }
-            std::cout << std::endl;
-            */
+            std::cout << std::endl; */
+
             
 
             //The maximum amount of neighbors can be tweaked to change the layout of the maps
@@ -127,10 +127,10 @@ void Map::map_init() {
                             Room* neighbor = map[x][y + 1];
 
                             room->AddConnection(c1);
-                            room->SetNConn(neighbor);
+                            room->SetEConn(neighbor);
 
                             neighbor->AddConnection(c2);
-                            neighbor->SetSConn(room);
+                            neighbor->SetWConn(room);
                         }
                     if (*it == 3) {
                             std::cout << "Creating south connections"  << std::endl;
@@ -140,10 +140,10 @@ void Map::map_init() {
                             Room* neighbor = map[x + 1][y];
 
                             room->AddConnection(c1);
-                            room->SetNConn(neighbor);
+                            room->SetSConn(neighbor);
 
                             neighbor->AddConnection(c2);
-                            neighbor->SetSConn(room);
+                            neighbor->SetNConn(room);
                         }
                     if (*it == 4) {
                         {
@@ -154,10 +154,10 @@ void Map::map_init() {
                             Room* neighbor = map[x][y - 1];
 
                             room->AddConnection(c1);
-                            room->SetNConn(neighbor);
+                            room->SetWConn(neighbor);
 
                             neighbor->AddConnection(c2);
-                            neighbor->SetSConn(room);
+                            neighbor->SetEConn(room);
                         }
                     }
                 }

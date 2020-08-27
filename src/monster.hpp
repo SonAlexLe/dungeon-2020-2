@@ -64,4 +64,6 @@ class Boss : public Monster
     private:
     //for circular motion
     sf::Clock clock_;
+    //cooldown
+    float cooldown_;
 };

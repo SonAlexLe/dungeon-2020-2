@@ -6,6 +6,8 @@
 #define BOSS_HP 30
 #define BOSS_N_SPEED 100.f //normal speed
 #define BOSS_H_SPEED 50.f //enraged speed (H for hard)
+#define BOSS_COOLDOWN 3
+#define BOSS_RAGE_LIMIT 0.9
 
 Monster::Monster() {}
 
@@ -73,8 +75,8 @@ void Orc::update(sf::Time dt) {
             velocity_ = sf::Vector2f(ORC_SPEED, ORC_SPEED);
         currPos_ += dt.asSeconds() * velocity_;
     } else {
-        hp_--;
-        p_->SetHP(p_->GetHP()-1);
+        p_->SetHP(p_->GetHP()-4+p_->GetInventory()->getArmorValue());
+        hp_ -= p_->GetInventory()->getDmgValue();
         p_->Immortal();
         std::cout << "oof!" << std::endl;
     }
@@ -98,7 +100,8 @@ Orge::Orge(float x, float y, std::shared_ptr<Player> p)
 //determines the behavior of an Orge
 void Orge::update(sf::Time dt) {
     if (p_->CanDie() && sprite_.getGlobalBounds().intersects(p_->GetSprite().getGlobalBounds())) {
-        p_->SetHP(p_->GetHP()-3);
+        p_->SetHP(p_->GetHP()-4+p_->GetInventory()->getArmorValue());
+        hp_ -= p_->GetInventory()->getDmgValue();
         p_->Immortal();
         std::cout << "OOF!" << std::endl;
     } else {
@@ -120,7 +123,7 @@ void Orge::update(sf::Time dt) {
 //subclass Boss, the boss of the game. Defeat it for something interesting.
 
 Boss::Boss(float x, float y, std::shared_ptr<Player> p)
-    : Monster(x, y, sf::Vector2f(0, 0), BOSS_HP, p)
+    : Monster(x, y, sf::Vector2f(0, 0), BOSS_HP, p), cooldown_(0)
 {
     sprite_ = sf::Sprite(p->GetTexture(), sf::IntRect(160,177,33,31));
     sprite_.setScale(sf::Vector2f(2, 2));
@@ -128,12 +131,33 @@ Boss::Boss(float x, float y, std::shared_ptr<Player> p)
     clock_.restart();
 }
 
-//Boss moves in a circle around the center of the room
+//Boss moves in a circle around the center of the room. Charges towards the player if its hp gets low.
 void Boss::update(sf::Time dt) {
-    auto bounds = sprite_.getGlobalBounds();
-    sf::Vector2f center = p_->GetRoom()->GetSize()*(float)0.5-sf::Vector2f(bounds.width/6,bounds.height/6);
-    sf::Vector2f accdir = currPos_ - center;
-    float radius = std::sqrt(accdir.x*accdir.x + accdir.y*accdir.y);
-    float elapsed = clock_.getElapsedTime().asSeconds();
-    currPos_ = center + sf::Vector2f(std::cos(BOSS_N_SPEED/radius*elapsed), std::sin(BOSS_N_SPEED/radius*elapsed))*radius;
+    if (p_->CanDie() && sprite_.getGlobalBounds().intersects(p_->GetSprite().getGlobalBounds())) {
+        p_->SetHP(p_->GetHP()-4+p_->GetInventory()->getArmorValue());
+        hp_ -= p_->GetInventory()->getDmgValue();
+        p_->Immortal();
+        std::cout << "BIG OOF!" << std::endl;
+        if (!(hp_ > BOSS_HP*BOSS_RAGE_LIMIT)) cooldown_ = BOSS_COOLDOWN;
+    }
+    if (hp_ > BOSS_HP*BOSS_RAGE_LIMIT) {
+        auto bounds = sprite_.getGlobalBounds();
+        sf::Vector2f center = p_->GetRoom()->GetSize()*(float)0.5-sf::Vector2f(bounds.width/6,bounds.height/6);
+        sf::Vector2f accdir = currPos_ - center;
+        float radius = std::sqrt(accdir.x*accdir.x + accdir.y*accdir.y);
+        float elapsed = clock_.getElapsedTime().asSeconds();
+        currPos_ = center + sf::Vector2f(std::cos(BOSS_N_SPEED/radius*elapsed), std::sin(BOSS_N_SPEED/radius*elapsed))*radius;
+    } else if (cooldown_ == 0) {
+        sf::Vector2f target = p_->GetPosition();
+        sf::Vector2f diff = target - currPos_;
+        diff = diff/(float)sqrt(diff.x*diff.x + diff.y*diff.y);
+        velocity_ = diff * BOSS_N_SPEED;
+        currPos_ += dt.asSeconds() * velocity_;
+    } else {
+        cooldown_ -= std::min(dt.asSeconds(), cooldown_);
+    }
+    if (hp_ <= 0) {
+        active_ = false;
+        p_->AddScore(100);
+    }
 }

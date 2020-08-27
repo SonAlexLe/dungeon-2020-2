@@ -9,14 +9,14 @@ Inventory::Inventory(std::shared_ptr<Player> player) : player_(player)
 
 
 int Inventory::getArmorValue() {
-    if (armor_ == nullptr) {
+    if (!armor_) {
         return 0;
     }
     return armor_->getValue();
 }
 
 int Inventory::getDmgValue() {
-    if (weapon_ == nullptr) {
+    if (!weapon_ ) {
         return 0;
     }
     return weapon_->getValue();
@@ -27,7 +27,7 @@ void Inventory::addItem(std::shared_ptr<Item> newItem)
     switch (newItem->getType())
     {
     case weapon:
-        if (weapon_ == nullptr)
+        if (!weapon_)
         {
             weapon_ = newItem;
         }
@@ -40,7 +40,7 @@ void Inventory::addItem(std::shared_ptr<Item> newItem)
         }
         break;
     case armor:
-        if (this->armor_ == nullptr) {
+        if (!armor_) {
             this->armor_ = newItem;
         }
         else {
@@ -51,7 +51,7 @@ void Inventory::addItem(std::shared_ptr<Item> newItem)
         }
         break;
     case consumable:
-        if (this->heldConsumable_ == nullptr) {
+        if (!heldConsumable_) {
             this->heldConsumable_ = newItem;
         }
         else {
@@ -73,9 +73,9 @@ sf::Vector2f Inventory::Drop() { // Function to calculate the spot to drop the h
 }
 
 void Inventory::useConsumable() {
-    if (heldConsumable_ != nullptr) {
+    if (heldConsumable_) {
         heldConsumable_->use();
-        heldConsumable_ = nullptr;
+        heldConsumable_.reset();
     }
     return;
 }

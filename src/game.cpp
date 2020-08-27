@@ -23,9 +23,10 @@ Game::Game(sf::RenderWindow *window) : difficulty_(0), window_(window)
     o->SetHP(0);
     p1_->GetRoom()->AddEnemy(o); */
 
-    p1_->GetRoom()->AddEnemy(std::make_shared<Orc>(100, 100, p1_));
+    p1_->GetRoom()->AddEnemy(std::make_shared<Boss>(100, 100, p1_));
     //Create an inventory
     inventory_ = std::make_shared<Inventory>(p1_);
+    p1_->SetInventory(inventory_);
     //Start the dT timer
     clock_.restart();
     //Game is now running, moving to the main loop.
@@ -98,6 +99,7 @@ void Game::input()
             if(event.mouseButton.button == sf::Mouse::Button::Left)
             {
                 if(p1_->GetReload() == 0){
+                    int proj_dmg = 1;
                     float projectilespeed = 150;
                     //calculate the direction of the projectile with the linear combination of the mouse and player location vectors. 
                     sf::Vector2f projectile_direction = p1_->GetPosition() - sf::Vector2f(sf::Mouse::getPosition(*window_).x/3 ,sf::Mouse::getPosition(*window_).y/3);
@@ -110,7 +112,7 @@ void Game::input()
                     p1_->GetRoom()->AddProjectile(std::make_shared<Projectile>(
                         sf::Vector2f(p1_->GetPosition().x + (p1_->GetSprite().getGlobalBounds().width/6),
                         p1_->GetPosition().y+ p1_->GetSprite().getGlobalBounds().height/6),
-                        projectile_velocity, 1, false, gametexture_));
+                        projectile_velocity, proj_dmg, false, gametexture_));
                     //set the player reload time, reload must finish before firing
                     p1_->Attack();
                 }
@@ -167,9 +169,6 @@ void Game::update()
         }
         lastUpdate_ = time;
     }
-    //go through all the active entities in the current room and move them up to their speed.
-    //enemy AI should happen here
-    
 }
 void Game::render()
 {
@@ -222,7 +221,7 @@ void Game::render()
     
     //generate and draw score & hp text on screen
     std::stringstream ss;
-    ss<< "Score: " << p1_->GetScore();
+    ss << "Score: " << p1_->GetScore();
     sf::Text score;
     score.setFont(gamefont_);
     score.setString(ss.str());
@@ -272,18 +271,20 @@ void Game::render()
         gameover.setString("YOU DIE");
         gameover.setFillColor(sf::Color::Red);
         gameover.setStyle(sf::Text::Underlined | sf::Text::Bold);
-        gameover.setPosition(sf::Vector2f(window_->getSize().x/2 - gameover.getGlobalBounds().width/2, window_->getSize().y/2 - gameover.getGlobalBounds().height));
+        gameover.setPosition(sf::Vector2f(window_->getSize().x/2 - gameover.getGlobalBounds().width/2,
+                                          window_->getSize().y/2 - gameover.getGlobalBounds().height));
         window_->draw(gameover);
 
         sf::Text FinalScore;
         FinalScore.setFont(gamefont_);
         FinalScore.setCharacterSize(60);
         std::stringstream finalscore;
-        finalscore << "Score:" << p1_->GetScore();
+        finalscore << "Score: " << p1_->GetScore();
         FinalScore.setString(finalscore.str());
         FinalScore.setFillColor(sf::Color::Red);
         FinalScore.setStyle(sf::Text::Bold);
-        FinalScore.setPosition(sf::Vector2f(window_->getSize().x/2 - FinalScore.getGlobalBounds().width/2, window_->getSize().y/2 + gameover.getGlobalBounds().height));
+        FinalScore.setPosition(sf::Vector2f(window_->getSize().x/2 - FinalScore.getGlobalBounds().width/2,
+                                            window_->getSize().y/2 + gameover.getGlobalBounds().height));
         window_->draw(FinalScore);
     }
 

@@ -35,7 +35,7 @@ class Projectile: public Entity
             if( velocity_.x == 0 && velocity_.y > 0) {angle = 180;}
             else{
                 //calculate the rotational angle from the velocity vector, convert from radians to degrees.
-                if(velocity_.x < 0 || velocity_.y < 0){angle += 180;}
+                if(velocity_.x < 0){angle += 180;}
                 angle += 90 + std::atan(velocity_.y/velocity_.x) * (180.0/(2*std::acos(0.0)));
             }
         }

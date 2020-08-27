@@ -1,17 +1,17 @@
 #include "room.hpp"
 
 
-Room::Room() : size_(300, 300), player_(nullptr), item_(nullptr), Nconn_(nullptr), Sconn_(nullptr), Wconn_(nullptr), Econn_(nullptr) {
+Room::Room() : size_(300, 300), item_(nullptr), Nconn_(nullptr), Sconn_(nullptr), Wconn_(nullptr), Econn_(nullptr) {
 
 }
 
 Room::~Room() {}
 
-std::shared_ptr<Player> Room::GetPlayer() { return player_; }
+/* Player* Room::GetPlayer() { return player_; }
 
 void Room::RemovePlayer() { player_ = nullptr; }
 
-void Room::AddPlayer(std::shared_ptr<Player> p) { player_ = p; }
+void Room::AddPlayer(Player* p) { player_ = p; } */
 
 std::list<std::shared_ptr<Monster>>& Room::GetEnemies() {
     return enemies_;
@@ -30,11 +30,33 @@ void Room::AddConnection(std::shared_ptr<Connection> c) { connections_.push_back
 
 std::list<std::shared_ptr<Projectile>>& Room::GetProjectiles() { return projectiles_; }
 
+bool Room::IsClear() {
+    for (auto m : enemies_) {
+        if( m->isActive()) {return false;}
+    }
+    return true;
+}
+
+// std::list<Obstacle*> Room::GetObstacles() { return obstacles_; }
+
+// void Room::AddObstacle(Obstacle* r) { obstacles_.push_back(r); }
+
 sf::Vector2f Room::GetSize() {return size_;}
 double Room::GetWidth() { return size_.x; }
 double Room::GetHeight() { return size_.y; }
 
 void Room::SetNConn(std::shared_ptr<Room> r) { Nconn_ = r; }
+
+std::shared_ptr<Room> Room::GetNConn() { return Nconn_; }
+
 void Room::SetSConn(std::shared_ptr<Room> r) { Sconn_ = r; }
+
+std::shared_ptr<Room> Room::GetSConn() { return Sconn_; }
+
 void Room::SetWConn(std::shared_ptr<Room> r) { Wconn_ = r; }
+
+std::shared_ptr<Room> Room::GetWConn() { return Wconn_; }
+
 void Room::SetEConn(std::shared_ptr<Room> r) { Econn_ = r; }
+
+std::shared_ptr<Room> Room::GetEConn() { return Econn_; }

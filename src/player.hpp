@@ -22,6 +22,9 @@ public:
 
     //Getters for interfacing
     std::shared_ptr<Room> GetRoom();
+
+    void SetRoom(std::shared_ptr<Room> r);
+
     sf::Sprite& GetSprite();
     float GetReload();
 

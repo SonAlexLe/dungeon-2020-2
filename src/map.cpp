@@ -2,9 +2,9 @@
 #include "map.hpp"
 
 
-Map::Map(int difficulty) : difficulty_(difficulty) {
-    rooms_.push_back(std::make_shared<Room>());
-    // map_init();
+Map::Map(int difficulty, std::shared_ptr<Player> p) : difficulty_(difficulty), p_(p) {
+    // rooms_.push_back(new Room);
+    map_init();
 }
 
 std::shared_ptr<Room> Map::GetStartingRoom() {
@@ -15,13 +15,22 @@ std::shared_ptr<Room> Map::GetStartingRoom() {
 void Map::map_init() {
 
     //Some preliminary parameters for how many rooms are generated
-    int nofRooms = 10 + difficulty_;
+    int nofRooms = 5 + difficulty_;
 
     //Init layout and starting room
-    std::shared_ptr<Room> map[9][9] = { {nullptr} };
+    std::shared_ptr<Room> map[5][5] = { {nullptr} };
     std::shared_ptr<Room> start = std::make_shared<Room>();
-    map[5][5] = start;
+    double size = start->GetHeight();
+    map[2][2] = start;
     rooms_.push_back(start);
+
+    /* for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
+            if (map[i][j] == nullptr) { std::cout << "#"; } else { std::cout << "X"; } 
+        }
+        std::cout << std::endl;
+    } */
+    std::cout << std::endl;
 
     //Create a random seed
     srand(time(nullptr));
@@ -29,28 +38,50 @@ void Map::map_init() {
     while (nofRooms > 0) {
 
         //Pick a random cell in array
-        int x = rand() % 9;
-        int y = rand() % 9;
+        int x = rand() % 5;
+        int y = rand() % 5;
+
+        // std::cout << "Accessing " << x << " " << y << std::endl;
 
         if(map[x][y] == nullptr) {
+ 
+            // std::cout << "Found nullptr" << std::endl;
 
             //Where 1 is north, 2 is east, 3 is south, 4 is west
             std::list<int>neighbors;
 
             //Count how many neighbors the cell has
-            if ( (x != 8) && map[x + 1][y] != nullptr) { neighbors.push_back(2);}
-            if ( (x != 0) && map[x - 1][y] != nullptr) { neighbors.push_back(4);}
-            if ( (y != 8) && map[x][y + 1] != nullptr) { neighbors.push_back(1);}
-            if ( (y != 0) && map[x][y - 1] != nullptr) { neighbors.push_back(3);}
+            if ( (x != 4) && map[x + 1][y] != nullptr) { neighbors.push_back(3);} // Check South
+            if ( (x != 0) && map[x - 1][y] != nullptr) { neighbors.push_back(1);} // Check North
+
+            if ( (y != 4) && map[x][y + 1] != nullptr) { neighbors.push_back(2);} // Check East
+            if ( (y != 0) && map[x][y - 1] != nullptr) { neighbors.push_back(4);} // Check West
+
+            /*std::cout << "Cell has: " << neighbors.size() << " neighbros ";
+            if (!neighbors.empty()) {
+                std::cout << "And they are: ";
+                for (auto i : neighbors) {
+                    std::cout << i << " ";
+            }
+            }
+            std::cout << std::endl; */
+
+            
 
             //The maximum amount of neighbors can be tweaked to change the layout of the maps
-            if(neighbors.size() > 1 && neighbors.size() < 3) {
+            if(neighbors.size() >= 1 && neighbors.size() < 3) {
 
-                //All conditions are met, create a room #####UNCOMMENT THIS TO TEST ROOM_INIT####
-                // std::shared_ptr<Room> room = Map::room_init();
+                //All conditions are met, create a room
+                
+                std::shared_ptr<Room> room = room_init();
 
-                std::shared_ptr<Room> room = std::make_shared<Room>();
+                // Room* room = new Room;
                 map[x][y] = room;
+                rooms_.push_back(room);
+
+                std::cout << "Room created @ " << x << " " << y  << std::endl;
+
+
 
                 /*Generate item room when there are X rooms to generate
                 if (nofRooms == 6) {
@@ -69,83 +100,123 @@ void Map::map_init() {
                 }
 
                 */
-
                 nofRooms--;
+                std::cout << nofRooms << std::endl;
 
-                //Setup connections for the std::make_shared<Room>
-                for (int dir : neighbors) {
-                    switch (dir) {
+                //Setup connections to neighboring rooms
+                for (auto it = neighbors.begin(); it != neighbors.end(); it++) {
+                    if (*it == 1 ) {
+                            std::cout << "Creating north connections"  << std::endl;
+                            std::shared_ptr<Connection> c1 = std::make_shared<Connection>(size / 2, 0.0, "north", p_);
+                            std::shared_ptr<Connection> c2 = std::make_shared<Connection>(size / 2, size, "south", p_);
 
-                        //For a northern connection c1 is on the northern wall and c2 on the southern wall (Coordinates are placeholder)
-                        case 1: {
-                            std::shared_ptr<Connection> c1 = std::make_shared<Connection>(50.0, 0.0);
-                            std::shared_ptr<Connection> c2 = std::make_shared<Connection>(50.0, 100.0);
+                            std::shared_ptr<Room> neighbor = map[x - 1][y];
 
                             room->AddConnection(c1);
-                            room->SetNConn(map[x][y + 1]);
+                            room->SetNConn(neighbor);
 
-                            map[x][y + 1]->AddConnection(c2);
-                            map[x][y + 1]->SetSConn(room);
+                            neighbor->AddConnection(c2);
+                            neighbor->SetSConn(room);
 
                         }
-                        //For an eastern connection c1 is east and c2 west
-                        case 2: {
-                            std::shared_ptr<Connection> c1 = std::make_shared<Connection>(100.0, 50.0);
-                            std::shared_ptr<Connection> c2 = std::make_shared<Connection>(0.0, 50.0);
+                    if (*it == 2) {
+                            std::cout << "Creating east connections"  << std::endl;
+                            std::shared_ptr<Connection> c1 = std::make_shared<Connection>(size, size / 2, "east", p_);
+                            std::shared_ptr<Connection> c2 = std::make_shared<Connection>(0.0, size / 2, "west", p_);
+
+                            std::shared_ptr<Room> neighbor = map[x][y + 1];
 
                             room->AddConnection(c1);
-                            room->SetEConn(map[x - 1][y]);
+                            room->SetEConn(neighbor);
 
-                            map[x - 1][y]->AddConnection(c2);
-                            map[x - 1][y]->SetWConn(room);
+                            neighbor->AddConnection(c2);
+                            neighbor->SetWConn(room);
                         }
-                        //For a southern connection c1 is south and c2 north
-                        case 3: {
-                            std::shared_ptr<Connection> c1 = std::make_shared<Connection>(50.0, 100.0);
-                            std::shared_ptr<Connection> c2 = std::make_shared<Connection>(50.0, 0.0);
+                    if (*it == 3) {
+                            std::cout << "Creating south connections"  << std::endl;
+                            std::shared_ptr<Connection> c1 = std::make_shared<Connection>(size / 2, size, "south", p_);
+                            std::shared_ptr<Connection> c2 = std::make_shared<Connection>(size / 2, 0.0, "north", p_);
+
+                            std::shared_ptr<Room> neighbor = map[x + 1][y];
 
                             room->AddConnection(c1);
-                            room->SetSConn(map[x][y - 1]);
+                            room->SetSConn(neighbor);
 
-                            map[x][y - 1]->AddConnection(c2);
-                            map[x][y - 1]->SetNConn(room);
+                            neighbor->AddConnection(c2);
+                            neighbor->SetNConn(room);
                         }
-                        //For a western connection c1 is west and c2 east
-                        case 4: {
-                            std::shared_ptr<Connection> c1 = std::make_shared<Connection>(0.0, 50.0);
-                            std::shared_ptr<Connection> c2 = std::make_shared<Connection>(100.0, 50.0);
+                    if (*it == 4) {
+                        {
+                            std::cout << "Creating west connections"  << std::endl;
+                            std::shared_ptr<Connection> c1 = std::make_shared<Connection>(0.0, size / 2, "west", p_);
+                            std::shared_ptr<Connection> c2 = std::make_shared<Connection>(size, size / 2, "east", p_);
+
+                            std::shared_ptr<Room> neighbor = map[x][y - 1];
 
                             room->AddConnection(c1);
-                            room->SetWConn(map[x + 1][y]);
+                            room->SetWConn(neighbor);
 
-                            map[x + 1][y]->AddConnection(c2);
-                            map[x + 1][y]->SetEConn(room);
+                            neighbor->AddConnection(c2);
+                            neighbor->SetEConn(room);
                         }
                     }
                 }
+                neighbors.clear();
+            /*    for (int i = 0; i < 5; i++) {
+                    for (int j = 0; j < 5; j++) {
+                        if (map[i][j] == nullptr) { std::cout << "#"; } else { std::cout << "X"; } 
+                    }
+                    std::cout << std::endl;
+                } */
             }
+            else { neighbors.clear(); }
         }
+    }
+    std::cout << std::endl << "Connections in each room:" << std::endl;
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
+            if (map[i][j] != nullptr) { 
+                std::cout << map[i][j]->GetConnections().size();
+            }
+            else { std::cout << "#"; } 
+        }
+        std::cout << std::endl;
+    }
+    std::cout << "Enemies in each room:" << std::endl;
+    std::cout << std::endl;
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
+            if (map[i][j] != nullptr) { 
+                std::cout << map[i][j]->GetEnemies().size();
+            }
+            else { std::cout << "#"; } 
+        }
+        std::cout << std::endl;
     }
 }
 //Fills room with monsters
 std::shared_ptr<Room> Map::room_init() {
 
-    std::shared_ptr<Room> room = std::make_shared<Room>();
+    int size = rooms_.front()->GetWidth();
+    srand(time(nullptr));
 
+    std::shared_ptr<Room> room = new Room;
 
     //Pick a monster randomly from monsters
     //Expand as more monsters are added
-    char monsters[1] = { 'O' };
-    srand(time(nullptr));
-    std::shared_ptr<Player> p = rooms_.front()->GetPlayer();
+
+    //O for Orc and G for Ogre :^) <- spelled orge
+    char monsters[2] = { 'O', 'G' };
+
 
     //Coords for the placements of monsters, (4 monsters in corners)
+    /*
     std::list<sf::Vector2f> coords = { sf::Vector2f(10.0, 10.0), sf::Vector2f(90.0, 10.0), sf::Vector2f(10.0, 90.0), sf::Vector2f(90.0, 90.0) };
 
 
     for (auto c : coords) {
 
-        int idx = rand() % 1;
+        int idx = rand() % 2;
 
         switch (monsters[idx]) {
 
@@ -154,8 +225,34 @@ std::shared_ptr<Room> Map::room_init() {
                room->AddEnemy(orc);
             }
 
-        }
+            case 'G': {
+                Orge* orge = new Orge(c.x, c.y, p);
+                room->AddEnemy(orge);
+            }
 
+        }
+    }*/
+    //Alternatively if monsters are just placed willy nilly
+
+    int nofMonsters = 1 + difficulty_;
+
+    for (int i = 0; i < nofMonsters; i++) {
+
+        sf::Vector2f pos = sf::Vector2f(rand() % size, rand() % size);
+
+        switch (monsters[rand() % 2]) {
+
+            case 'O': {
+                std::shared_ptr<Orc> orc = std::make_shared<Orc>(pos.x, pos.y, p_); 
+               room->AddEnemy(orc);
+            }
+
+            case 'G': {
+                std::shared_ptr<Orge> orge = std::make_shared<Orge>(pos.x, pos.y, p_);
+                room->AddEnemy(orge);
+            }
+
+        }       
     }
     return room;
 }

@@ -24,9 +24,11 @@ public:
     // Each room has containers for each type of entity contained in it and interfaces for accessing each container
     // Since all these objects share a base class you could just have one container for all of them but travesing this container would be very tedious.
 
-    std::shared_ptr<Player> GetPlayer();
-    void AddPlayer(std::shared_ptr<Player> p);
-    void RemovePlayer();
+    /* Player* GetPlayer();
+
+    void AddPlayer(Player* p);
+
+    void RemovePlayer(); */
 
     std::list<std::shared_ptr<Monster>>& GetEnemies();
     void AddEnemy(std::shared_ptr<Monster>);
@@ -39,16 +41,37 @@ public:
     
     std::list<std::shared_ptr<Projectile>>& GetProjectiles();
     void CheckProjectiles();
+
     void AddProjectile(std::shared_ptr<Projectile>);
+
+    void RemoveProjectile(std::shared_ptr<Projectile>);
+
+    bool IsClear();
+
+    // Obstacles can be unpassable map geometry. Hazards(lava/spikes) could also be in obstacles or could be considered enemies without movement
+    // std::list<Obstacle*> GetObstacles();
+
+    // void AddObstacle(Obstacle*);
 
     double GetWidth();
     double GetHeight();
     sf::Vector2f GetSize();
 
     void SetNConn(std::shared_ptr<Room> r);
+
+    std::shared_ptr<Room> GetNConn();
+
     void SetSConn(std::shared_ptr<Room> r);
+
+    std::shared_ptr<Room> GetSConn();
+
     void SetWConn(std::shared_ptr<Room> r);
+
+    std::shared_ptr<Room> GetWConn();
+
     void SetEConn(std::shared_ptr<Room> r);
+
+    std::shared_ptr<Room> GetEConn();
 
 
 protected:
@@ -57,7 +80,7 @@ protected:
 
     sf::Vector2f size_;
 
-    std::shared_ptr<Player> player_;
+    //Player* player_;
 
     std::list<std::shared_ptr<Monster>> enemies_;
 

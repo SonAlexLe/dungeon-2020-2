@@ -3,13 +3,20 @@
 Game::Game(sf::RenderWindow *window) : difficulty_(0), window_(window) 
 {
     //Generate a new dungeon floor as the starting map
-    dungeon_ = std::make_shared<Map>(difficulty_);
+    std::shared_ptr<Room> room = std::make_shared<Room>();
+    p1_ = std::make_shared<Player>(room);
+    dungeon_ = std::make_shared<Map>(difficulty_, p1_);
+    p1_->SetRoom(dungeon_->GetStartingRoom());
+
     //Create a player object and place them in the starting room of the map
-    p1_ = std::make_shared<Player>(dungeon_->GetStartingRoom());
 
     //TODO move this into map gen
+    /*Orc* o = new Orc(100, 100, p1_);
+    o->SetHP(0);
+    p1_->GetRoom()->AddEnemy(o); */
+
     p1_->GetRoom()->AddEnemy(std::make_shared<Orc>(100, 100, p1_));
-    p1_->GetRoom()->AddEnemy(std::make_shared<Orge>(100, 100, p1_));
+    // p1_->GetRoom()->AddEnemy(new Orge(0, 0, p1_));
     //Create an inventory
     inventory_ = std::make_shared<Inventory>(p1_);
     //load the resources to be used
@@ -149,8 +156,15 @@ void Game::update()
                 i->setActive(false);
             }
         }
+        if (p1_->GetRoom()->IsClear()) {
+            for(auto x : p1_->GetRoom()->GetConnections()) {
+                x->update(elapsed);
+            }
+        }
         lastUpdate_ = time;
     }
+    //go through all the active entities in the current room and move them up to their speed.
+    //enemy AI should happen here
     
 }
 void Game::render()
@@ -179,6 +193,11 @@ void Game::render()
     for(auto x : p1_->GetRoom()->GetProjectiles()){
         if(x->isActive()){
             x->Draw(window_);
+        }
+    }
+    if (p1_->GetRoom()->IsClear()) {
+        for(auto x : p1_->GetRoom()->GetConnections()) {
+        x->draw(window_);
         }
     }
     

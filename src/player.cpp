@@ -31,7 +31,11 @@ void Player::Draw(sf::RenderWindow* w) {
 
 //getter functions
 sf::Sprite& Player::GetSprite() { return sprite_; }
+
+void Player::SetRoom(std::shared_ptr<Room> r) { room_ = r; }
+
 std::shared_ptr<Room> Player::GetRoom() { return room_; }
+
 float Player::GetReload() {return reload_; }
 
 /**

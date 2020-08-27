@@ -28,7 +28,7 @@ public:
 
     Map() {}
 
-    Map(int difficulty);
+    Map(int difficulty, Player* p);
 
     ~Map() {}
 
@@ -46,6 +46,8 @@ private:
     int difficulty_;
 
     std::list<std::shared_ptr<Room>> rooms_;
+
+    Player* p_;
 
     // std::list<Connection*> connections_;
 

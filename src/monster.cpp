@@ -42,7 +42,7 @@ Orc::Orc(float x, float y, Player* p)
 }
 
 void Orc::update(sf::Time dt) {
-    if (!sprite_.getGlobalBounds().intersects(p_->GetSprite().getGlobalBounds())) {
+    if (!p_->CanDie() || !sprite_.getGlobalBounds().intersects(p_->GetSprite().getGlobalBounds())) {
         if(currPos_.x >= p_->GetRoom()->GetWidth() && currPos_.y >= p_->GetRoom()->GetHeight())
             velocity_ = sf::Vector2f(-ORC_SPEED, -ORC_SPEED);
         else if(currPos_.x < 0 && currPos_.y < 0)
@@ -51,6 +51,8 @@ void Orc::update(sf::Time dt) {
     } else {
         hp_--;
         p_->SetHP(p_->GetHP()-1);
+        p_->Immortal();
+        std::cout << "oof!" << std::endl;
     }
     //when a monster dies it disappears and gives the player score
     if (hp_ <= 0) {
@@ -73,6 +75,7 @@ void Orge::update(sf::Time dt) {
     if (p_->CanDie() && sprite_.getGlobalBounds().intersects(p_->GetSprite().getGlobalBounds())) {
         p_->SetHP(p_->GetHP()-3);
         p_->Immortal();
+        std::cout << "OOF!" << std::endl;
     } else {
         sf::Vector2f target = p_->GetPosition();
         sf::Vector2f diff = target - currPos_;

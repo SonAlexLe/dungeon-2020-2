@@ -26,7 +26,7 @@ public:
     float GetReload();
 
     bool CanDie() {if(immortal_ == 0) {return true;} else {return false;}}
-    void Immortal() { immortal_ = 0.5;}
+    void Immortal() { immortal_ = 1;}
 
     //sets reload time based on the current weapon
     void Attack();

@@ -1,7 +1,7 @@
 #include "room.hpp"
 
 
-Room::Room() : size_(300, 300), item_(nullptr), Nconn_(nullptr), Sconn_(nullptr), Wconn_(nullptr), Econn_(nullptr) {
+Room::Room() : size_(300, 300), item_(nullptr), type_("default"), Nconn_(nullptr), Sconn_(nullptr), Wconn_(nullptr), Econn_(nullptr) {
 
 }
 
@@ -36,6 +36,10 @@ bool Room::IsClear() {
     }
     return true;
 }
+
+std::string Room::GetType() { return type_; }
+
+void Room::SetType(std::string t) { type_ = t; }
 
 // std::list<Obstacle*> Room::GetObstacles() { return obstacles_; }
 

@@ -48,6 +48,10 @@ public:
 
     bool IsClear();
 
+    std::string GetType();
+
+    void SetType(std::string t);
+
     // Obstacles can be unpassable map geometry. Hazards(lava/spikes) could also be in obstacles or could be considered enemies without movement
     // std::list<Obstacle*> GetObstacles();
 
@@ -87,6 +91,8 @@ protected:
     std::list<std::shared_ptr<Connection>> connections_;
 
     std::shared_ptr<Item> item_;
+
+    std::string type_;
 
     std::list<std::shared_ptr<Projectile>> projectiles_;
 

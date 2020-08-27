@@ -9,8 +9,6 @@ Monster::Monster() {}
 Monster::Monster(float x, float y, sf::Vector2f velocity, int hp, Player* p)
     : Entity(x, y, velocity), hp_(hp), p_(p), active_(true) {}
 
-const std::string Monster::GetSpriteName() const { return "monster.png"; }
-
 void Monster::Draw(sf::RenderWindow* w) {
     sf::FloatRect m_rec = sprite_.getGlobalBounds();
     sf::RectangleShape m_box(sf::Vector2f(m_rec.width, m_rec.height));
@@ -23,18 +21,18 @@ void Monster::Draw(sf::RenderWindow* w) {
     w->draw(sprite_);
 }
 
+//Getters and setters for managing members
 void Monster::SetHP(int hp) { hp_ = hp; }
-
 int Monster::GetHP() { return hp_; }
 
 bool Monster::isActive() {return active_;}
 
 void Monster::SetPlayer(Player* p) { p_ = p; }
-
 Player* Monster::GetPlayer() { return p_; }
 
 sf::Sprite& Monster::GetSprite() { return sprite_; }
 
+//subclass orc, patrols from one corner to the opposite one.
 Orc::Orc(float x, float y, Player* p)
     : Monster(x, y, sf::Vector2f(ORC_SPEED, ORC_SPEED), ORC_HP, p)
 {
@@ -44,7 +42,7 @@ Orc::Orc(float x, float y, Player* p)
 }
 
 void Orc::update(sf::Time dt) {
-    if (!sprite_.getGlobalBounds().intersects(p_->GetSprite().getGlobalBounds())) {
+    if (!p_->CanDie() || !sprite_.getGlobalBounds().intersects(p_->GetSprite().getGlobalBounds())) {
         if(currPos_.x >= p_->GetRoom()->GetWidth() && currPos_.y >= p_->GetRoom()->GetHeight())
             velocity_ = sf::Vector2f(-ORC_SPEED, -ORC_SPEED);
         else if(currPos_.x < 0 && currPos_.y < 0)
@@ -53,6 +51,8 @@ void Orc::update(sf::Time dt) {
     } else {
         hp_--;
         p_->SetHP(p_->GetHP()-1);
+        p_->Immortal();
+        std::cout << "oof!" << std::endl;
     }
     //when a monster dies it disappears and gives the player score
     if (hp_ <= 0) {
@@ -61,6 +61,8 @@ void Orc::update(sf::Time dt) {
     }
 }
 
+
+//subclass orge, chases the player at constantly increasing speed
 Orge::Orge(float x, float y, Player* p)
     : Monster(x, y, sf::Vector2f(0, 0), ORGE_HP, p), aggro_(1)
 {
@@ -70,10 +72,10 @@ Orge::Orge(float x, float y, Player* p)
 }
 
 void Orge::update(sf::Time dt) {
-    if (sprite_.getGlobalBounds().intersects(p_->GetSprite().getGlobalBounds())) {
-        hp_--;
+    if (p_->CanDie() && sprite_.getGlobalBounds().intersects(p_->GetSprite().getGlobalBounds())) {
         p_->SetHP(p_->GetHP()-3);
-        velocity_ = sf::Vector2f(0.f, 0.f);
+        p_->Immortal();
+        std::cout << "OOF!" << std::endl;
     } else {
         sf::Vector2f target = p_->GetPosition();
         sf::Vector2f diff = target - currPos_;
@@ -81,6 +83,7 @@ void Orge::update(sf::Time dt) {
         velocity_ = diff * ORGE_SPEED * aggro_;
     }
     currPos_ += dt.asSeconds() * velocity_;
+    //aggro determines how fast the orge chases the player, increases over time
     aggro_ += dt.asSeconds() * 0.25;
     //when a monster dies it disappears and gives the player score
     if (hp_ <= 0) {

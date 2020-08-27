@@ -21,13 +21,15 @@ public:
     void SetInventory(Inventory* inventory) { inventory_ = inventory; }
 
     //Getters for interfacing
-    const std::string GetSpriteName() const;
     Room *GetRoom();
 
     void SetRoom(Room* r);
 
     sf::Sprite& GetSprite();
     float GetReload();
+
+    bool CanDie() {if(immortal_ == 0) {return true;} else {return false;}}
+    void Immortal() { immortal_ = 1;}
 
     //sets reload time based on the current weapon
     void Attack();
@@ -64,7 +66,10 @@ private:
 
     //for tracking reload rate
     float reload_;
+
     int hp_;
+    //for invincibility frames
+    float immortal_;
     int score_;
 
 };

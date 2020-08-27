@@ -8,31 +8,26 @@ class Monster : public Entity
 public:
 
     Monster();
-
     Monster(float x, float y, sf::Vector2f velocity, int hp, Player* p);
 
     void Draw(sf::RenderWindow*);
 
-    const std::string GetSpriteName() const;
-
+//Getters and setters
     sf::Sprite& GetSprite();
-
     int GetHP();
+    void SetHP(int);
 
     bool isActive();
 
-    void SetHP(int);
-
     void SetPlayer(Player*);
-
     Player* GetPlayer();
 
 protected:
 
+    //is the monster updated & rendered? 
     bool active_;
 
     sf::Texture texture_;
-
     sf::Sprite sprite_;
 
     int hp_;

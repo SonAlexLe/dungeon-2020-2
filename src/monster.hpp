@@ -55,4 +55,5 @@ class Orge : public Monster
     Orge() = delete;
     Orge(float x, float y, Player* p);
     void update(sf::Time dt);
+    float aggro_;
 };

@@ -220,7 +220,7 @@ Room* Map::room_init() {
         switch (monsters[idx]) {
 
             case 'O': {
-                Orc* orc = new Orc(c.x, c.y, p); 
+                Orc* orc = new Orc(c.x, c.y, p ); 
                room->AddEnemy(orc);
             }
 

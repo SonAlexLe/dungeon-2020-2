@@ -14,7 +14,7 @@ public:
 
     Player() = delete;
     Player(Room* room); 
-    ~Player(){}
+    ~Player() {}
 
     //inventory management methods
     Inventory* GetInventory() { return inventory_; }
@@ -41,8 +41,8 @@ public:
     //hp & score access and management
     void SetHP(int hp) { hp_ = hp; }
     int GetHP() { return hp_; }
-    int GetScore() {return score_;}
-    void AddScore(int b) {score_ += b;}
+    int GetScore() { return score_; }
+    void AddScore(int b) { score_ += b; }
 
     //Update methods
     void update(sf::Time dt);
@@ -64,7 +64,7 @@ private:
 
     //for tracking reload rate
     float reload_;
-    int score_;
     int hp_;
+    int score_;
 
 };

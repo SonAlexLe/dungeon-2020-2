@@ -38,9 +38,9 @@ sf::Sprite& Monster::GetSprite() { return sprite_; }
 Orc::Orc(float x, float y, Player* p)
     : Monster(x, y, sf::Vector2f(ORC_SPEED, ORC_SPEED), ORC_HP, p)
 {
-    if (!texture_.loadFromFile("src/Sprites/orc.png")) std::cout << "sprite error" << std::endl;
-    sprite_.setTexture(texture_);
-    sprite_.setScale(sf::Vector2f(0.08f, 0.08f));
+    if (!texture_.loadFromFile("src/Sprites/game_texture.png")) std::cout << "sprite error" << std::endl;
+    sprite_ = sf::Sprite(texture_,sf::IntRect(32,160,16,16));
+    sprite_.setScale(sf::Vector2f(2, 2));
 }
 
 void Orc::update(sf::Time dt) {
@@ -55,18 +55,18 @@ void Orc::update(sf::Time dt) {
         p_->SetHP(p_->GetHP()-1);
     }
     //when a monster dies it disappears and gives the player score
-    if(hp_ <= 0) {
+    if (hp_ <= 0) {
         active_ = false;
         p_->AddScore(5);
     }
 }
 
 Orge::Orge(float x, float y, Player* p)
-    : Monster(x, y, sf::Vector2f(0, 0), ORGE_HP, p)
+    : Monster(x, y, sf::Vector2f(0, 0), ORGE_HP, p), aggro_(1)
 {
-    if (!texture_.loadFromFile("src/Sprites/orge.png")) std::cout << "sprite error" << std::endl;
-    sprite_.setTexture(texture_);
-    sprite_.setScale(sf::Vector2f(0.05f, 0.05f));
+    if (!texture_.loadFromFile("src/Sprites/game_texture.png")) std::cout << "sprite error" << std::endl;
+    sprite_ = sf::Sprite(texture_,sf::IntRect(96,176,32,32));
+    sprite_.setScale(sf::Vector2f(2, 2));
 }
 
 void Orge::update(sf::Time dt) {
@@ -78,11 +78,12 @@ void Orge::update(sf::Time dt) {
         sf::Vector2f target = p_->GetPosition();
         sf::Vector2f diff = target - currPos_;
         diff = diff/(float)sqrt(diff.x*diff.x + diff.y*diff.y);
-        velocity_ = diff * ORGE_SPEED;
+        velocity_ = diff * ORGE_SPEED * aggro_;
     }
     currPos_ += dt.asSeconds() * velocity_;
+    aggro_ += dt.asSeconds() * 0.25;
     //when a monster dies it disappears and gives the player score
-    if(hp_ <= 0) {
+    if (hp_ <= 0) {
         active_ = false;
         p_->AddScore(20);
     }

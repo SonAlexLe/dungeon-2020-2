@@ -15,20 +15,25 @@ Game::Game(sf::RenderWindow *window) : difficulty_(0), window_(window)
     // p1_->GetRoom()->AddEnemy(new Orge(0, 0, p1_));
     //Create an inventory
     inventory_ = new Inventory(p1_);
-    //load the font to be used for in-game text
+    //load the resources to be used
     if (!gamefont_.loadFromFile("src/sprites/arial.ttf"))
     {
         std::cout << "font error" << std::endl;
+    }
+    if(!gametexture_.loadFromFile("src/sprites/game_texture.png")){
+        std::cout << "sprite error" << std::endl;
     }
     //Start the dT timer
     clock_.restart();
     //Game is now running, moving to the main loop.
     isRunning_ = true;
 }
+
 Game::~Game(){}
 
 void Game::input()
 {
+    //poll events until all are handled, this is done each frame
     sf::Event event;
     while (window_->pollEvent(event))
     {
@@ -97,7 +102,7 @@ void Game::input()
                         sf::Vector2f projectile_velocity(projectile_direction.x/vlength*projectilespeed,projectile_direction.y/vlength*projectilespeed);
                         //create new projectile
                         p1_->GetRoom()->AddProjectile(new Projectile(p1_->GetPosition(),projectile_velocity, 1, false));
-                        //set the player reload time, reload muat finish before firing
+                        //set the player reload time, reload must finish before firing
                         p1_->Attack();
                     }
                 }
@@ -161,11 +166,14 @@ void Game::render()
     //clear the screen
     window_->clear(sf::Color::Black);
 
-    //create the graphics representing the current room
+    //draw the room
+    sf::Sprite roomsprite(gametexture_, sf::IntRect(0,90,64,48));
     sf::Vector2f roomSize = p1_->GetRoom()->GetSize();
     sf::RectangleShape room(sf::Vector2f(roomSize.x*3,roomSize.y*3));
     room.setFillColor(sf::Color::White);
+    roomsprite.setScale(sf::Vector2f(6, 6));
     window_->draw(room);
+    window_->draw(roomsprite);
     
     //draw the player
     p1_->Draw(window_);
@@ -205,9 +213,9 @@ void Game::render()
     hp.setStyle(sf::Text::Bold);
     hp.setPosition(0,30);
     window_->draw(hp);
-    //display graphics
+    
 
-    //GAME OVER TEXT FOR WHEN HP = 0
+    //GAME OVER TEXT FOR WHEN THE PLAYER DIES
     if(p1_->GetHP()<= 0){
         sf::Text gameover;
         gameover.setFont(gamefont_);
@@ -219,6 +227,7 @@ void Game::render()
         window_->draw(gameover);
     }
 
+    //display graphics
     window_->display();
 }
 

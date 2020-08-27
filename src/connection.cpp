@@ -28,14 +28,14 @@ void Connection::load() {}
 void Connection::traverse() {
     double size = player_->GetRoom()->GetHeight();
         //if (currPos_.x == size / 2 && currPos_.y == 0.0) { //Connection is north
-        /*if (this->facing_ == "north") {
+        if (this->facing_ == "north") {
             std::cout << "North door" << std::endl;
 
             Room* nn = player_->GetRoom()->GetNConn();
             player_->SetRoom(nn);
             std::cout << "Swapped room" << std::endl;
-            player_->SetPosition(sf::Vector2f(0, 0));
-            // player_->SetPosition(sf::Vector2f(size / 2, size));
+            //player_->SetPosition(sf::Vector2f(0, 0));
+            player_->SetPosition(sf::Vector2f(size / 2, size));
         }   
         //if (currPos_.x == size && currPos_.y == size / 2) { // South
         else if (this->facing_ == "south") {
@@ -44,8 +44,8 @@ void Connection::traverse() {
             Room* sn = player_->GetRoom()->GetSConn();
             player_->SetRoom(sn);
             std::cout << "Swapped room" << std::endl;
-            player_->SetPosition(sf::Vector2f(0, 0));
-            // player_->SetPosition(sf::Vector2f(size / 2, 0.0));
+            //player_->SetPosition(sf::Vector2f(0, 0));
+            player_->SetPosition(sf::Vector2f(size / 2, 0.0));
         }
         //if (currPos_.x == 0 && currPos_.y == size / 2) { // West
         else if (this->facing_ == "west") {
@@ -54,8 +54,8 @@ void Connection::traverse() {
             Room* wn = player_->GetRoom()->GetWConn();
             player_->SetRoom(wn);
             std::cout << "Swapped room" << std::endl;
-            player_->SetPosition(sf::Vector2f(0, 0));
-            // player_->SetPosition(sf::Vector2f(size, size / 2));
+            //player_->SetPosition(sf::Vector2f(0, 0));
+            player_->SetPosition(sf::Vector2f(size, size / 2));
         }
         //if (currPos_.x == size && currPos_.y == size / 2) { // East
         else if (this->facing_ == "east") {
@@ -64,11 +64,11 @@ void Connection::traverse() {
             Room* en = player_->GetRoom()->GetEConn();
             player_->SetRoom(en);
             std::cout << "Swapped room" << std::endl;
-            player_->SetPosition(sf::Vector2f(0, 0));
-            // player_->SetPosition(sf::Vector2f(0.0, size / 2));
-        } */
-    std::cout << "This door is facing: " << facing_ << std::endl;
-    //player_->SetPosition(sf::Vector2f(200, 200));
+            //player_->SetPosition(sf::Vector2f(0, 0));
+            player_->SetPosition(sf::Vector2f(0.0, size / 2));
+        }
+    // std::cout << "This door is facing: " << facing_ << std::endl;
+    // player_->SetPosition(sf::Vector2f(200, 200));
 }
 
 void Connection::draw(sf::RenderWindow* window) { 

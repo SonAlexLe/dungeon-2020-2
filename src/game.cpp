@@ -12,7 +12,7 @@ Game::Game(sf::RenderWindow *window) : difficulty_(0), window_(window)
 
     //TODO move this into map gen
     p1_->GetRoom()->AddEnemy(new Orc(100, 100, p1_));
-    p1_->GetRoom()->AddEnemy(new Orge(0, 0, p1_));
+    // p1_->GetRoom()->AddEnemy(new Orge(0, 0, p1_));
     //Create an inventory
     inventory_ = new Inventory(p1_);
     //load the resources to be used
@@ -152,8 +152,10 @@ void Game::update()
                 i->setActive(false);
             }
         }
-        for (auto i: p1_->GetRoom()->GetConnections()) {
-            i->update(elapsed);
+        if (p1_->GetRoom()->IsClear()) {
+            for(auto x : p1_->GetRoom()->GetConnections()) {
+                x->update(elapsed);
+            }
         }
         lastUpdate_ = time;
     }
@@ -189,8 +191,10 @@ void Game::render()
             x->Draw(window_);
         }
     }
-    for(auto x : p1_->GetRoom()->GetConnections()) {
+    if (p1_->GetRoom()->IsClear()) {
+        for(auto x : p1_->GetRoom()->GetConnections()) {
         x->draw(window_);
+        }
     }
     
     //generate and draw score & hp text on screen

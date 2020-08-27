@@ -51,6 +51,14 @@ void Room::AddConnection(Connection* c) { connections_.push_back(c); }
 
 std::list<Projectile*>& Room::GetProjectiles() { return projectiles_; }
 
+bool Room::IsClear() {
+    bool ret = true;
+    for (auto m : enemies_) {
+        ret = ret & !(m->isActive());
+    }
+    return ret;
+}
+
 // std::list<Obstacle*> Room::GetObstacles() { return obstacles_; }
 
 // void Room::AddObstacle(Obstacle* r) { obstacles_.push_back(r); }

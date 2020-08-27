@@ -200,7 +200,7 @@ std::shared_ptr<Room> Map::room_init() {
     int size = rooms_.front()->GetWidth();
     srand(time(nullptr));
 
-    std::shared_ptr<Room> room = new Room;
+    std::shared_ptr<Room> room = std::make_shared<Room>();
 
     //Pick a monster randomly from monsters
     //Expand as more monsters are added

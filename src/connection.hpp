@@ -17,7 +17,7 @@ class Connection : public Entity {
 public:
     Connection();
 
-    Connection(float x, float y, std::string f, Player* p);
+    Connection(float x, float y, std::string f, std::shared_ptr<Player> p);
     
     void unlock();
 
@@ -43,5 +43,5 @@ private:
 
     sf::Sprite sprite_;
 
-    Player* player_;
+    std::shared_ptr<Player> player_;
 };

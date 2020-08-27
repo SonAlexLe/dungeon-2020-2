@@ -2,7 +2,7 @@
 
 Connection::Connection() : Entity() {}
 
-Connection::Connection(float x, float y, std::string f, Player* p) : Entity(x, y, sf::Vector2f()), locked_(true), facing_(f), player_(p) {
+Connection::Connection(float x, float y, std::string f, std::shared_ptr<Player> p) : Entity(x, y, sf::Vector2f()), locked_(true), facing_(f), player_(p) {
     if (!texture_.loadFromFile("src/Sprites/door.png")) std::cout << "sprite error!" << std::endl;
     sprite_.setTexture(texture_);
     sprite_.setScale(sf::Vector2f(2.4f, 2.4f)); //Change later
@@ -28,7 +28,7 @@ void Connection::traverse() {
         if (this->facing_ == "north") {
 
             std::cout << "North door" << std::endl;
-            Room* nn = player_->GetRoom()->GetNConn();
+            std::shared_ptr<Room> nn = player_->GetRoom()->GetNConn();
             player_->SetRoom(nn);
             std::cout << "Swapped room" << std::endl;
             player_->SetPosition(sf::Vector2f(150, 150));
@@ -36,7 +36,7 @@ void Connection::traverse() {
         }
         else if (this->facing_ == "south") {
 
-            Room* sn = player_->GetRoom()->GetSConn();
+            std::shared_ptr<Room> sn = player_->GetRoom()->GetSConn();
             player_->SetRoom(sn);
             std::cout << "Swapped room" << std::endl;
             player_->SetPosition(sf::Vector2f(150, 150));
@@ -44,7 +44,7 @@ void Connection::traverse() {
         }
         else if (this->facing_ == "west") {
 
-            Room* wn = player_->GetRoom()->GetWConn();
+            std::shared_ptr<Room> wn = player_->GetRoom()->GetWConn();
             player_->SetRoom(wn);
             std::cout << "Swapped room" << std::endl;
             player_->SetPosition(sf::Vector2f(150, 150));
@@ -52,7 +52,7 @@ void Connection::traverse() {
         }
         else if (this->facing_ == "east") {
 
-            Room* en = player_->GetRoom()->GetEConn();
+            std::shared_ptr<Room> en = player_->GetRoom()->GetEConn();
             player_->SetRoom(en);
             std::cout << "Swapped room" << std::endl;
             player_->SetPosition(sf::Vector2f(150, 150));

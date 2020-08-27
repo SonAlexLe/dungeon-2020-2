@@ -17,3 +17,4 @@ sf::Vector2f& Entity::GetVelocity() { return velocity_; }
 sf::Vector2f& Entity::GetPosition() { return currPos_; }
 
 void Entity::SetPosition(sf::Vector2f pos) { currPos_ = pos; }
+void Entity::setVelocity(sf::Vector2f vel) { velocity_ = vel;}

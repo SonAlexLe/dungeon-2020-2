@@ -41,6 +41,7 @@ private:
 
     sf::RenderWindow* window_;
     sf::Font gamefont_;
+    sf::Texture gametexture_;
 
 //for determining deltatime
     sf::Clock clock_;

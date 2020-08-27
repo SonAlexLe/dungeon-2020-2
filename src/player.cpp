@@ -10,9 +10,10 @@ Player::Player(Room* room) : room_(room), Entity(room->GetWidth()/2,room->GetHei
 accDown_(false), accUp_(false), accLeft_(false), accRight_(false), reload_(0), hp_(PLR_HP), score_(0)
 {
     //load player texture
-    if (!texture_.loadFromFile("src/Sprites/player.png")) std::cout << "sprite error" << std::endl;
-    sprite_.setTexture(texture_);
-    sprite_.setScale(sf::Vector2f(0.1f, 0.1f));
+    if (!texture_.loadFromFile("src/Sprites/game_texture.png")) std::cout << "sprite error" << std::endl;
+    sprite_ = sf::Sprite(texture_,sf::IntRect(96,139,16,32));
+    //sprite_.setTexture(texture_);
+    sprite_.setScale(sf::Vector2f(2, 2));
 }
 
 void Player::Draw(sf::RenderWindow* w) {
@@ -86,6 +87,7 @@ void Player::update(sf::Time dt) {
 //track reload rate
     if(reload_ > 0) {
         reload_ -= std::min(dt.asSeconds(),reload_);
+        if(reload_ == 0) {std::cout << "LOADED" << std::endl;}
     }
 
 //move player up to speed
@@ -101,7 +103,7 @@ void Player::update(sf::Time dt) {
 void Player::Attack() 
 {
     //set the player reload time
-    reload_ = 1;
+    reload_ = 0.5;
 }
 
 //input handling methods

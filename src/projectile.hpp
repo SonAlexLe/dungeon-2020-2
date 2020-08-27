@@ -1,15 +1,19 @@
 #pragma once
 #include "entity.hpp"
 
-//should be abstract for future subtypes, right now is concrete
+//a projectile fired by the player. Supports future enemies that would fire projectiles.
 class Projectile: public Entity
 {
     private:
 
+    //damage depends on the weapon used
     int damage_;
 
+    //whether a projectile was fired by an enemy or by the player
     bool hostile_;
 
+    //whether a projectile is to be rendered & updated
+    //set as false if a projectile has hit something
     bool active_;
 
     sf::Sprite sprite_;
@@ -28,24 +32,21 @@ class Projectile: public Entity
     }
 
     void SetVelocity(sf::Vector2f velocity) { velocity_ = velocity; }
-
     sf::Vector2f& GetVelocity() { return velocity_; }
 
     bool isActive() {return active_;}
-
     void setActive(bool x) { active_ = x;}
 
     int GetDamage(){return damage_;}
 
     const std::string GetSpriteName() const { return "projectile.png"; }
-
     sf::Sprite GetSprite() {return sprite_;}
 
     void Draw(sf::RenderWindow* w) {
         sf::FloatRect p_rec = sprite_.getGlobalBounds();
         sf::RectangleShape p_box(sf::Vector2f(p_rec.width, p_rec.height));
         p_box.setOutlineThickness(0.5);
-        p_box.setOutlineColor(sf::Color::Red);
+        p_box.setOutlineColor(sf::Color::Transparent);
         p_box.setFillColor(sf::Color::Transparent);
         p_box.setPosition(sf::Vector2f(currPos_.x*3, currPos_.y*3));
         w->draw(p_box);

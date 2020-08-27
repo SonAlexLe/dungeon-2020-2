@@ -6,9 +6,17 @@
 
 Monster::Monster() {}
 
+/** A constructor for a monster
+ * @param x x-coord
+ * @param y y-coord
+ * @param velocity initial velocity
+ * @param hp initial hit points
+ * @param p the player shared vector
+ */
 Monster::Monster(float x, float y, sf::Vector2f velocity, int hp, std::shared_ptr<Player> p)
     : Entity(x, y, velocity), hp_(hp), p_(p), active_(true) {}
 
+//renders a monster onscreen
 void Monster::Draw(sf::RenderWindow* w) {
     sf::FloatRect m_rec = sprite_.getGlobalBounds();
     sf::RectangleShape m_box(sf::Vector2f(m_rec.width, m_rec.height));
@@ -25,19 +33,16 @@ void Monster::Draw(sf::RenderWindow* w) {
 void Monster::SetHP(int hp) { hp_ = hp; }
 int Monster::GetHP() { return hp_; }
 
-bool Monster::isActive() {return active_;}
-
 void Monster::SetPlayer(std::shared_ptr<Player> p) { p_ = p; }
 std::shared_ptr<Player> Monster::GetPlayer() { return p_; }
 
 sf::Sprite& Monster::GetSprite() { return sprite_; }
 
-//subclass orc, patrols from one corner to the opposite one.
-Orc::Orc(float x, float y, std::shared_ptr<Player> p)
-    : Monster(x, y, sf::Vector2f(ORC_SPEED, ORC_SPEED), ORC_HP, p)
-{
-    sprite_ = sf::Sprite(p->GetTexture(), sf::IntRect(32,160,16,16));
-    sprite_.setScale(sf::Vector2f(2, 2));
+//if a monster is not active (not dead), it won't be drawn
+bool Monster::isActive() { return active_; }
+
+//No part of a monster's sprite should be outside of the room on spawn
+void Monster::AdjustSpawn() {
     auto bounds = sprite_.getGlobalBounds();
     if (currPos_.x+bounds.width/3 > p_->GetRoom()->GetWidth()-1)
         currPos_ = sf::Vector2f(p_->GetRoom()->GetWidth()-bounds.width/3, currPos_.y);
@@ -45,8 +50,19 @@ Orc::Orc(float x, float y, std::shared_ptr<Player> p)
         currPos_ = sf::Vector2f(currPos_.x, p_->GetRoom()->GetHeight()-bounds.height/3);
 }
 
+//subclass orc, patrols from one corner to the opposite one.
+Orc::Orc(float x, float y, std::shared_ptr<Player> p)
+    : Monster(x, y, sf::Vector2f(ORC_SPEED, ORC_SPEED), ORC_HP, p)
+{
+    sprite_ = sf::Sprite(p->GetTexture(), sf::IntRect(32,160,16,16));
+    sprite_.setScale(sf::Vector2f(2, 2));
+    AdjustSpawn();
+}
+
+//determines the behavior of an Orc
 void Orc::update(sf::Time dt) {
     auto bounds = sprite_.getGlobalBounds();
+    //checks collision with player
     if (!p_->CanDie() || !bounds.intersects(p_->GetSprite().getGlobalBounds())) {
         if(currPos_.x+bounds.width/3 > p_->GetRoom()->GetWidth()-1 || currPos_.y+bounds.height/3 > p_->GetRoom()->GetHeight()-1)
             velocity_ = sf::Vector2f(-ORC_SPEED, -ORC_SPEED);
@@ -73,13 +89,10 @@ Orge::Orge(float x, float y, std::shared_ptr<Player> p)
 {
     sprite_ = sf::Sprite(p->GetTexture(), sf::IntRect(101,181,22,28));
     sprite_.setScale(sf::Vector2f(2, 2));
-    auto bounds = sprite_.getGlobalBounds();
-    if (currPos_.x+bounds.width/3 > p_->GetRoom()->GetWidth()-1)
-        currPos_ = sf::Vector2f(p_->GetRoom()->GetWidth()-bounds.width/3, currPos_.y);
-    if (currPos_.y+bounds.height/3 > p_->GetRoom()->GetHeight()-1)
-        currPos_ = sf::Vector2f(currPos_.x, p_->GetRoom()->GetHeight()-bounds.height/3);
+    AdjustSpawn();
 }
 
+//determines the behavior of an Orge
 void Orge::update(sf::Time dt) {
     if (p_->CanDie() && sprite_.getGlobalBounds().intersects(p_->GetSprite().getGlobalBounds())) {
         p_->SetHP(p_->GetHP()-3);

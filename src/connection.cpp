@@ -6,6 +6,12 @@ Connection::Connection(float x, float y, std::string f, std::shared_ptr<Player> 
     if (!texture_.loadFromFile("src/Sprites/door.png")) std::cout << "sprite error!" << std::endl;
     sprite_.setTexture(texture_);
     sprite_.setScale(sf::Vector2f(2.4f, 2.4f)); //Change later
+    //code below copied from monster::adjustspawn()
+    auto bounds = sprite_.getGlobalBounds();
+    if (currPos_.x+bounds.width/3 > p->GetRoom()->GetWidth()-1)
+        currPos_ = sf::Vector2f(p->GetRoom()->GetWidth()-bounds.width/3, currPos_.y);
+    if (currPos_.y+bounds.height/3 > p->GetRoom()->GetHeight()-1)
+        currPos_ = sf::Vector2f(currPos_.x, p->GetRoom()->GetHeight()-bounds.height/3);
 }
 
 void Connection::unlock() { locked_ = false;}

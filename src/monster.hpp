@@ -33,6 +33,8 @@ protected:
 
     std::shared_ptr<Player> p_;
 
+    void AdjustSpawn();
+
 };
 
 class Orc : public Monster

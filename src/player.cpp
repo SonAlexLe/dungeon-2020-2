@@ -7,7 +7,7 @@
 #define PLR_HP 10
 
 Player::Player(Room* room) : room_(room), Entity(room->GetWidth()/2,room->GetHeight()/2, sf::Vector2f(0,0)), 
-accDown_(false), accUp_(false), accLeft_(false), accRight_(false), reload_(0), hp_(PLR_HP), score_(0)
+accDown_(false), accUp_(false), accLeft_(false), accRight_(false), reload_(0), hp_(PLR_HP), score_(0), immortal_(true)
 {
     //load player texture
     if (!texture_.loadFromFile("src/Sprites/game_texture.png")) std::cout << "sprite error" << std::endl;
@@ -21,7 +21,7 @@ void Player::Draw(sf::RenderWindow* w) {
     sf::RectangleShape p_box(sf::Vector2f(p_rec.width, p_rec.height));
     //Boundary box for collision detection
     p_box.setOutlineThickness(2);
-    p_box.setOutlineColor(sf::Color::Transparent);
+    p_box.setOutlineColor(sf::Color::Red);
     p_box.setFillColor(sf::Color::Transparent);
     p_box.setPosition(sf::Vector2f(currPos_.x*3, currPos_.y*3));
     w->draw(p_box);
@@ -31,7 +31,6 @@ void Player::Draw(sf::RenderWindow* w) {
 
 //getter functions
 sf::Sprite& Player::GetSprite() { return sprite_; }
-const std::string Player::GetSpriteName() const { return "src/Sprites/player.png"; }
 Room *Player::GetRoom() { return room_; }
 float Player::GetReload() {return reload_; }
 
@@ -89,6 +88,11 @@ void Player::update(sf::Time dt) {
         reload_ -= std::min(dt.asSeconds(),reload_);
         if(reload_ == 0) {std::cout << "LOADED" << std::endl;}
     }
+//track invincibility frames
+    if(immortal_ > 0) {
+        immortal_ -= std::min(dt.asSeconds(),immortal_);
+    }    
+
 
 //move player up to speed
    currPos_ += 0.5f * dt.asSeconds() * (velocity_ + v0);

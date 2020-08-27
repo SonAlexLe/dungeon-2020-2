@@ -97,8 +97,8 @@ void Game::input()
                         float vlength = -1 * std::sqrt(projectile_direction.x*projectile_direction.x + projectile_direction.y * projectile_direction.y);
                         //velocity = unit direction vector * speed
                         sf::Vector2f projectile_velocity(projectile_direction.x/vlength*projectilespeed,projectile_direction.y/vlength*projectilespeed);
-                        //create new projectile
-                        p1_->GetRoom()->AddProjectile(new Projectile(p1_->GetPosition(),projectile_velocity, 1, false));
+                        //create new projectile, the creation point is the middle of player instead of the top-left corner, the coefficient is 6 because graphics are scaled 3 times from the actual game logic.
+                        p1_->GetRoom()->AddProjectile(new Projectile(sf::Vector2f(p1_->GetPosition().x + (p1_->GetSprite().getGlobalBounds().width/6),p1_->GetPosition().y+ p1_->GetSprite().getGlobalBounds().height/6),projectile_velocity, 1, false));
                         //set the player reload time, reload must finish before firing
                         p1_->Attack();
                     }

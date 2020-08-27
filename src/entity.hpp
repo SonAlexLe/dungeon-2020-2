@@ -18,8 +18,6 @@ public:
     virtual ~Entity();
 
     virtual void update(sf::Time dt);
-
-    virtual const std::string GetSpriteName() const =0;
     
     sf::Vector2f& GetPosition();
     sf::Vector2f& GetVelocity();

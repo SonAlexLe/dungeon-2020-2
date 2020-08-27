@@ -39,9 +39,6 @@ class Projectile: public Entity
                 angle += 90 + std::atan(velocity_.y/velocity_.x) * (180.0/(2*std::acos(0.0)));
             }
         }
-        
-
-        std::cout << angle << std::endl;
         sprite_.rotate(angle);
         sprite_.setScale(sf::Vector2f(2, 2));
     }
@@ -53,8 +50,7 @@ class Projectile: public Entity
     void setActive(bool x) { active_ = x;}
 
     int GetDamage(){return damage_;}
-
-    const std::string GetSpriteName() const { return "projectile.png"; }
+    
     sf::Sprite GetSprite() {return sprite_;}
 
     void Draw(sf::RenderWindow* w) {

@@ -3,7 +3,6 @@
 
 
 Map::Map(int difficulty, std::shared_ptr<Player> p) : difficulty_(difficulty), p_(p) {
-    // rooms_.push_back(new Room);
     map_init();
 }
 
@@ -11,43 +10,38 @@ std::shared_ptr<Room> Map::GetStartingRoom() {
     return rooms_.front();
 }
 
-//Runs when a map is constructed
+//Creates the rooms within the map, populates them accordingly and creates connections between them
 void Map::map_init() {
 
-    //Some preliminary parameters for how many rooms are generated
+    //Number of rooms to be generated scales with difficulty
     int nofRooms = 5 + difficulty_;
 
-    //Init layout and starting room
+    //Init helper layout
     std::shared_ptr<Room> map[5][5] = { {nullptr} };
     std::shared_ptr<Room> start = std::make_shared<Room>();
     double size = start->GetHeight();
+
+    //Set starting room in the middle of the layout
     map[2][2] = start;
     rooms_.push_back(start);
-
-    /* for (int i = 0; i < 5; i++) {
-        for (int j = 0; j < 5; j++) {
-            if (map[i][j] == nullptr) { std::cout << "#"; } else { std::cout << "X"; } 
-        }
-        std::cout << std::endl;
-    } */
-    std::cout << std::endl;
 
     //Create a random seed
     srand(time(nullptr));
 
+    /*While there are rooms to be created randomly go through the helper layout grid.
+    Whether a room is created depends on the number of its neighbors. If the cell has no neighbors
+    to connect to a room won't be created there. Alternatively in the case that the cell has
+    too many neighbors a room won't be created. The last room to be created is a boss room and the
+    third last room is an item room.
+    */
     while (nofRooms > 0) {
 
         //Pick a random cell in array
         int x = rand() % 5;
         int y = rand() % 5;
-
-        // std::cout << "Accessing " << x << " " << y << std::endl;
-
         if(map[x][y] == nullptr) {
  
-            // std::cout << "Found nullptr" << std::endl;
-
-            //Where 1 is north, 2 is east, 3 is south, 4 is west
+            //Setup a list of the cells neighbors, where 1 is north, 2 is east, 3 is south and 4 is west
             std::list<int>neighbors;
 
             //Count how many neighbors the cell has
@@ -57,56 +51,53 @@ void Map::map_init() {
             if ( (y != 4) && map[x][y + 1] != nullptr) { neighbors.push_back(2);} // Check East
             if ( (y != 0) && map[x][y - 1] != nullptr) { neighbors.push_back(4);} // Check West
 
-            /*std::cout << "Cell has: " << neighbors.size() << " neighbros ";
-            if (!neighbors.empty()) {
-                std::cout << "And they are: ";
-                for (auto i : neighbors) {
-                    std::cout << i << " ";
-            }
-            }
-            std::cout << std::endl; */
 
-            
-
-            //The maximum amount of neighbors can be tweaked to change the layout of the maps
+            //Check if the amount of neighbors is valid if so create a special room or a default room
             if(neighbors.size() >= 1 && neighbors.size() < 3) {
 
-                //All conditions are met, create a room
-                
-                std::shared_ptr<Room> room = room_init();
+                std::shared_ptr<Room> room = std::make_shared<Room>();
+                //Create an item room
+                if (nofRooms == 3) {
 
-                // Room* room = new Room;
-                map[x][y] = room;
-                rooms_.push_back(room);
+                    //Generate two random pieces of equipment and a consumable in the item room
+                    std::shared_ptr<itemGenerator> gen = std::make_shared<itemGenerator>();
+                    std::shared_ptr<Item> item1 = gen->createEquipment(150.f, 200.f, p_);
+                    //std::shared_ptr<Item> item2 = gen->createEquipment(150.f, 100.f, p_);
+                    //std::shared_ptr<Item> cons = gen->createConsumable(200.f, 150.f, p_);
 
-                std::cout << "Room created @ " << x << " " << y  << std::endl;
+                    room->SetType("Item");
+                    room->AddItem(item1);
 
+                }
+                //Create a boss room
+                else if (nofRooms == 1) {
 
+                    //Set the room type to Boss (could be useful for win condition logic)
+                    room->SetType("Boss");
 
-                /*Generate item room when there are X rooms to generate
-                if (nofRooms == 6) {
-                    $$Item generator goes here$$
-                    Item* item = Item::generate;
-                    room->AddItem(item);
-                    nofRooms--;
-                    
-                } */
+                    //For now init an ogre in the middle of the room, can be replaced by a boss
+                    std::shared_ptr<Orge> boss = std::make_shared<Orge>(150.f, 150.f, p_);
 
-                /* Last will be a boss room
-                if (nofRooms == 1) {
-                    Monster* boss = new Boss(50.0, 50.0);
-                    room->AddEnemy(Boss);
-                    nofRooms--;
+                    room->AddEnemy(boss);
+
                 }
 
-                */
-                nofRooms--;
-                std::cout << nofRooms << std::endl;
+                //Create a default room             
+                else { room = room_init(); }
 
-                //Setup connections to neighboring rooms
+                //Add created room to the layout and rooms_ container
+                map[x][y] = room;
+                rooms_.push_back(room); 
+
+                nofRooms--;
+
+                /*After creating a room its connections to its neighboring rooms must be setup
+                One on the just created room connected to the neighbor and another created in the neighbor connected to the new room
+                As neighbors have been determined earlier just iterating over the list yields the needed connections
+                */
                 for (auto it = neighbors.begin(); it != neighbors.end(); it++) {
+
                     if (*it == 1 ) {
-                            std::cout << "Creating north connections"  << std::endl;
                             std::shared_ptr<Connection> c1 = std::make_shared<Connection>(size / 2, 0.0, "north", p_);
                             std::shared_ptr<Connection> c2 = std::make_shared<Connection>(size / 2, size, "south", p_);
 
@@ -120,7 +111,6 @@ void Map::map_init() {
 
                         }
                     if (*it == 2) {
-                            std::cout << "Creating east connections"  << std::endl;
                             std::shared_ptr<Connection> c1 = std::make_shared<Connection>(size, size / 2, "east", p_);
                             std::shared_ptr<Connection> c2 = std::make_shared<Connection>(0.0, size / 2, "west", p_);
 
@@ -133,7 +123,6 @@ void Map::map_init() {
                             neighbor->SetWConn(room);
                         }
                     if (*it == 3) {
-                            std::cout << "Creating south connections"  << std::endl;
                             std::shared_ptr<Connection> c1 = std::make_shared<Connection>(size / 2, size, "south", p_);
                             std::shared_ptr<Connection> c2 = std::make_shared<Connection>(size / 2, 0.0, "north", p_);
 
@@ -147,7 +136,6 @@ void Map::map_init() {
                         }
                     if (*it == 4) {
                         {
-                            std::cout << "Creating west connections"  << std::endl;
                             std::shared_ptr<Connection> c1 = std::make_shared<Connection>(0.0, size / 2, "west", p_);
                             std::shared_ptr<Connection> c2 = std::make_shared<Connection>(size, size / 2, "east", p_);
 
@@ -162,16 +150,12 @@ void Map::map_init() {
                     }
                 }
                 neighbors.clear();
-            /*    for (int i = 0; i < 5; i++) {
-                    for (int j = 0; j < 5; j++) {
-                        if (map[i][j] == nullptr) { std::cout << "#"; } else { std::cout << "X"; } 
-                    }
-                    std::cout << std::endl;
-                } */
             }
             else { neighbors.clear(); }
         }
     }
+
+
     std::cout << std::endl << "Connections in each room:" << std::endl;
     for (int i = 0; i < 5; i++) {
         for (int j = 0; j < 5; j++) {
@@ -193,8 +177,21 @@ void Map::map_init() {
         }
         std::cout << std::endl;
     }
+    std::cout << "Special rooms:" << std::endl;
+    std::cout << std::endl;
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
+            if (map[i][j] != nullptr) { 
+                std::string tmp = map[i][j]->GetType();
+                if (tmp == "Boss") {std::cout << "B";} else if (tmp == "Item") { std::cout << "I"; } else { std::cout << "X"; }
+            }
+            else { std::cout << "#"; } 
+        }
+        std::cout << std::endl;
+    }
+
 }
-//Fills room with monsters
+//Initializer for default rooms. Fills a room randomly with monsters and returns it
 std::shared_ptr<Room> Map::room_init() {
 
     int size = rooms_.front()->GetWidth();
@@ -203,56 +200,27 @@ std::shared_ptr<Room> Map::room_init() {
     std::shared_ptr<Room> room = std::make_shared<Room>();
 
     //Pick a monster randomly from monsters
-    //Expand as more monsters are added
-
-    //O for Orc and G for Ogre :^) <- spelled orge
+    //O for Orc and G for Orge
     char monsters[2] = { 'O', 'G' };
 
-
-    //Coords for the placements of monsters, (4 monsters in corners)
-    /*
-    std::list<sf::Vector2f> coords = { sf::Vector2f(10.0, 10.0), sf::Vector2f(90.0, 10.0), sf::Vector2f(10.0, 90.0), sf::Vector2f(90.0, 90.0) };
-
-
-    for (auto c : coords) {
-
-        int idx = rand() % 2;
-
-        switch (monsters[idx]) {
-
-            case 'O': {
-                std::shared_ptr<Orc> orc = std::make_shared<Orc>(c.x, c.y, p ); 
-               room->AddEnemy(orc);
-            }
-
-            case 'G': {
-                Orge* orge = new Orge(c.x, c.y, p);
-                room->AddEnemy(orge);
-            }
-
-        }
-    }*/
-    //Alternatively if monsters are just placed willy nilly
-
-    int nofMonsters = 1 + difficulty_;
+    //The amount of monsters added to each room scales with difficulty
+    int nofMonsters = 2 + difficulty_;
 
     for (int i = 0; i < nofMonsters; i++) {
 
         sf::Vector2f pos = sf::Vector2f(rand() % size, rand() % size);
 
-        switch (monsters[rand() % 2]) {
+        char tmp = monsters[rand() % 2];
 
-            case 'O': {
+            if (tmp == 'O') {
                 std::shared_ptr<Orc> orc = std::make_shared<Orc>(pos.x, pos.y, p_); 
                room->AddEnemy(orc);
             }
 
-            case 'G': {
+            else if (tmp == 'G') {
                 std::shared_ptr<Orge> orge = std::make_shared<Orge>(pos.x, pos.y, p_);
                 room->AddEnemy(orge);
-            }
-
-        }       
+            }    
     }
     return room;
 }

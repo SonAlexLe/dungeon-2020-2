@@ -9,22 +9,9 @@
 
 //Map is a group of rooms that are connected by "Connection"-entities.
 
-//player object should have reference to the room it is in as a variable.
-//rooms should be adressable individually
-
 class Map
 {
 public:
-
-    /*The amount of rooms initialized will be based on the difficult or depth of the dungeon. This will be passed to the map constructor by the game loop.
-     How the generator should roughly works:
-    - Generate a starting room and place the player there
-    - Delete the previous map
-    - Initialize empty rooms
-    - Create connections
-    - Fill rooms (One idea is to have text files for preconstructed room layouts that will be read randomly)
-    - Add special rooms (boss, shop, item rooms, etc)
-    */
 
     Map() {}
 
@@ -32,7 +19,6 @@ public:
 
     ~Map() {}
 
-    // Should be the head of rooms_
     std::shared_ptr<Room> GetStartingRoom();
 
 
@@ -49,6 +35,5 @@ private:
 
     std::shared_ptr<Player> p_;
 
-    // std::list<Connection*> connections_;
 
 };

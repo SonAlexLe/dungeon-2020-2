@@ -152,7 +152,6 @@ void Game::update()
                         i->setActive(false);
                     //calculate new hp for damaged enemy
                         j->SetHP(j->GetHP()-i->GetDamage());
-                        std::cout<<j->GetHP()<<std::endl;
                     }
                 }
             }
@@ -190,10 +189,23 @@ void Game::render()
     
     //draw the player
     p1_->Draw(window_);
-
+    int charsize = 20;
+    int counter = 0;
     //draw all enemies with more than 0hp
     for(auto i : p1_->GetRoom()->GetEnemies()) { 
-        if (i->isActive()) {i->Draw(window_);}
+        if (i->isActive()) {
+            i->Draw(window_);
+            std::stringstream ss;
+            ss << (dynamic_cast<Orc*>(i.get()) ? "Orc" : "Orge" ) << " HP: " << i->GetHP();
+            sf::Text hp;
+            hp.setFont(gamefont_);
+            hp.setString(ss.str());
+            hp.setCharacterSize(charsize);
+            auto bounds = hp.getGlobalBounds();
+            hp.setPosition(roomSize.x*3-bounds.width-10,2+(charsize+5)*counter++);
+            hp.setFillColor(sf::Color::Yellow);
+            window_->draw(hp);
+        }
     }
 
     //draw all active projectiles

@@ -14,7 +14,8 @@
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(950, 950), "Dungeons I");
+    sf::RenderWindow window(sf::VideoMode(900, 900), "Dungeons 1.5");
+    window.setPosition(sf::Vector2i(450, 50));
     //create and initialize game object
     Game game(&window);
 

@@ -73,9 +73,9 @@ void Map::map_init() {
 
                 //All conditions are met, create a room
                 
-                // Room* room = room_init();
+                Room* room = room_init();
 
-                Room* room = new Room;
+                // Room* room = new Room;
                 map[x][y] = room;
                 rooms_.push_back(room);
 
@@ -205,6 +205,7 @@ Room* Map::room_init() {
     //Pick a monster randomly from monsters
     //Expand as more monsters are added
 
+    //O for Orc and G for Ogre :^)
     char monsters[2] = { 'O', 'G' };
 
 
@@ -233,7 +234,7 @@ Room* Map::room_init() {
     }*/
     //Alternatively if monsters are just placed willy nilly
 
-    int nofMonsters = 3 + difficulty_;
+    int nofMonsters = 1 + difficulty_;
 
     for (int i = 0; i < nofMonsters; i++) {
 

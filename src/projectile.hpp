@@ -24,20 +24,22 @@ class Projectile: public Entity
     Projectile() = delete;
     Projectile(sf::Vector2f location,sf::Vector2f velocity, int damage, bool hostile, sf::Texture& t) :
     Entity(location.x,location.y,velocity), damage_(damage), hostile_(hostile), active_(true) {
-        sprite_ = sf::Sprite(t, sf::IntRect(146,8,10,25));
-        //rotate the projectile
-        float angle = 0;
-        if( velocity_.x == 0 && velocity_.y < 0) {angle = 0;}
-        else{
-            if( velocity_.x == 0 && velocity_.y > 0) {angle = 180;}
+        if(!hostile_){
+            sprite_ = sf::Sprite(t, sf::IntRect(146,8,10,25));
+            //rotate the projectile
+            float angle = 0;
+            if( velocity_.x == 0 && velocity_.y < 0) {angle = 0;}
             else{
-                //calculate the rotational angle from the velocity vector, convert from radians to degrees.
-                if(velocity_.x < 0){angle += 180;}
-                angle += 90 + std::atan(velocity_.y/velocity_.x) * (180.0/(2*std::acos(0.0)));
+                if( velocity_.x == 0 && velocity_.y > 0) {angle = 180;}
+                else{
+                    //calculate the rotational angle from the velocity vector, convert from radians to degrees.
+                    if(velocity_.x < 0){angle += 180;}
+                    angle += 90 + std::atan(velocity_.y/velocity_.x) * (180.0/(2*std::acos(0.0)));
+                }
             }
+            sprite_.rotate(angle);
+            sprite_.setScale(sf::Vector2f(2, 2));
         }
-        sprite_.rotate(angle);
-        sprite_.setScale(sf::Vector2f(2, 2));
     }
 
     void SetVelocity(sf::Vector2f velocity) { velocity_ = velocity; }

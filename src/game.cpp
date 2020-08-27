@@ -180,7 +180,7 @@ void Game::render()
     //draw the room
     // sf::Sprite roomsprite(gametexture_, sf::IntRect(0,90,64,48));
     sf::Vector2f roomSize = p1_->GetRoom()->GetSize();
-    sf::RectangleShape room(sf::Vector2f(roomSize.x*3,roomSize.y*3));
+    sf::RectangleShape room(sf::Vector2f((roomSize.x+16)*3,(roomSize.y+16)*3));
     room.setTexture(&gametexture_);
     room.setTextureRect(sf::IntRect(0,90,64,48));
     // room.setFillColor(sf::Color::White);
@@ -215,7 +215,7 @@ void Game::render()
     score.setFont(gamefont_);
     score.setString(ss.str());
     score.setCharacterSize(25);
-    score.setFillColor(sf::Color::Blue);
+    score.setFillColor(sf::Color::White);
     score.setStyle(sf::Text::Underlined);
     window_->draw(score);
     std::stringstream ss2;

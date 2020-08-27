@@ -5,7 +5,7 @@ Connection::Connection() : Entity() {}
 Connection::Connection(float x, float y, std::string f, std::shared_ptr<Player> p) : Entity(x, y, sf::Vector2f()), locked_(true), facing_(f), player_(p) {
     if (!texture_.loadFromFile("src/Sprites/door.png")) std::cout << "sprite error!" << std::endl;
     sprite_.setTexture(texture_);
-    sprite_.setScale(sf::Vector2f(2.4f, 2.4f)); //Change later
+    sprite_.setScale(sf::Vector2f(1.2f, 2.4f)); //Change later
 }
 
 void Connection::unlock() { locked_ = false;}

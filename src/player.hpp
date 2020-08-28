@@ -53,6 +53,10 @@ public:
     void Draw(sf::RenderWindow*, sf::Color c = sf::Color::Transparent);
     sf::Texture& GetTexture() { return texture_; }
 
+    //difficulty handling
+    int GetDifficulty() {return difficulty_;}
+    void IncreaseDifficulty() { difficulty_ ++;}
+
 private:
 
     //player's inventory
@@ -72,6 +76,7 @@ private:
     int maxHP_;
     int hp_;
     int score_;
+    int difficulty_;
     //for invincibility frames
     float immortal_;
 

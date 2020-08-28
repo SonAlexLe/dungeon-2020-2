@@ -1,6 +1,6 @@
 #include "game.hpp"
 
-Game::Game(sf::RenderWindow *window) : difficulty_(0), window_(window) 
+Game::Game(sf::RenderWindow *window) : window_(window) 
 {
     //load the resources to be used
     if (!gamefont_.loadFromFile("src/sprites/arial.ttf"))
@@ -13,7 +13,7 @@ Game::Game(sf::RenderWindow *window) : difficulty_(0), window_(window)
     //Generate a new dungeon floor as the starting map
     std::shared_ptr<Room> room = std::make_shared<Room>();
     p1_ = std::make_shared<Player>(room, gametexture_);
-    dungeon_ = std::make_unique<Map>(difficulty_, p1_);
+    dungeon_ = std::make_unique<Map>(p1_->GetDifficulty(), p1_);
     p1_->SetRoom(dungeon_->GetStartingRoom());
 
     //Create a player object and place them in the starting room of the map
@@ -147,7 +147,11 @@ void Game::update()
         }
         //update all projectiles, bounds is used for checking projectile collision with walls
         sf::Vector2f bounds = p1_->GetRoom()->GetSize();
-    
+
+        for(auto d: p1_->GetRoom()->GetItems()){
+            d->update(elapsed);
+        }
+
         for(auto i : p1_->GetRoom()->GetProjectiles()){
             sf::Vector2f Ppos = i->GetPosition();
         
@@ -225,10 +229,15 @@ void Game::render()
             x->Draw(window_);
         }
     }
+    //draw all connectors if there are no enemies present
     if (p1_->GetRoom()->IsClear()) {
         for(auto x : p1_->GetRoom()->GetConnections()) {
         x->draw(window_);
         }
+    }
+    //draw items
+    for(auto i : p1_->GetRoom()->GetItems()){
+        i->draw(window_);
     }
     
     //generate and draw score & hp text on screen

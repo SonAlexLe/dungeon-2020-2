@@ -35,10 +35,8 @@ public:
         return isRunning_;
     }
 
-
 private:
     bool isRunning_;
-    int difficulty_;
 
     sf::RenderWindow* window_;
     sf::Font gamefont_;

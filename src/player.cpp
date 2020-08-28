@@ -8,7 +8,7 @@
 Player::Player(std::shared_ptr<Room> room, sf::Texture& t)
     : Entity(room->GetWidth()/2,room->GetHeight()/2, sf::Vector2f(0,0)), room_(room),
     accDown_(false), accUp_(false), accLeft_(false), accRight_(false),
-    reload_(0), hp_(PLR_HP), score_(0), immortal_(true), texture_(t)
+    reload_(0), hp_(PLR_HP), score_(0), immortal_(true), texture_(t) , difficulty_(0)
 {
     //load player sprite
     sprite_ = sf::Sprite(t, sf::IntRect(96,139,16,22));
@@ -29,7 +29,7 @@ void Player::Draw(sf::RenderWindow* w, sf::Color c) {
 }
 
 void Player::TakeDamage(int dmg) {
-    hp_ -= std::max(1, dmg - inventory_->getArmorValue());
+    hp_ -= std::max(1,difficulty_ + dmg - inventory_->getArmorValue());
     Immortal();
 }
 

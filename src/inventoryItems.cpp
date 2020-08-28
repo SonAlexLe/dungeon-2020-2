@@ -8,7 +8,7 @@ Armor::Armor(float x, float y, sf::Vector2f vector, const std::string name, std:
     this->load();
 }
 void Armor::load() {
-    sprite_ = sf::Sprite(player_->GetTexture(), sf::IntRect(64, 139, 16, 16));
+    sprite_ = sf::Sprite(player_->GetTexture(), sf::IntRect(80, 145, 16, 16));
     sprite_.setScale(sf::Vector2f(2, 2));
 }
 
@@ -22,7 +22,7 @@ Weapon::Weapon(float x, float y, sf::Vector2f vector, const std::string name, st
     this->load();
 }
 void Weapon::load() {
-    sprite_ = sf::Sprite(player_->GetTexture(), sf::IntRect(64, 139, 16, 16));
+    sprite_ = sf::Sprite(player_->GetTexture(), sf::IntRect(190, 10, 16, 25));
     sprite_.setScale(sf::Vector2f(2, 2));
 }
 

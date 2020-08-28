@@ -3,7 +3,7 @@
 #include "player.hpp"
 #include "inventory.hpp"
 #include <stdlib.h>     
-#include <time.h>       
+#include <random>       
 
 // Item class functions below.
 Item::Item(float x, float y, sf::Vector2f vector, const std::string name, std::shared_ptr<Player> player, int value) :
@@ -54,8 +54,7 @@ void Item::draw(sf::RenderWindow* window) { //Now only draws the sprite but it a
 // itemGenerator functions below.
 
 std::shared_ptr<Item> itemGenerator::createEquipment(float x, float y, std::shared_ptr<Player> player) { // Creates randomly an armor or a weapon for the item room.
-    srand((unsigned int)time(NULL));
-    int armorWeapon = rand() % 1 + 0;
+    int armorWeapon = (rand() % static_cast<int>(1 - 0 + 1));
     int quality = rand() % 2 + 0;
     int material = gameLvl_;
     int material_koht = gameLvl_ - 1;

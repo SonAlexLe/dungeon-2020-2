@@ -20,10 +20,10 @@ int main()
     {
         std::cout << "music error" << std::endl;
     }
-    //create and initialize game object
-    Game game(&window);
     music.play();
     music.setLoop(true);
+    //create and initialize game object
+    Game game(&window);
     while(game.isRunning())
     {
         //handle player input

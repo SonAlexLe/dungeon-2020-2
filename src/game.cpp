@@ -16,7 +16,7 @@ Game::Game(sf::RenderWindow *window) : window_(window)
     dungeon_ = std::make_unique<Map>(p1_->GetDifficulty(), p1_);
     p1_->SetRoom(dungeon_->GetStartingRoom());
     //create an enemy for the starting room
-    p1_->GetRoom()->AddEnemy(std::make_shared<Orc>(100, 100, p1_));
+    p1_->GetRoom()->AddEnemy(std::move(std::make_unique<Orc>(100, 100, p1_)));
     //Create an inventory
     inventory_ = std::make_shared<Inventory>(p1_);
     p1_->SetInventory(inventory_);
@@ -63,7 +63,7 @@ void Game::input()
                 break;
             case sf::Keyboard::K:
             //kill all enemies in a room
-                for(auto i : p1_->GetRoom()->GetEnemies()){
+                for(auto& i : p1_->GetRoom()->GetEnemies()){
                     i->setActive(false);
                 }
 
@@ -134,7 +134,7 @@ void Game::update()
         //update player
         p1_->update(elapsed);
         //update all enemies within the active room
-        for(auto i : p1_->GetRoom()->GetEnemies()) {
+        for(auto& i : p1_->GetRoom()->GetEnemies()) {
             if(i->isActive())
                 {i->update(elapsed);}
         }
@@ -154,7 +154,7 @@ void Game::update()
                     i->setActive(false);
                     p1_->TakeDamage(i->GetDamage());
                 }
-                for(auto j : p1_->GetRoom()->GetEnemies()){
+                for(auto& j : p1_->GetRoom()->GetEnemies()){
                 
                 //check projectile collision with an enemy. projectile disappears on hitting an enemy.
                     if(!i->isHostile() && j->GetHP()>0 && i->GetSprite().getGlobalBounds().intersects(j->GetSprite().getGlobalBounds())){
@@ -232,7 +232,7 @@ void Game::render()
     int charsize = 20;
     int counter = 0;
     //draw all enemies with more than 0hp
-    for(auto i : p1_->GetRoom()->GetEnemies()) { 
+    for(auto const& i : p1_->GetRoom()->GetEnemies()) { 
         if (i->isActive()) {
             i->Draw(window_, gamefont_);
         }

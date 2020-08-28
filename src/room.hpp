@@ -21,9 +21,9 @@ public:
 
     ~Room();
 
-    std::list<std::shared_ptr<Monster>>& GetEnemies();
+    std::list<std::unique_ptr<Monster>>& GetEnemies();
 
-    void AddEnemy(std::shared_ptr<Monster>);
+    void AddEnemy(std::unique_ptr<Monster>);
 
     std::list<std::shared_ptr<Connection>>& GetConnections();
 
@@ -76,7 +76,7 @@ protected:
 
     sf::Vector2f size_;
 
-    std::list<std::shared_ptr<Monster>> enemies_;
+    std::list<std::unique_ptr<Monster>> enemies_;
 
     std::list<std::shared_ptr<Connection>> connections_;
 

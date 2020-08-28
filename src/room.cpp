@@ -5,11 +5,11 @@ Room::Room() : size_(300, 300), type_("default"), Nconn_(nullptr), Sconn_(nullpt
 
 Room::~Room() {};
 
-std::list<std::shared_ptr<Monster>>& Room::GetEnemies() {
+std::list<std::unique_ptr<Monster>>& Room::GetEnemies() {
     return enemies_;
 }
 
-void Room::AddEnemy(std::shared_ptr<Monster> e) { enemies_.push_back(e); }
+void Room::AddEnemy(std::unique_ptr<Monster> e) { enemies_.push_back(std::move(e)); }
 
 void Room::AddProjectile(std::shared_ptr<Projectile> pew){ projectiles_.push_back(pew); }
 
@@ -24,8 +24,8 @@ void Room::AddConnection(std::shared_ptr<Connection> c) { connections_.push_back
 std::list<std::shared_ptr<Projectile>>& Room::GetProjectiles() { return projectiles_; }
 
 bool Room::IsClear() {
-    for (auto m : enemies_) {
-        if( m->isActive()) {return false;}
+    for (auto const& m : enemies_) {
+        if(m->isActive()) {return false;}
     }
     return true;
 }

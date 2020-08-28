@@ -79,7 +79,7 @@ void Map::map_init() {
 
                     //For now init an ogre in the middle of the room, can be replaced by a boss
 
-                    room->AddEnemy(std::make_shared<Boss>(225.f, 225.f, p_));
+                    room->AddEnemy(std::move(std::make_unique<Boss>(225.f, 225.f, p_)));
 
                 }
 
@@ -204,11 +204,11 @@ std::shared_ptr<Room> Map::room_init() {
         char tmp = monsters[rand() % 2];
 
             if (tmp == 'O') {
-               room->AddEnemy(std::make_shared<Orc>(pos.x, pos.y, p_));
+               room->AddEnemy(std::move(std::make_unique<Orc>(pos.x, pos.y, p_)));
             }
 
             else if (tmp == 'G') {
-                room->AddEnemy(std::make_shared<Orge>(pos.x, pos.y, p_));
+                room->AddEnemy(std::move(std::make_unique<Orge>(pos.x, pos.y, p_)));
             }    
     }
     return room;

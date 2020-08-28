@@ -144,7 +144,7 @@ void Map::map_init() {
         }
     }
 
-
+    //To ease the navigation in the dungeon the layout of the floor is printed to the console
     std::cout << "Map layout:" << std::endl;
     std::cout << std::endl;
     for (int i = 0; i < 5; i++) {
@@ -173,7 +173,7 @@ std::shared_ptr<Room> Map::room_init() {
 
     std::shared_ptr<Room> room = std::make_shared<Room>();
 
-    //Pick a monster randomly from monsters
+    //Pick a monster randomly from monsters and place them randomly into the room
     //O for Orc and G for Orge
     char monsters[2] = { 'O', 'G' };
 

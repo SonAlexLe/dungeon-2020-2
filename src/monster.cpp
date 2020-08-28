@@ -172,7 +172,6 @@ void Boss::update(sf::Time dt) {
             volley_--;
             if(volley_ == 0) {
                 cooldown_ = BOSS_COOLDOWN * ((float)hp_/10);
-                std::cout << "cooldown is: " << cooldown_ << std::endl;
             }
         }
         else{

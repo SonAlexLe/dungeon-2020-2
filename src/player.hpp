@@ -7,6 +7,7 @@
 #include <cmath>
 #include "inventory.hpp"
 #include "room.hpp"
+#include <SFML/Audio.hpp>
 class Inventory;
 class Player : public Entity
 {
@@ -81,5 +82,4 @@ private:
     //graphics
     sf::Texture texture_;
     sf::Sprite sprite_;
-
 };

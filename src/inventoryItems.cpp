@@ -44,7 +44,7 @@ HealingPotion::HealingPotion(float x, float y, sf::Vector2f vector, const std::s
     this->load();
 }
 void HealingPotion::load() {
-    sprite_ = sf::Sprite(player_->GetTexture(), sf::IntRect(32, 160, 16, 16));
+    sprite_ = sf::Sprite(player_->GetTexture(), sf::IntRect(79, 108, 18, 18));
     sprite_.setScale(sf::Vector2f(2, 2));
 }
 void HealingPotion::use() {

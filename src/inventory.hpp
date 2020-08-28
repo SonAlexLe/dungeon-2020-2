@@ -9,6 +9,8 @@ class Inventory {
 public:
     Inventory(Player* player);
     ~Inventory() {}
+    Inventory(const Inventory&) = delete;
+    Inventory& operator=(const Inventory&) = delete;
 
     void addItem(std::unique_ptr<Item> newItem);
     int getArmorValue();
@@ -19,8 +21,6 @@ public:
     sf::Vector2f Drop();
 
 private: // Player is able to hold one weapon, one armor and one consumable.
-    Inventory& operator=(const Inventory&) = delete;
-
     Player* player_;
     std::unique_ptr<Item> armor_;
     std::unique_ptr<Item> weapon_;

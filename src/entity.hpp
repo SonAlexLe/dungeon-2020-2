@@ -18,6 +18,9 @@ public:
     Entity(float x, float y, sf::Vector2f velocity);
     virtual ~Entity();
 
+    Entity(const Entity&) = default;
+    Entity& operator=(const Entity&) = default;
+
     virtual void update(sf::Time dt);
     
     sf::Vector2f& GetPosition();

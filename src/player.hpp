@@ -16,6 +16,8 @@ public:
     Player() = delete;
     Player(sf::Texture&); 
     ~Player() {}
+    Player(const Player&) = default;
+    Player& operator=(const Player&) = default;
 
     //inventory management methods
     Inventory* GetInventory() { return inventory_; }

@@ -22,6 +22,9 @@ public:
 
     ~Room();
 
+    Room(const Room&) = delete;
+    Room& operator=(const Room&) = delete;
+
     std::list<std::unique_ptr<Monster>>& GetEnemies();
 
     void AddEnemy(std::unique_ptr<Monster>);

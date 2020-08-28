@@ -18,6 +18,9 @@ public:
 
     ~Map() {}
 
+    Map(const Map&) = delete;
+    Map& operator=(const Map&) = delete;
+
     Room* GetStartingRoom();
 
 

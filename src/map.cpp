@@ -73,14 +73,8 @@ void Map::map_init() {
                 }
                 //Create a boss room
                 else if (nofRooms == 1) {
-
-                    //Set the room type to Boss (could be useful for win condition logic)
                     room->SetType("Boss");
-
-                    //For now init an ogre in the middle of the room, can be replaced by a boss
-
                     room->AddEnemy(std::move(std::make_unique<Boss>(225.f, 225.f, p_)));
-
                 }
 
                 //Create a default room             
@@ -143,42 +137,25 @@ void Map::map_init() {
         }
     }
 
-
-    std::cout << std::endl << "Connections in each room:" << std::endl;
-    for (int i = 0; i < 5; i++) {
-        for (int j = 0; j < 5; j++) {
-            if (map[i][j] != nullptr) { 
-                std::cout << map[i][j]->GetConnections().size();
-            }
-            else { std::cout << "#"; } 
-        }
-        std::cout << std::endl;
-    }
-    std::cout << "Enemies in each room:" << std::endl;
+    //To ease the navigation in the dungeon the layout of the floor is printed to the console
+    std::cout << "Map layout:" << std::endl;
     std::cout << std::endl;
     for (int i = 0; i < 5; i++) {
         for (int j = 0; j < 5; j++) {
-            if (map[i][j] != nullptr) { 
-                std::cout << map[i][j]->GetEnemies().size();
+            if (i == 2 && j == 2) {
+                std::cout << "S ";
             }
-            else { std::cout << "#"; } 
-        }
-        std::cout << std::endl;
-    }
-    std::cout << "Special rooms:" << std::endl;
-    std::cout << std::endl;
-    for (int i = 0; i < 5; i++) {
-        for (int j = 0; j < 5; j++) {
-            if (map[i][j] != nullptr) { 
+            else if (map[i][j] != nullptr) { 
                 std::string tmp = map[i][j]->GetType();
-                if (tmp == "Boss") {std::cout << "B";}
-                else if (tmp == "Item") { std::cout << "I"; }
-                else { std::cout << "X"; }
+                if (tmp == "Boss") {std::cout << "B ";}
+                else if (tmp == "Item") { std::cout << "I "; }
+                else { std::cout << "X "; }
             }
-            else { std::cout << "#"; } 
+            else { std::cout << "# "; } 
         }
         std::cout << std::endl;
     }
+    std::cout << std::endl << "B is the Boss Room" << std::endl << "I is the Item Room" << std::endl << "S is the Starting Room" << std::endl << "X are default rooms" << std::endl;
 
 }
 //Initializer for default rooms. Fills a room randomly with monsters and returns it
@@ -189,7 +166,7 @@ std::unique_ptr<Room> Map::room_init() {
 
     std::unique_ptr<Room> room = std::make_unique<Room>();
 
-    //Pick a monster randomly from monsters
+    //Pick a monster randomly from monsters and place them randomly into the room
     //O for Orc and G for Orge
     char monsters[2] = { 'O', 'G' };
 

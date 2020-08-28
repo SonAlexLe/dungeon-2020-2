@@ -14,6 +14,7 @@ class Monster;
 
 /*Each room can have within it monsters, projectiles, connections and items.
 Besides these containers a room has pointers to its neighboring rooms and type-tag to tell if the room is special
+For interacting with these containers rooms have multiple setters and getters as interfaces
 */
 class Room {
 public:
@@ -44,6 +45,7 @@ public:
     //A room is considered cleared when all monsters in it are inactive
     bool IsClear();
 
+    //Determines if the room is special
     std::string GetType();
 
     void SetType(std::string t);

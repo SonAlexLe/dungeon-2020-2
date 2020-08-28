@@ -41,6 +41,7 @@ class Projectile: public Entity
             sprite_.setScale(sf::Vector2f(2, 2));
         }
         else{
+            //this is the sprite for boss fireballs
             sprite_ = sf::Sprite(t, sf::IntRect(34,213,11,12));
         }
     }
@@ -50,12 +51,16 @@ class Projectile: public Entity
     void SetVelocity(sf::Vector2f velocity) { velocity_ = velocity; }
     sf::Vector2f& GetVelocity() { return velocity_; }
 
+    //activity check for updating and rendering
     bool isActive() {return active_;}
     void setActive(bool x) { active_ = x;}
+
 
     int GetDamage(){return damage_;}
     bool isHostile(){return hostile_;}
     sf::Sprite GetSprite() {return sprite_;}
+
+
 
     void Draw(sf::RenderWindow* w, sf::Color c = sf::Color::Transparent) {
         sf::FloatRect p_rec = sprite_.getGlobalBounds();
@@ -69,6 +74,7 @@ class Projectile: public Entity
         w->draw(sprite_);
     }
 
+    
     void update(sf::Time dt) {
         currPos_ += dt.asSeconds() * velocity_;
     }

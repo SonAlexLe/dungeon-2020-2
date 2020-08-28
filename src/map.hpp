@@ -7,8 +7,7 @@
 #include <ctime>
 #include <monster.hpp>
 
-//Map is a group of rooms that are connected by "Connection"-entities.
-
+//Map object represents a floor of the dungeon
 class Map
 {
 public:

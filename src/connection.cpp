@@ -2,11 +2,12 @@
 
 Connection::Connection() : Entity() {}
 
-Connection::Connection(float x, float y, std::string f, std::shared_ptr<Player> p) : Entity(x, y, sf::Vector2f()), locked_(true), facing_(f), player_(p) {
+Connection::Connection(float x, float y, std::string f, std::shared_ptr<Player> p) : Entity(x, y, sf::Vector2f()), facing_(f), player_(p) {
     if (!texture_.loadFromFile("src/Sprites/door.png")) std::cout << "sprite error!" << std::endl;
     sprite_.setTexture(texture_);
+    //Rotate the door based on its facing
     sprite_.setOrigin(17.f, 0.f);
-    sprite_.setScale(sf::Vector2f(2.4f, 2.4f)); //Possibly change later
+    sprite_.setScale(sf::Vector2f(2.4f, 2.4f));
 
     if (facing_ == "south") {
         sprite_.rotate(180.f);
@@ -18,10 +19,6 @@ Connection::Connection(float x, float y, std::string f, std::shared_ptr<Player> 
         sprite_.rotate(270.f);
     }
 }
-
-void Connection::unlock() { locked_ = false;}
-
-const std::string Connection::GetSpriteName() const {return "door.png";}
 
 void Connection::update(sf::Time dt) {
     //Check whether the door and player collided, if so move the player

@@ -7,6 +7,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 #include "entity.hpp"
+#include <memory>
 
 enum ItemTypes { //Types to differentiate the items.
     DEFAULT = 0,
@@ -16,7 +17,7 @@ enum ItemTypes { //Types to differentiate the items.
 };
 class Player;
 class Inventory;
-class Item : public std::enable_shared_from_this<Item> , public Entity { //Inherits from the entity class.
+class Item:public std::enable_shared_from_this<Item> , public Entity { //Inherits from the entity class.
 public:
     Item(float x, float y, sf::Vector2f vector, const std::string name, std::shared_ptr<Player> player, int value);
 
@@ -24,6 +25,7 @@ public:
     int getType() const;
     int getValue() const;
     bool GetEquipped() const;
+    std::string GetName() const;
     sf::Sprite& GetSprite() { return sprite_; }
 
     void setUnequipped();

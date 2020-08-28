@@ -10,10 +10,12 @@ public:
     Inventory(std::shared_ptr<Player> player);
     ~Inventory() {}
 
-    void addItem(std::shared_ptr<Item> newItem);
+    void addItem(const std::shared_ptr<Item>& newItem);
     int getArmorValue();
     int getDmgValue();
+    bool hasConsumable();
     void useConsumable(); // Uses the held consumable.
+    std::string GetConsumableName() const;
     sf::Vector2f Drop();
 
 private: // Player is able to hold one weapon, one armor and one consumable.

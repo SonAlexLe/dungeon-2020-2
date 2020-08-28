@@ -28,6 +28,11 @@ void Player::Draw(sf::RenderWindow* w, sf::Color c) {
     w->draw(sprite_);
 }
 
+void Player::TakeDamage(int dmg) {
+    hp_ -= std::max(1, dmg - inventory_->getArmorValue());
+    Immortal();
+}
+
 //getter functions
 sf::Sprite& Player::GetSprite() { return sprite_; }
 

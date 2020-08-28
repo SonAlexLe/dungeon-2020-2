@@ -18,6 +18,7 @@ public:
     void SetHP(int);
 //if not then it won't be drawn
     bool isActive();
+    void setActive(bool);
 
     void SetPlayer(std::shared_ptr<Player>);
     std::shared_ptr<Player> GetPlayer();
@@ -66,4 +67,6 @@ class Boss : public Monster
     sf::Clock clock_;
     //cooldown
     float cooldown_;
+    int volley_;
+    sf::Vector2f waypoint_;
 };

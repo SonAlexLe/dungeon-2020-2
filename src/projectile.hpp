@@ -40,7 +40,12 @@ class Projectile: public Entity
             sprite_.rotate(angle);
             sprite_.setScale(sf::Vector2f(2, 2));
         }
+        else{
+            sprite_ = sf::Sprite(t, sf::IntRect(34,213,11,12));
+        }
     }
+
+    
 
     void SetVelocity(sf::Vector2f velocity) { velocity_ = velocity; }
     sf::Vector2f& GetVelocity() { return velocity_; }
@@ -49,7 +54,7 @@ class Projectile: public Entity
     void setActive(bool x) { active_ = x;}
 
     int GetDamage(){return damage_;}
-    
+    bool isHostile(){return hostile_;}
     sf::Sprite GetSprite() {return sprite_;}
 
     void Draw(sf::RenderWindow* w, sf::Color c = sf::Color::Transparent) {

@@ -67,6 +67,13 @@ void Game::input()
                 break;
             case sf::Keyboard::E: // E key uses the held consumable.
                 inventory_->useConsumable();
+                break;
+            case sf::Keyboard::K:
+            //kill all enemies in a room
+                for(auto i : p1_->GetRoom()->GetEnemies()){
+                    i->setActive(false);
+                }
+
             default:
                 //could add other keys here...
                 break;
@@ -99,7 +106,7 @@ void Game::input()
             if(event.mouseButton.button == sf::Mouse::Button::Left)
             {
                 if(p1_->GetReload() == 0){
-                    int proj_dmg = 1;
+                    int proj_dmg = p1_->GetInventory()->getDmgValue();
                     float projectilespeed = 150;
                     //calculate the direction of the projectile with the linear combination of the mouse and player location vectors. 
                     sf::Vector2f projectile_direction = p1_->GetPosition() - sf::Vector2f(sf::Mouse::getPosition(*window_).x/3 ,sf::Mouse::getPosition(*window_).y/3);
@@ -144,13 +151,16 @@ void Game::update()
         for(auto i : p1_->GetRoom()->GetProjectiles()){
             sf::Vector2f Ppos = i->GetPosition();
         
-            if(Ppos.x >= 0 && Ppos.y >= 0 && Ppos.x < bounds.x && Ppos.y < bounds.y && i->isActive()){
+            if(i->isActive()){
                 i->update(elapsed);
-            
+                if(p1_->CanDie() && i->isHostile() && p1_->GetSprite().getGlobalBounds().intersects(i->GetSprite().getGlobalBounds())){
+                    i->setActive(false);
+                    p1_->TakeDamage(i->GetDamage());
+                }
                 for(auto j : p1_->GetRoom()->GetEnemies()){
                 
                 //check projectile collision with an enemy. projectile disappears on hitting an enemy.
-                    if(j->GetHP()>0 && i->GetSprite().getGlobalBounds().intersects(j->GetSprite().getGlobalBounds())){
+                    if(!i->isHostile() && j->GetHP()>0 && i->GetSprite().getGlobalBounds().intersects(j->GetSprite().getGlobalBounds())){
                         i->setActive(false);
                     //calculate new hp for damaged enemy
                         j->SetHP(j->GetHP()-i->GetDamage());

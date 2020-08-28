@@ -30,6 +30,7 @@ public:
 
     bool CanDie() {if(immortal_ == 0) {return true;} else {return false;}}
     void Immortal() { immortal_ = 1;}
+    void TakeDamage(int dmg);
 
     //sets reload time based on the current weapon
     void Attack();

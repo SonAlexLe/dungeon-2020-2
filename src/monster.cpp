@@ -1,5 +1,5 @@
 #include "monster.hpp"
-#define ORC_SPEED 15.f
+#define ORC_SPEED 30.f
 #define ORGE_SPEED 5.f
 #define ORC_HP 5
 #define ORGE_HP 10
@@ -45,6 +45,7 @@ sf::Sprite& Monster::GetSprite() { return sprite_; }
 
 //if a monster is not active (not dead), it won't be drawn
 bool Monster::isActive() { return active_; }
+void Monster::setActive(bool x) {active_ = x;}
 
 //No part of a monster's sprite should be outside of the room on spawn
 void Monster::AdjustSpawn() {
@@ -75,9 +76,7 @@ void Orc::update(sf::Time dt) {
             velocity_ = sf::Vector2f(ORC_SPEED, ORC_SPEED);
         currPos_ += dt.asSeconds() * velocity_;
     } else {
-        p_->SetHP(p_->GetHP()-4+p_->GetInventory()->getArmorValue());
-        hp_ -= p_->GetInventory()->getDmgValue();
-        p_->Immortal();
+        p_->TakeDamage(2);
         std::cout << "oof!" << std::endl;
     }
     //when a monster dies it disappears and gives the player score
@@ -100,9 +99,7 @@ Orge::Orge(float x, float y, std::shared_ptr<Player> p)
 //determines the behavior of an Orge
 void Orge::update(sf::Time dt) {
     if (p_->CanDie() && sprite_.getGlobalBounds().intersects(p_->GetSprite().getGlobalBounds())) {
-        p_->SetHP(p_->GetHP()-4+p_->GetInventory()->getArmorValue());
-        hp_ -= p_->GetInventory()->getDmgValue();
-        p_->Immortal();
+        p_->TakeDamage(5);
         std::cout << "OOF!" << std::endl;
     } else {
         sf::Vector2f target = p_->GetPosition();
@@ -123,7 +120,7 @@ void Orge::update(sf::Time dt) {
 //subclass Boss, the boss of the game. Defeat it for something interesting.
 
 Boss::Boss(float x, float y, std::shared_ptr<Player> p)
-    : Monster(x, y, sf::Vector2f(0, 0), BOSS_HP, p), cooldown_(0)
+    : Monster(x, y, sf::Vector2f(0, 0), BOSS_HP, p), cooldown_(0) , waypoint_(sf::Vector2f(-1,-1))
 {
     sprite_ = sf::Sprite(p->GetTexture(), sf::IntRect(160,177,33,31));
     sprite_.setScale(sf::Vector2f(2, 2));
@@ -134,9 +131,7 @@ Boss::Boss(float x, float y, std::shared_ptr<Player> p)
 //Boss moves in a circle around the center of the room. Charges towards the player if its hp gets low.
 void Boss::update(sf::Time dt) {
     if (p_->CanDie() && sprite_.getGlobalBounds().intersects(p_->GetSprite().getGlobalBounds())) {
-        p_->SetHP(p_->GetHP()-4+p_->GetInventory()->getArmorValue());
-        hp_ -= p_->GetInventory()->getDmgValue();
-        p_->Immortal();
+        p_->TakeDamage(8);
         std::cout << "BIG OOF!" << std::endl;
         if (!(hp_ > BOSS_HP*BOSS_RAGE_LIMIT)) cooldown_ = BOSS_COOLDOWN;
     }
@@ -147,13 +142,46 @@ void Boss::update(sf::Time dt) {
         float radius = std::sqrt(accdir.x*accdir.x + accdir.y*accdir.y);
         float elapsed = clock_.getElapsedTime().asSeconds();
         currPos_ = center + sf::Vector2f(std::cos(BOSS_SPEED/radius*elapsed), std::sin(BOSS_SPEED/radius*elapsed))*radius;
+        int proj_dmg = 5;
+        float projectilespeed = 200;
+        if(cooldown_ == 0 &&volley_ > 0){
+            //calculate the direction of the projectile with the linear combination of boss and player location vectors. 
+            sf::Vector2f projectile_direction = p_->GetPosition() + p_->GetVelocity() *( dt.asSeconds() * 100) - currPos_;
+            //calculate speed with the pythagoran theorem
+            float vlength = std::sqrt(projectile_direction.x*projectile_direction.x + projectile_direction.y * projectile_direction.y);
+            //velocity = unit direction vector * speed
+            sf::Vector2f projectile_velocity(projectile_direction.x/vlength*projectilespeed,
+                                            projectile_direction.y/vlength*projectilespeed);
+            //create new projectile, the creation point is the middle of the boss instead of the top-left corner, the coefficient is 6 because graphics are scaled 3 times from the actual game logic.
+            p_->GetRoom()->AddProjectile(std::make_shared<Projectile>(
+                sf::Vector2f(currPos_.x + (sprite_.getGlobalBounds().width/6),
+                currPos_.y+ sprite_.getGlobalBounds().height/6),
+                projectile_velocity, proj_dmg, true, p_->GetTexture()));
+            volley_--;
+            if(volley_ == 0) {
+                cooldown_ = 2;
+            }
+        }
+        else{
+            cooldown_ -= std::min(cooldown_, dt.asSeconds());
+            if(cooldown_ == 0) { volley_ = 10; }
+        }
+
+
     } else { // enraged boss
         sf::Vector2f v0(velocity_);
-        sf::Vector2f target = p_->GetPosition();
-        sf::Vector2f diff = target - currPos_;
+        if(std::min(std::abs(waypoint_.x - currPos_.x),std::abs(waypoint_.y - currPos_.y)) < 0.1 ) { 
+            waypoint_ = sf::Vector2f(-1,-1);
+            cooldown_ = 1;
+            }
+        if(waypoint_ == sf::Vector2f(-1,-1)){
+            waypoint_ = p_->GetPosition();
+        }
+        
+        sf::Vector2f diff = waypoint_ - currPos_;
         diff = diff/(float)sqrt(diff.x*diff.x + diff.y*diff.y);
         if (cooldown_ == 0) { // charge towards player
-            velocity_ = diff * BOSS_SPEED;
+            velocity_ = diff * (BOSS_SPEED* 4);
         }
         else {
             cooldown_ -= std::min(dt.asSeconds(), cooldown_);

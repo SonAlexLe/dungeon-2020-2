@@ -4,6 +4,7 @@
 #include "inventory.hpp"
 #include <stdlib.h>     
 #include <time.h>       
+#include <random>
 
 // Item class functions below.
 Item::Item(float x, float y, sf::Vector2f vector, const std::string name, std::shared_ptr<Player> player, int value) :
@@ -20,7 +21,9 @@ std::string Item::getName() const {
 int Item::getType() const {
     return type_;
 }
-
+std::string Item::GetName() const {
+    return this->name_;
+}
 int Item::getValue() const {
     return armorDmgValue_;
 }
@@ -84,6 +87,6 @@ std::shared_ptr<Item> itemGenerator::createConsumable(float x, float y, std::sha
     //srand((unsigned int)time(NULL)); 
     //int random_cons = rand() % 1 + 0;
     sf::Vector2f v1(0.f, 0.f);
-    std::shared_ptr<HealingPotion> new_cons = std::make_shared<HealingPotion>(x, y, v1, "HealingPotion", player, 0);
+    std::shared_ptr<HealingPotion> new_cons = std::make_shared<HealingPotion>(x, y, v1, "HPotion", player, 0);
     return new_cons;
 }

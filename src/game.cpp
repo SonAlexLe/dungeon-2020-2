@@ -280,7 +280,17 @@ void Game::render()
     DEF.setStyle(sf::Text::Bold);
     DEF.setPosition(0, 90);
     window_->draw(DEF);
-    
+    //---Consumable
+    std::stringstream ss5;
+    ss5 << "Cons: " << inventory_->GetConsumableName();
+    sf::Text Cons;
+    Cons.setFont(gamefont_);
+    Cons.setString(ss5.str());
+    Cons.setCharacterSize(25);
+    Cons.setFillColor(sf::Color::Black);
+    Cons.setStyle(sf::Text::Bold);
+    Cons.setPosition(0, 120);
+    window_->draw(Cons);
 
     //GAME OVER TEXT FOR WHEN THE PLAYER DIES
     if(p1_->GetHP() <= 0){

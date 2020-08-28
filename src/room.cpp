@@ -1,7 +1,7 @@
 #include "room.hpp"
 
 
-Room::Room() : size_(300, 300), item_(nullptr), type_("default"), Nconn_(nullptr), Sconn_(nullptr), Wconn_(nullptr), Econn_(nullptr) {}
+Room::Room() : size_(300, 300), type_("default"), Nconn_(nullptr), Sconn_(nullptr), Wconn_(nullptr), Econn_(nullptr) {}
 
 Room::~Room() {};
 
@@ -13,7 +13,9 @@ void Room::AddEnemy(std::shared_ptr<Monster> e) { enemies_.push_back(e); }
 
 void Room::AddProjectile(std::shared_ptr<Projectile> pew){ projectiles_.push_back(pew); }
 
-void Room::AddItem(std::shared_ptr<Item> i) { item_ = i; }
+void Room::AddItem(std::shared_ptr<Item> i) { items_.push_back(i); }
+
+std::list<std::shared_ptr<Item>>& Room::GetItems() { return items_; }
 
 std::list<std::shared_ptr<Connection>>& Room::GetConnections() {return connections_; }
 

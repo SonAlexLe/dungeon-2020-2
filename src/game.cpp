@@ -172,7 +172,7 @@ void Game::update()
             }
         }
         if (p1_->GetRoom()->IsClear()) {
-            for(auto x : p1_->GetRoom()->GetConnections()) {
+            for(auto& x : p1_->GetRoom()->GetConnections()) {
                 x->update(elapsed);
             }
             if(p1_->GetRoom()->GetType() == "Boss") {
@@ -209,7 +209,7 @@ void Game::render()
     }
     //draw all connectors if there are no enemies present
     if (p1_->GetRoom()->IsClear()) {
-        for(auto x : p1_->GetRoom()->GetConnections()) {
+        for(auto& x : p1_->GetRoom()->GetConnections()) {
         x->draw(window_);
         }
         if(p1_->GetRoom()->GetType() == "Boss"){

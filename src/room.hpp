@@ -26,9 +26,9 @@ public:
 
     void AddEnemy(std::unique_ptr<Monster>);
 
-    std::list<std::shared_ptr<Connection>>& GetConnections();
+    std::list<std::unique_ptr<Connection>>& GetConnections();
 
-    void AddConnection(std::shared_ptr<Connection>);
+    void AddConnection(std::unique_ptr<Connection>);
 
     void AddItem(std::unique_ptr<Item>);
 
@@ -80,7 +80,7 @@ protected:
 
     std::list<std::unique_ptr<Monster>> enemies_;
 
-    std::list<std::shared_ptr<Connection>> connections_;
+    std::list<std::unique_ptr<Connection>> connections_;
 
     std::list<std::unique_ptr<Item>> items_;
 

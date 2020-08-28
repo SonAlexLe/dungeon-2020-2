@@ -17,9 +17,9 @@ void Room::AddItem(std::unique_ptr<Item> i) { items_.push_back(std::move(i)); }
 
 std::list<std::unique_ptr<Item>>& Room::GetItems() { return items_; }
 
-std::list<std::shared_ptr<Connection>>& Room::GetConnections() {return connections_; }
+std::list<std::unique_ptr<Connection>>& Room::GetConnections() {return connections_; }
 
-void Room::AddConnection(std::shared_ptr<Connection> c) { connections_.push_back(c); }
+void Room::AddConnection(std::unique_ptr<Connection> c) { connections_.push_back(std::move(c)); }
 
 std::list<std::unique_ptr<Projectile>>& Room::GetProjectiles() { return projectiles_; }
 

@@ -89,39 +89,39 @@ void Map::map_init() {
                     if (*it == 1 ) {
                             Room* neighbor = map[x - 1][y];
 
-                            room->AddConnection(std::make_shared<Connection>(size / 2, 0.0, "north", p_));
+                            room->AddConnection(std::move(std::make_unique<Connection>(size / 2, 0.0, "north", p_)));
                             room->SetNConn(neighbor);
 
-                            neighbor->AddConnection(std::make_shared<Connection>(size / 2, size, "south", p_));
+                            neighbor->AddConnection(std::move(std::make_unique<Connection>(size / 2, size, "south", p_)));
                             neighbor->SetSConn(room.get());
 
                         }
                     if (*it == 2) {
                             Room* neighbor = map[x][y + 1];
 
-                            room->AddConnection(std::make_shared<Connection>(size, size / 2, "east", p_));
+                            room->AddConnection(std::move(std::make_unique<Connection>(size, size / 2, "east", p_)));
                             room->SetEConn(neighbor);
 
-                            neighbor->AddConnection(std::make_shared<Connection>(0.0, size / 2, "west", p_));
+                            neighbor->AddConnection(std::move(std::make_unique<Connection>(0.0, size / 2, "west", p_)));
                             neighbor->SetWConn(room.get());
                         }
                     if (*it == 3) {
                             Room* neighbor = map[x + 1][y];
 
-                            room->AddConnection(std::make_shared<Connection>(size / 2, size, "south", p_));
+                            room->AddConnection(std::move(std::make_unique<Connection>(size / 2, size, "south", p_)));
                             room->SetSConn(neighbor);
 
-                            neighbor->AddConnection(std::make_shared<Connection>(size / 2, 0.0, "north", p_));
+                            neighbor->AddConnection(std::move(std::make_unique<Connection>(size / 2, 0.0, "north", p_)));
                             neighbor->SetNConn(room.get());
                         }
                     if (*it == 4) {
                         {
                             Room* neighbor = map[x][y - 1];
 
-                            room->AddConnection(std::make_shared<Connection>(0.0, size / 2, "west", p_));
+                            room->AddConnection(std::move(std::make_unique<Connection>(0.0, size / 2, "west", p_)));
                             room->SetWConn(neighbor);
 
-                            neighbor->AddConnection(std::make_shared<Connection>(size, size / 2, "east", p_));
+                            neighbor->AddConnection(std::move(std::make_unique<Connection>(size, size / 2, "east", p_)));
                             neighbor->SetEConn(room.get());
                         }
                     }

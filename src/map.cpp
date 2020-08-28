@@ -2,7 +2,7 @@
 #include "map.hpp"
 
 
-Map::Map(int difficulty, std::shared_ptr<Player> p) : difficulty_(difficulty), p_(p) {
+Map::Map(int difficulty, Player* p) : difficulty_(difficulty), p_(p) {
     map_init();
 }
 

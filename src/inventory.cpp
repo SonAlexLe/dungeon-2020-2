@@ -1,7 +1,7 @@
 #include "inventory.hpp"
 #include <math.h> 
 
-Inventory::Inventory(std::shared_ptr<Player> player) : player_(player)
+Inventory::Inventory(Player* player) : player_(player)
 {
     armor_ = std::make_unique<Armor>(0.f, 0.f, sf::Vector2f(0.f, 0.f), "T-shirt", player, 1);
     weapon_ = std::make_unique<Weapon>(0.f, 0.f, sf::Vector2f(0.f, 0.f), "Stick", player, 1);

@@ -7,7 +7,7 @@
 #include <random>
 
 // Item class functions below.
-Item::Item(float x, float y, sf::Vector2f vector, const std::string name, std::shared_ptr<Player> player, int value) :
+Item::Item(float x, float y, sf::Vector2f vector, const std::string name, Player* player, int value) :
     Entity(x, y, vector), name_(name), player_(player), armorDmgValue_(value)
 {
     equipped_ = false;
@@ -64,7 +64,7 @@ void Item::draw(sf::RenderWindow* window) { //Now only draws the sprite but it a
 // ------------------------------
 // itemGenerator functions below.
 
-std::unique_ptr<Item> itemGenerator::createEquipment(float x, float y, std::shared_ptr<Player> player) { // Creates randomly an armor or a weapon for the item room.
+std::unique_ptr<Item> itemGenerator::createEquipment(float x, float y, Player* player) { // Creates randomly an armor or a weapon for the item room.
     int armorWeapon = (rand() % static_cast<int>(1 - 0 + 1));
     int quality = rand() % 2 + 0;
     int material = gameLvl_;
@@ -82,7 +82,7 @@ std::unique_ptr<Item> itemGenerator::createEquipment(float x, float y, std::shar
     }
 }
 
-std::unique_ptr<Item> itemGenerator::createConsumable(float x, float y, std::shared_ptr<Player> player) { //At the moment this function can only create healing potions so the two lines are commented.
+std::unique_ptr<Item> itemGenerator::createConsumable(float x, float y, Player* player) { //At the moment this function can only create healing potions so the two lines are commented.
     //srand((unsigned int)time(NULL)); 
     //int random_cons = rand() % 1 + 0;
     sf::Vector2f v1(0.f, 0.f);

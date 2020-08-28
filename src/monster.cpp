@@ -18,7 +18,7 @@ Monster::Monster() {}
  * @param hp initial hit points
  * @param p the player shared vector
  */
-Monster::Monster(float x, float y, sf::Vector2f velocity, int hp, std::shared_ptr<Player> p)
+Monster::Monster(float x, float y, sf::Vector2f velocity, int hp, Player* p)
     : Entity(x, y, velocity), hp_(hp), p_(p), active_(true) {}
 
 //renders a monster onscreen
@@ -49,8 +49,8 @@ void Monster::Draw(sf::RenderWindow* w, sf::Font& f, sf::Color c) {
 void Monster::SetHP(int hp) { hp_ = hp; }
 int Monster::GetHP() { return hp_; }
 
-void Monster::SetPlayer(std::shared_ptr<Player> p) { p_ = p; }
-std::shared_ptr<Player> Monster::GetPlayer() { return p_; }
+void Monster::SetPlayer(Player* p) { p_ = p; }
+Player* Monster::GetPlayer() { return p_; }
 
 sf::Sprite& Monster::GetSprite() { return sprite_; }
 
@@ -68,7 +68,7 @@ void Monster::AdjustSpawn() {
 }
 
 //subclass orc, patrols from one corner to the opposite one.
-Orc::Orc(float x, float y, std::shared_ptr<Player> p)
+Orc::Orc(float x, float y, Player* p)
     : Monster(x, y, sf::Vector2f(ORC_SPEED, ORC_SPEED), ORC_HP, p)
 {
     sprite_ = sf::Sprite(p->GetTexture(), sf::IntRect(32,160,16,16));
@@ -99,7 +99,7 @@ void Orc::update(sf::Time dt) {
 
 
 //subclass orge, chases the player at constantly increasing speed
-Orge::Orge(float x, float y, std::shared_ptr<Player> p)
+Orge::Orge(float x, float y, Player* p)
     : Monster(x, y, sf::Vector2f(0, 0), ORGE_HP, p), aggro_(1)
 {
     sprite_ = sf::Sprite(p->GetTexture(), sf::IntRect(101,181,22,28));
@@ -130,7 +130,7 @@ void Orge::update(sf::Time dt) {
 
 //subclass Boss, the boss of the game. Defeat it for something interesting.
 
-Boss::Boss(float x, float y, std::shared_ptr<Player> p)
+Boss::Boss(float x, float y, Player* p)
     : Monster(x, y, sf::Vector2f(0, 0), BOSS_HP, p), cooldown_(1.5) , waypoint_(sf::Vector2f(-1,-1))
 {
     sprite_ = sf::Sprite(p->GetTexture(), sf::IntRect(160,177,33,31));

@@ -11,13 +11,13 @@ Game::Game(sf::RenderWindow *window) : window_(window)
         std::cout << "sprite error" << std::endl;
     }
     //Generate a new dungeon floor as the starting map
-    p1_ = std::make_shared<Player>(gametexture_);
-    dungeon_ = std::make_unique<Map>(p1_->GetDifficulty(), p1_);
+    p1_ = std::make_unique<Player>(gametexture_);
+    dungeon_ = std::make_unique<Map>(p1_->GetDifficulty(), p1_.get());
     p1_->SetRoom(dungeon_->GetStartingRoom());
     //create an enemy for the starting room
-    p1_->GetRoom()->AddEnemy(std::move(std::make_unique<Orc>(100, 100, p1_)));
+    p1_->GetRoom()->AddEnemy(std::move(std::make_unique<Orc>(100, 100, p1_.get())));
     //Create an inventory
-    inventory_ = std::make_unique<Inventory>(p1_);
+    inventory_ = std::make_unique<Inventory>(p1_.get());
     p1_->SetInventory(inventory_.get());
     //Start the dT timer
     clock_.restart();
@@ -180,7 +180,7 @@ void Game::update()
                 portal.setPosition(p1_->GetRoom()->GetWidth()/2 * 3, p1_->GetRoom()->GetHeight()/2 * 3);
                 if(p1_->GetSprite().getGlobalBounds().intersects(portal.getGlobalBounds())){
                     p1_->IncreaseDifficulty();
-                    dungeon_.reset(std::make_unique<Map>(p1_->GetDifficulty(),p1_).release());
+                    dungeon_.reset(std::make_unique<Map>(p1_->GetDifficulty(),p1_.get()).release());
                     p1_->SetRoom(dungeon_->GetStartingRoom());
                     p1_->SetPosition(sf::Vector2f(p1_->GetRoom()->GetWidth()/2, p1_->GetRoom()->GetHeight()/2));
                 }

@@ -1,7 +1,7 @@
 #include "inventoryItems.hpp"
 #include "player.hpp"
 #include <string>
-Armor::Armor(float x, float y, sf::Vector2f vector, const std::string name, std::shared_ptr<Player> player, int value)
+Armor::Armor(float x, float y, sf::Vector2f vector, const std::string name, Player* player, int value)
     : Item(x, y, vector, name, player, value)
 {
     type_ = armor;
@@ -23,7 +23,7 @@ std::unique_ptr<Item> HealingPotion::clone() const {
     return std::make_unique<HealingPotion>(*this);
 }
 
-Weapon::Weapon(float x, float y, sf::Vector2f vector, const std::string name, std::shared_ptr<Player> player, int value)
+Weapon::Weapon(float x, float y, sf::Vector2f vector, const std::string name, Player* player, int value)
     : Item(x, y, vector, name, player, value)
 {
     type_ = weapon;
@@ -37,7 +37,7 @@ void Weapon::load() {
 
 
 
-HealingPotion::HealingPotion(float x, float y, sf::Vector2f vector, const std::string name, std::shared_ptr<Player> player, int value) :
+HealingPotion::HealingPotion(float x, float y, sf::Vector2f vector, const std::string name, Player* player, int value) :
     Item(x, y, vector, name, player, value)
 {
     type_ = consumable;

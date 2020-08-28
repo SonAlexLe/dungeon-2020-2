@@ -2,7 +2,7 @@
 
 Connection::Connection() : Entity() {}
 
-Connection::Connection(float x, float y, std::string f, std::shared_ptr<Player> p) : Entity(x, y, sf::Vector2f()), facing_(f), player_(p) {
+Connection::Connection(float x, float y, std::string f, Player* p) : Entity(x, y, sf::Vector2f()), facing_(f), player_(p) {
     if (!texture_.loadFromFile("src/Sprites/door.png")) std::cout << "sprite error!" << std::endl;
     sprite_.setTexture(texture_);
     //Rotate the door based on its facing

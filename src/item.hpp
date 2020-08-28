@@ -17,9 +17,9 @@ enum ItemTypes { //Types to differentiate the items.
 };
 class Player;
 class Inventory;
-class Item:public std::enable_shared_from_this<Item> , public Entity { //Inherits from the entity class.
+class Item : public Entity { //Inherits from the entity class.
 public:
-    Item(float x, float y, sf::Vector2f vector, const std::string name, std::shared_ptr<Player> player, int value);
+    Item(float x, float y, sf::Vector2f vector, const std::string name, Player* player, int value);
     virtual std::unique_ptr<Item> clone() const = 0;
     std::string getName() const;
     int getType() const;
@@ -42,7 +42,7 @@ protected:
     bool equipped_; //Value to indicate whether the item is on the ground or inventory. 
     std::string name_;
     int type_ = DEFAULT;
-    std::shared_ptr<Player> player_;
+    Player* player_;
 };
 
 
@@ -54,8 +54,8 @@ public:
     itemGenerator() { gameLvl_ = 1; };
     ~itemGenerator() {};
 
-    std::unique_ptr<Item> createEquipment(float x, float y, std::shared_ptr<Player> player); // Need to give the position for the created item and the player.
-    std::unique_ptr<Item> createConsumable(float x, float y, std::shared_ptr<Player> player); // Creates a random consumable.
+    std::unique_ptr<Item> createEquipment(float x, float y, Player* player); // Need to give the position for the created item and the player.
+    std::unique_ptr<Item> createConsumable(float x, float y, Player* player); // Creates a random consumable.
 private:
     itemGenerator(const itemGenerator&) = delete;
     std::vector<std::string> quality_ = { "Poor", "Good", "Great" }; // Strings to determine the equipment.

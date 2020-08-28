@@ -63,6 +63,9 @@ void Game::input()
                 break;
             case sf::Keyboard::K:
             //kill all enemies in a room
+                if(!DEBUGGING){
+                    break;
+                }
                 for(auto i : p1_->GetRoom()->GetEnemies()){
                     i->setActive(false);
                 }

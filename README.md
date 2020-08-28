@@ -12,10 +12,10 @@ Structure of the directory:
 
 Quick instructions:
 
-  * run cmake .
+  * run `cmake .`
 
-  * run make
+  * run `make`
 
-  * run ./dungeons
+  * run `./dungeons`
 
   * quit by pressing the x button on the top right of the window

@@ -175,7 +175,7 @@ void Game::update()
             }
             if(p1_->GetRoom()->GetType() == "Boss") {
                 sf::RectangleShape portal(sf::Vector2f(16,16));
-                portal.setPosition(p1_->GetRoom()->GetWidth()/2, p1_->GetRoom()->GetHeight()/2);
+                portal.setPosition(p1_->GetRoom()->GetWidth()/2 * 3, p1_->GetRoom()->GetHeight()/2 * 3);
                 if(p1_->GetSprite().getGlobalBounds().intersects(portal.getGlobalBounds())){
                     p1_->IncreaseDifficulty();
                     dungeon_ = std::make_unique<Map>(p1_->GetDifficulty(),p1_);
@@ -225,6 +225,13 @@ void Game::render()
         for(auto x : p1_->GetRoom()->GetConnections()) {
         x->draw(window_);
         }
+        if(p1_->GetRoom()->GetType() == "Boss"){
+            sf::RectangleShape portal(sf::Vector2f(16*3,16*3));
+            portal.setFillColor(sf::Color::Black);
+            portal.setPosition(sf::Vector2f(p1_->GetRoom()->GetWidth()/2 * 3, p1_->GetRoom()->GetHeight()/2 * 3));
+            window_->draw(portal);
+        }
+        
     }
     //draw items
     for(auto i : p1_->GetRoom()->GetItems()){

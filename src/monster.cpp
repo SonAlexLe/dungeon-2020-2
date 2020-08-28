@@ -93,7 +93,7 @@ void Orc::update(sf::Time dt) {
     //when a monster dies it disappears and gives the player score
     if (hp_ <= 0) {
         active_ = false;
-        p_->AddScore(5);
+        p_->AddScore(5 * (1 + p_->GetDifficulty()));
     }
 }
 
@@ -124,7 +124,7 @@ void Orge::update(sf::Time dt) {
     //when a monster dies it disappears and gives the player score
     if (hp_ <= 0) {
         active_ = false;
-        p_->AddScore(20);
+        p_->AddScore(20 * (1 + p_->GetDifficulty()));
     }
 }
 
@@ -206,7 +206,7 @@ void Boss::update(sf::Time dt) {
     }
     if (hp_ <= 0) {
         active_ = false;
-        p_->AddScore(100);
+        p_->AddScore(100 * (1 + p_->GetDifficulty()));
     }
     if(currPos_.x < 0) { currPos_.x = 0; velocity_.x = 0; }
     if(currPos_.y < 0) { currPos_.y = 0; velocity_.y = 0; }

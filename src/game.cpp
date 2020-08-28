@@ -248,7 +248,7 @@ void Game::render()
     score.setStyle(sf::Text::Underlined);
     window_->draw(score);
     std::stringstream ss2;
-    ss2 << "HP: "<< p1_->GetHP();
+    ss2 << "HP: "<< (p1_->GetHP() >= 0 ? p1_->GetHP() : 0);
     sf::Text hp;
     hp.setFont(gamefont_);
     hp.setString(ss2.str());

@@ -10,6 +10,7 @@ Game::Game(sf::RenderWindow *window) : window_(window)
     if(!gametexture_.loadFromFile("src/sprites/game_texture.png")){
         std::cout << "sprite error" << std::endl;
     }
+    
     //Generate a new dungeon floor as the starting map
     p1_ = std::make_unique<Player>(gametexture_);
     dungeon_ = std::make_unique<Map>(p1_->GetDifficulty(), p1_.get());

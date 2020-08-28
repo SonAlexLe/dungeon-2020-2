@@ -11,6 +11,7 @@
 #include <list>
 #include <sstream>
 #include <memory>
+#include <SFML/Audio.hpp>
 /* 
 ** The game class is a container class for all the contents of the game.
 ** It handles entity updating, input and graphics.

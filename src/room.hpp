@@ -54,21 +54,21 @@ public:
 
     sf::Vector2f GetSize();
 
-    void SetNConn(std::shared_ptr<Room> r);
+    void SetNConn(Room* r);
 
-    std::shared_ptr<Room> GetNConn();
+    Room* GetNConn();
 
-    void SetSConn(std::shared_ptr<Room> r);
+    void SetSConn(Room* r);
 
-    std::shared_ptr<Room> GetSConn();
+    Room* GetSConn();
 
-    void SetWConn(std::shared_ptr<Room> r);
+    void SetWConn(Room* r);
 
-    std::shared_ptr<Room> GetWConn();
+    Room* GetWConn();
 
-    void SetEConn(std::shared_ptr<Room> r);
+    void SetEConn(Room* r);
 
-    std::shared_ptr<Room> GetEConn();
+    Room* GetEConn();
 
 
 protected:
@@ -87,12 +87,12 @@ protected:
     std::list<std::shared_ptr<Projectile>> projectiles_;
 
     //Rooms neighbors
-    std::shared_ptr<Room> Nconn_;
+    Room* Nconn_;
 
-    std::shared_ptr<Room> Sconn_;
+    Room* Sconn_;
 
-    std::shared_ptr<Room> Wconn_;
+    Room* Wconn_;
 
-    std::shared_ptr<Room> Econn_;
+    Room* Econn_;
 
 };

@@ -13,7 +13,7 @@ class Player : public Entity
 public:
 
     Player() = delete;
-    Player(std::shared_ptr<Room> room, sf::Texture& t); 
+    Player(sf::Texture&); 
     ~Player() {}
 
     //inventory management methods
@@ -21,9 +21,9 @@ public:
     void SetInventory(std::shared_ptr<Inventory> inventory) { inventory_ = inventory; }
 
     //Getters for interfacing
-    std::shared_ptr<Room> GetRoom();
+    Room* GetRoom();
 
-    void SetRoom(std::shared_ptr<Room> r);
+    void SetRoom(Room* r);
 
     sf::Sprite& GetSprite();
     float GetReload();
@@ -58,11 +58,10 @@ public:
     void IncreaseDifficulty() { difficulty_ ++;}
 
 private:
-
     //player's inventory
     std::shared_ptr<Inventory> inventory_;
     //current room of the player
-    std::shared_ptr<Room> room_;
+    Room* room_;
 
     //input handling
     bool accDown_;

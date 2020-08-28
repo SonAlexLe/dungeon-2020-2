@@ -38,25 +38,25 @@ void Connection::traverse() {
         */
         if (this->facing_ == "north") {
 
-            std::shared_ptr<Room> nn = player_->GetRoom()->GetNConn();
+            Room* nn = player_->GetRoom()->GetNConn();
             player_->SetRoom(nn);
             player_->SetPosition(sf::Vector2f(size / 2, size - 30));
         }
         else if (this->facing_ == "south") {
 
-            std::shared_ptr<Room> sn = player_->GetRoom()->GetSConn();
+            Room* sn = player_->GetRoom()->GetSConn();
             player_->SetRoom(sn);
             player_->SetPosition(sf::Vector2f(size / 2, 30.0));
         }
         else if (this->facing_ == "west") {
 
-            std::shared_ptr<Room> wn = player_->GetRoom()->GetWConn();
+            Room* wn = player_->GetRoom()->GetWConn();
             player_->SetRoom(wn);
             player_->SetPosition(sf::Vector2f(size - 30, size / 2));
         }
         else if (this->facing_ == "east") {
 
-            std::shared_ptr<Room> en = player_->GetRoom()->GetEConn();
+            Room* en = player_->GetRoom()->GetEConn();
             player_->SetRoom(en);
             player_->SetPosition(sf::Vector2f(30.0, size / 2));
         }

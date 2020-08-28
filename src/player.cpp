@@ -5,8 +5,8 @@
 #define DECCEL_RATE 20.f
 #define PLR_HP 15
 
-Player::Player(std::shared_ptr<Room> room, sf::Texture& t)
-    : Entity(room->GetWidth()/2,room->GetHeight()/2, sf::Vector2f(0,0)), room_(room),
+Player::Player(sf::Texture& t)
+    : Entity(150, 150, sf::Vector2f(0,0)),
     accDown_(false), accUp_(false), accLeft_(false), accRight_(false),
     reload_(0), hp_(PLR_HP), score_(0), immortal_(true), texture_(t) , difficulty_(0)
 {
@@ -36,9 +36,9 @@ void Player::TakeDamage(int dmg) {
 //getter functions
 sf::Sprite& Player::GetSprite() { return sprite_; }
 
-void Player::SetRoom(std::shared_ptr<Room> r) { room_ = r; }
+void Player::SetRoom(Room* r) { room_ = r; }
 
-std::shared_ptr<Room> Player::GetRoom() { return room_; }
+Room* Player::GetRoom() { return room_; }
 
 float Player::GetReload() {return reload_; }
 

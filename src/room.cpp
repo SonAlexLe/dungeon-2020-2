@@ -40,18 +40,18 @@ double Room::GetWidth() { return size_.x; }
 
 double Room::GetHeight() { return size_.y; }
 
-void Room::SetNConn(std::shared_ptr<Room> r) { Nconn_ = r; }
+void Room::SetNConn(Room* r) { Nconn_ = r; }
 
-std::shared_ptr<Room> Room::GetNConn() { return Nconn_; }
+Room* Room::GetNConn() { return Nconn_; }
 
-void Room::SetSConn(std::shared_ptr<Room> r) { Sconn_ = r; }
+void Room::SetSConn(Room* r) { Sconn_ = r; }
 
-std::shared_ptr<Room> Room::GetSConn() { return Sconn_; }
+Room* Room::GetSConn() { return Sconn_; }
 
-void Room::SetWConn(std::shared_ptr<Room> r) { Wconn_ = r; }
+void Room::SetWConn(Room* r) { Wconn_ = r; }
 
-std::shared_ptr<Room> Room::GetWConn() { return Wconn_; }
+Room* Room::GetWConn() { return Wconn_; }
 
-void Room::SetEConn(std::shared_ptr<Room> r) { Econn_ = r; }
+void Room::SetEConn(Room* r) { Econn_ = r; }
 
-std::shared_ptr<Room> Room::GetEConn() { return Econn_; }
+Room* Room::GetEConn() { return Econn_; }

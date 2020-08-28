@@ -61,9 +61,9 @@ void Monster::setActive(bool x) {active_ = x;}
 //No part of a monster's sprite should be outside of the room on spawn
 void Monster::AdjustSpawn() {
     auto bounds = sprite_.getGlobalBounds();
-    if (currPos_.x+bounds.width/3 > p_->GetRoom()->GetWidth())
+    if (currPos_.x+bounds.width/3 > 300)
         currPos_ = sf::Vector2f(p_->GetRoom()->GetWidth()-bounds.width/3, currPos_.y);
-    if (currPos_.y+bounds.height/3 > p_->GetRoom()->GetHeight())
+    if (currPos_.y+bounds.height/3 > 300)
         currPos_ = sf::Vector2f(currPos_.x, p_->GetRoom()->GetHeight()-bounds.height/3);
 }
 

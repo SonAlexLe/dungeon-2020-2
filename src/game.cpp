@@ -11,8 +11,7 @@ Game::Game(sf::RenderWindow *window) : window_(window)
         std::cout << "sprite error" << std::endl;
     }
     //Generate a new dungeon floor as the starting map
-    std::shared_ptr<Room> room = std::make_shared<Room>();
-    p1_ = std::make_shared<Player>(room, gametexture_);
+    p1_ = std::make_shared<Player>(gametexture_);
     dungeon_ = std::make_unique<Map>(p1_->GetDifficulty(), p1_);
     p1_->SetRoom(dungeon_->GetStartingRoom());
     //create an enemy for the starting room

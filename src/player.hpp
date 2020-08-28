@@ -43,7 +43,7 @@ public:
     void accRight(bool);
 
     //hp & score access and management
-    void SetHP(int hp) { hp_ = hp; if (hp_ < 0) hp_ = 0;}
+    void SetHP(int hp) { hp_ = hp; }
     void AddHP(int hp);
     int GetHP() { return hp_; }
     int GetScore() { return score_; }

@@ -13,7 +13,7 @@ Game::Game(sf::RenderWindow *window) : difficulty_(0), window_(window)
     //Generate a new dungeon floor as the starting map
     std::shared_ptr<Room> room = std::make_shared<Room>();
     p1_ = std::make_shared<Player>(room, gametexture_);
-    dungeon_ = std::make_shared<Map>(difficulty_, p1_);
+    dungeon_ = std::make_unique<Map>(difficulty_, p1_);
     p1_->SetRoom(dungeon_->GetStartingRoom());
 
     //Create a player object and place them in the starting room of the map

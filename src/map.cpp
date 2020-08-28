@@ -60,13 +60,12 @@ void Map::map_init() {
                 if (nofRooms == 3) {
 
                     //Generate two random pieces of equipment and a consumable in the item room
-                    std::shared_ptr<itemGenerator> gen = std::make_shared<itemGenerator>();
-                    std::shared_ptr<Item> item1 = gen->createEquipment(150.f, 200.f, p_);
+                    std::unique_ptr<itemGenerator> gen = std::make_unique<itemGenerator>();
                     //std::shared_ptr<Item> item2 = gen->createEquipment(150.f, 100.f, p_);
                     //std::shared_ptr<Item> cons = gen->createConsumable(200.f, 150.f, p_);
 
                     room->SetType("Item");
-                    room->AddItem(item1);
+                    room->AddItem(gen->createEquipment(150.f, 200.f, p_));
 
                 }
                 //Create a boss room

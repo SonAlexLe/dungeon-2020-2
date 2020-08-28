@@ -61,15 +61,6 @@ void Game::input()
             case sf::Keyboard::E: // E key uses the held consumable.
                 inventory_->useConsumable();
                 break;
-            case sf::Keyboard::K:
-            //kill all enemies in a room
-                if(!DEBUGGING){
-                    break;
-                }
-                for(auto& i : p1_->GetRoom()->GetEnemies()){
-                    i->setActive(false);
-                }
-
             default:
                 //could add other keys here...
                 break;

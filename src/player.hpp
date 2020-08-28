@@ -14,7 +14,7 @@ public:
 
     Player() = delete;
     Player(std::shared_ptr<Room> room, sf::Texture& t); 
-    ~Player() = default;
+    ~Player() {}
 
     //inventory management methods
     std::shared_ptr<Inventory> GetInventory() { return inventory_; }

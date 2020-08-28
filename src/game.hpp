@@ -48,7 +48,7 @@ private:
     sf::Clock clock_;
     sf::Time lastUpdate_;
 
-    std::shared_ptr<Map> dungeon_;
+    std::unique_ptr<Map> dungeon_;
 
     std::shared_ptr<Player> p1_;
     std::shared_ptr<Inventory> inventory_;

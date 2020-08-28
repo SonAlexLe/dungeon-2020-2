@@ -131,7 +131,7 @@ void Orge::update(sf::Time dt) {
 //subclass Boss, the boss of the game. Defeat it for something interesting.
 
 Boss::Boss(float x, float y, std::shared_ptr<Player> p)
-    : Monster(x, y, sf::Vector2f(0, 0), BOSS_HP, p), cooldown_(0) , waypoint_(sf::Vector2f(-1,-1))
+    : Monster(x, y, sf::Vector2f(0, 0), (1 + p_->GetDifficulty())*BOSS_HP, p), cooldown_(0) , waypoint_(sf::Vector2f(-1,-1))
 {
     sprite_ = sf::Sprite(p->GetTexture(), sf::IntRect(160,177,33,31));
     sprite_.setScale(sf::Vector2f(2, 2));

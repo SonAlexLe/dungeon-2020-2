@@ -202,17 +202,6 @@ void Game::render()
     // roomsprite.setScale(sf::Vector2f(6, 6));
     window_->draw(room);
     // window_->draw(roomsprite);
-    
-    //draw the player
-    p1_->Draw(window_);
-    int charsize = 20;
-    int counter = 0;
-    //draw all enemies with more than 0hp
-    for(auto i : p1_->GetRoom()->GetEnemies()) { 
-        if (i->isActive()) {
-            i->Draw(window_, gamefont_);
-        }
-    }
 
     //draw all active projectiles
     for(auto x : p1_->GetRoom()->GetProjectiles()){
@@ -238,6 +227,17 @@ void Game::render()
         i->draw(window_);
     }
     
+    //draw the player
+    p1_->Draw(window_);
+    int charsize = 20;
+    int counter = 0;
+    //draw all enemies with more than 0hp
+    for(auto i : p1_->GetRoom()->GetEnemies()) { 
+        if (i->isActive()) {
+            i->Draw(window_, gamefont_);
+        }
+    }
+
     //generate and draw score & hp text on screen
     std::stringstream ss;
     ss << "Score: " << p1_->GetScore();

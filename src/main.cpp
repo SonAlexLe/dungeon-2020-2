@@ -35,5 +35,4 @@ int main()
     }
     //clean up memory
     game.clean();
-
 }

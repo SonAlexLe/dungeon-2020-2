@@ -223,7 +223,7 @@ void Game::render()
     }
     //draw items
     for(auto& i : p1_->GetRoom()->GetItems()){
-        i->draw(window_);
+        i->draw(window_, gamefont_);
     }
     
     //draw the player

@@ -45,7 +45,7 @@ void Item::update(sf::Time dt) {
     }
 }
 
-void Item::draw(sf::RenderWindow* window) { //Now only draws the sprite but it also should draw the name of the item under it.
+void Item::draw(sf::RenderWindow* window, sf::Font& f) { //Now only draws the sprite but it also should draw the name of the item under it.
     if (this->equipped_ == false) { //Draw function should only draw the object if it's not equipped.
         sf::FloatRect m_rec = sprite_.getGlobalBounds();
         sf::RectangleShape m_box(sf::Vector2f(m_rec.width, m_rec.height));
@@ -56,6 +56,21 @@ void Item::draw(sf::RenderWindow* window) { //Now only draws the sprite but it a
         window->draw(m_box);
         sprite_.setPosition(sf::Vector2f(currPos_.x * 3, currPos_.y * 3));
         window->draw(sprite_);
+        std::stringstream ss;
+        ss << name_;
+        sf::Text name;
+        name.setFont(f);
+        name.setString(ss.str());
+        name.setCharacterSize(12);
+        auto bounds = name.getGlobalBounds();
+        if (type_ == armor || type_ == weapon) {
+            name.setPosition(currPos_.x * 3 - 25, currPos_.y * 3 - 15);
+        }
+        else {
+            name.setPosition(currPos_.x * 3, currPos_.y * 3 - 15);
+        }
+        name.setFillColor(sf::Color::Yellow);
+        window->draw(name);
     }
 }
 
@@ -65,20 +80,26 @@ void Item::draw(sf::RenderWindow* window) { //Now only draws the sprite but it a
 // itemGenerator functions below.
 
 std::unique_ptr<Item> itemGenerator::createEquipment(float x, float y, Player* player) { // Creates randomly an armor or a weapon for the item room.
+    srand(time(NULL));
+    int difficulty = player->GetDifficulty();
     int armorWeapon = (rand() % static_cast<int>(1 - 0 + 1));
     int quality = rand() % 2 + 0;
-    int material = gameLvl_;
-    int material_koht = gameLvl_ - 1;
-    std::string name = quality_[quality] + material_[material_koht];
-    int equipmentValue = quality + material;
-    sf::Vector2f v1(0.f, 0.f);
-    if (armorWeapon == 0) {
-        name += "weapon";
-        return std::make_unique<Weapon>(x, y, v1, name, player, equipmentValue);
+    std::string itemName;
+    if(difficulty < 4){
+        itemName = quality_[quality] + " " + material_[difficulty];
     }
     else {
-        name += "armor";
-        return std::make_unique<Armor>(x, y, v1, name, player, equipmentValue);
+        itemName = quality_[quality] + material_[3];
+    }
+    int equipmentValue = quality + difficulty + 1;
+    sf::Vector2f v1(0.f, 0.f);
+    if (armorWeapon == 0) {
+        itemName += " Weapon";
+        return std::make_unique<Weapon>(x, y, v1, itemName, player, equipmentValue);
+    }
+    else {
+        itemName += " Armor";
+        return std::make_unique<Armor>(x, y, v1, itemName, player, equipmentValue);
     }
 }
 

@@ -48,6 +48,5 @@ void HealingPotion::load() {
     sprite_.setScale(sf::Vector2f(2, 2));
 }
 void HealingPotion::use() {
-    player_->SetHP(player_->GetHP() + 10);
-    delete this;
+    player_->AddHP(10);
 }

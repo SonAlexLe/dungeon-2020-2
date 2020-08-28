@@ -8,7 +8,7 @@
 #include <SFML/System.hpp>
 #include "entity.hpp"
 #include <memory>
-
+#include <sstream>
 enum ItemTypes { //Types to differentiate the items.
     DEFAULT = 0,
     weapon,
@@ -31,9 +31,9 @@ public:
     void setUnequipped();
     void setEquipped();
     void update(sf::Time dt);
-    void draw(sf::RenderWindow* window);
+    void draw(sf::RenderWindow* window, sf::Font& f);
     virtual void load() = 0;
-    void use() { return; } // Function for the consumables. Armor and weapon use function does nothing.
+    virtual void use() { return; } // Function for the consumables. Armor and weapon use function does nothing.
 
 protected:
     sf::Texture texture_;
@@ -51,14 +51,17 @@ protected:
 
 class itemGenerator {
 public:
-    itemGenerator() { gameLvl_ = 1; };
+    itemGenerator() 
+    {
+        quality_ = { "Poor", "Good", "Great" };
+        material_ = { " Wooden", " Bronze", " Iron", " Platinum" };
+    }
     ~itemGenerator() {};
 
     std::unique_ptr<Item> createEquipment(float x, float y, Player* player); // Need to give the position for the created item and the player.
     std::unique_ptr<Item> createConsumable(float x, float y, Player* player); // Creates a random consumable.
 private:
     itemGenerator(const itemGenerator&) = delete;
-    std::vector<std::string> quality_ = { "Poor", "Good", "Great" }; // Strings to determine the equipment.
-    std::vector<std::string> material_ = { "wooden", "bronze", "iron", "platinum" }; // Strings to determine the equipment.
-    int gameLvl_;
+    std::vector<std::string> quality_; // Strings to determine the equipment.
+    std::vector<std::string> material_; // Strings to determine the equipment.
 };

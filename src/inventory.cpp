@@ -3,8 +3,8 @@
 
 Inventory::Inventory(Player* player) : player_(player)
 {
-    armor_ = std::make_unique<Armor>(0.f, 0.f, sf::Vector2f(0.f, 0.f), "T-shirt", player, 1);
-    weapon_ = std::make_unique<Weapon>(0.f, 0.f, sf::Vector2f(0.f, 0.f), "Stick", player, 1);
+    armor_ = std::make_unique<Armor>(0.f, 0.f, sf::Vector2f(0.f, 0.f), "Just a regular shirt", player, 0);
+    weapon_ = std::make_unique<Weapon>(0.f, 0.f, sf::Vector2f(0.f, 0.f), "Best toy sword", player, 1);
 }
 std::string Inventory::GetConsumableName() const {
     if (heldConsumable_) {

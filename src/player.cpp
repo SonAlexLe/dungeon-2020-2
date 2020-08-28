@@ -35,7 +35,13 @@ void Player::TakeDamage(int dmg) {
     hp_ -= std::max(1,difficulty_ + dmg - inventory_->getArmorValue());
     Immortal();
 }
-
+void Player::AddHP(int hp) {
+    if(hp_ >= 5){
+        hp_ = 15;
+        return;
+    }
+    hp_ += hp;
+}
 //getter functions
 sf::Sprite& Player::GetSprite() { return sprite_; }
 

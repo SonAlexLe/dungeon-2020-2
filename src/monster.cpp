@@ -5,7 +5,7 @@
 #define ORGE_HP 10
 #define BOSS_HP 15
 #define BOSS_SPEED 100.f
-#define BOSS_DECCEL 30.f
+#define BOSS_DECCEL 50.f
 #define BOSS_COOLDOWN 1.5
 #define BOSS_RAGE_LIMIT 0.2
 
@@ -159,7 +159,8 @@ void Boss::update(sf::Time dt) {
                 projectile_velocity, proj_dmg, true, p_->GetTexture()));
             volley_--;
             if(volley_ == 0) {
-                cooldown_ = 2;
+                cooldown_ = BOSS_COOLDOWN * ((float)hp_/10);
+                std::cout << "cooldown is: " << cooldown_ << std::endl;
             }
         }
         else{

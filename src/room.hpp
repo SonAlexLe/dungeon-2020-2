@@ -30,6 +30,8 @@ public:
     void AddConnection(std::shared_ptr<Connection>);
 
     void AddItem(std::shared_ptr<Item>);
+
+    std::list<std::shared_ptr<Item>>& GetItems();
     
     std::list<std::shared_ptr<Projectile>>& GetProjectiles();
 
@@ -78,7 +80,7 @@ protected:
 
     std::list<std::shared_ptr<Connection>> connections_;
 
-    std::shared_ptr<Item> item_;
+    std::list<std::shared_ptr<Item>> items_;
 
     std::string type_;
 

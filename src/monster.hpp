@@ -2,6 +2,7 @@
 #include "entity.hpp"
 #include "player.hpp"
 #include <SFML/Graphics.hpp>
+#include <sstream>
 
 class Monster : public Entity
 {
@@ -10,7 +11,7 @@ public:
     Monster();
     Monster(float x, float y, sf::Vector2f velocity, int hp, std::shared_ptr<Player> p);
 
-    void Draw(sf::RenderWindow*, sf::Color c = sf::Color::Transparent);
+    void Draw(sf::RenderWindow*, sf::Font&, sf::Color c = sf::Color::Transparent);
 
 //Getters and setters
     sf::Sprite& GetSprite();

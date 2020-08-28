@@ -145,41 +145,24 @@ void Map::map_init() {
     }
 
 
-    std::cout << std::endl << "Connections in each room:" << std::endl;
-    for (int i = 0; i < 5; i++) {
-        for (int j = 0; j < 5; j++) {
-            if (map[i][j] != nullptr) { 
-                std::cout << map[i][j]->GetConnections().size();
-            }
-            else { std::cout << "#"; } 
-        }
-        std::cout << std::endl;
-    }
-    std::cout << "Enemies in each room:" << std::endl;
+    std::cout << "Map layout:" << std::endl;
     std::cout << std::endl;
     for (int i = 0; i < 5; i++) {
         for (int j = 0; j < 5; j++) {
-            if (map[i][j] != nullptr) { 
-                std::cout << map[i][j]->GetEnemies().size();
+            if (i == 2 && j == 2) {
+                std::cout << "S ";
             }
-            else { std::cout << "#"; } 
-        }
-        std::cout << std::endl;
-    }
-    std::cout << "Special rooms:" << std::endl;
-    std::cout << std::endl;
-    for (int i = 0; i < 5; i++) {
-        for (int j = 0; j < 5; j++) {
-            if (map[i][j] != nullptr) { 
+            else if (map[i][j] != nullptr) { 
                 std::string tmp = map[i][j]->GetType();
-                if (tmp == "Boss") {std::cout << "B";}
-                else if (tmp == "Item") { std::cout << "I"; }
-                else { std::cout << "X"; }
+                if (tmp == "Boss") {std::cout << "B ";}
+                else if (tmp == "Item") { std::cout << "I "; }
+                else { std::cout << "X "; }
             }
-            else { std::cout << "#"; } 
+            else { std::cout << "# "; } 
         }
         std::cout << std::endl;
     }
+    std::cout << std::endl << "B is the Boss Room" << std::endl << "I is the Item Room" << std::endl << "S is the Starting Room" << std::endl << "X are default rooms" << std::endl;
 
 }
 //Initializer for default rooms. Fills a room randomly with monsters and returns it

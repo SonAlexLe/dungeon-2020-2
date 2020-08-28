@@ -178,7 +178,7 @@ void Game::update()
                 portal.setPosition(p1_->GetRoom()->GetWidth()/2, p1_->GetRoom()->GetHeight()/2);
                 if(p1_->GetSprite().getGlobalBounds().intersects(portal.getGlobalBounds())){
                     p1_->IncreaseDifficulty();
-                    dungeon_ = std::make_unique<Map>(p1_->GetDifficulty(),p1_);
+                    dungeon_.reset(std::make_unique<Map>(p1_->GetDifficulty(),p1_).release());
                     p1_->SetRoom(dungeon_->GetStartingRoom());
                     p1_->SetPosition(sf::Vector2f(p1_->GetRoom()->GetWidth()/2, p1_->GetRoom()->GetHeight()/2));
                 }

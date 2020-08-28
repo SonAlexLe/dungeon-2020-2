@@ -185,7 +185,7 @@ void Boss::update(sf::Time dt) {
         if(std::min(std::abs(waypoint_.x - currPos_.x),std::abs(waypoint_.y - currPos_.y)) < 0.1 ) { 
             waypoint_ = sf::Vector2f(-1,-1);
             cooldown_ = 1;
-            }
+        }
         if(waypoint_ == sf::Vector2f(-1,-1)){
             waypoint_ = p_->GetPosition();
         }

@@ -89,8 +89,8 @@ sf::Vector2f Inventory::Drop() { // Function to calculate the spot to drop the h
     auto p_location = player_.lock()->GetPosition();
     float unitX = p_veloc.x / (sqrt(pow(p_veloc.x, 2.0f) + pow(p_veloc.y, 2.0f)));
     float unitY = p_veloc.y / (sqrt(pow(p_veloc.x, 2.0f) + pow(p_veloc.y, 2.0f)));
-    unitX = unitX * (-1) * 40 + p_location.x;
-    unitY = unitY * (-1) * 40 + p_location.y;
+    unitX = unitX * (-1) * 20 + p_location.x;
+    unitY = unitY * (-1) * 20 + p_location.y;
     sf::Vector2f v1(unitX, unitY);
     return v1;
 }

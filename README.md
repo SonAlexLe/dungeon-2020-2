@@ -1,8 +1,6 @@
-# Sample README file for C++ programming project
+# dungeon-2020-2
 
-This is an initial git repository for your programming project.
-It contains an initial directory structure that we wish you could
-use as follows:
+Structure of the directory:
 
   * `plan/` -- Project plan 
 
@@ -11,3 +9,13 @@ use as follows:
   * `src/` -- Source files. Contains subfolder `Sprites/` which contains game resources
 
   * `README.md` -- This file...
+
+Quick instructions:
+
+  * run cmake .
+
+  * run make
+
+  * run ./dungeons
+
+  * quit by pressing the x button on the top right of the window

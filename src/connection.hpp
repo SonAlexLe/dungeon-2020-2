@@ -10,7 +10,7 @@
 
 /*Each connection object functions as a doorway to a different room
 The connections facing determines to which of the rooms neighbors the player is transported to.
-By default connections are locked and need to be unlocked by clearing the room 
+Connections become interactable as the room is cleared of monsters
 */
 class Connection : public Entity {
 public:
@@ -18,12 +18,7 @@ public:
 
     Connection(float x, float y, std::string f, std::shared_ptr<Player> p);
     
-    void unlock();
-
-    const std::string GetSpriteName() const; 
-
     void update(sf::Time dt);
-
 
     //Moves the player to another room
     void traverse();
@@ -32,7 +27,6 @@ public:
 
 private:
 
-    bool locked_;
 
     std::string facing_;
 

@@ -64,9 +64,8 @@ void Inventory::addItem(std::shared_ptr<Item> newItem)
 }
 
 sf::Vector2f Inventory::Drop() { // Function to calculate the spot to drop the held item when a new one is picked up.
-    if (player_.expired()) return sf::Vector2f(0, 0); // is player object destroyed?
-    auto p_veloc = player_.lock()->GetVelocity();
-    auto p_sprite = player_.lock()->GetSprite();
+    auto p_veloc = player_->GetVelocity();
+    auto p_sprite = player_->GetSprite();
     float unitX = p_veloc.x / (sqrt(pow(p_veloc.x, 2.0f) + pow(p_veloc.y, 2.0f)));
     float unitY = p_veloc.y / (sqrt(pow(p_veloc.x, 2.0f) + pow(p_veloc.y, 2.0f)));
     unitX = unitX * (-1) * 115 + p_sprite.getPosition().x;

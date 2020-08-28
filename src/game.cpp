@@ -17,8 +17,8 @@ Game::Game(sf::RenderWindow *window) : window_(window)
     //create an enemy for the starting room
     p1_->GetRoom()->AddEnemy(std::move(std::make_unique<Orc>(100, 100, p1_)));
     //Create an inventory
-    inventory_ = std::make_shared<Inventory>(p1_);
-    p1_->SetInventory(inventory_);
+    inventory_ = std::make_unique<Inventory>(p1_);
+    p1_->SetInventory(inventory_.get());
     //Start the dT timer
     clock_.restart();
     //Game is now running, moving to the main loop.
@@ -108,10 +108,10 @@ void Game::input()
                     sf::Vector2f projectile_velocity(projectile_direction.x/vlength*projectilespeed,
                                                     projectile_direction.y/vlength*projectilespeed);
                     //create new projectile, the creation point is the middle of player instead of the top-left corner, the coefficient is 6 because graphics are scaled 3 times from the actual game logic.
-                    p1_->GetRoom()->AddProjectile(std::make_shared<Projectile>(
+                    p1_->GetRoom()->AddProjectile(std::move(std::make_unique<Projectile>(
                         sf::Vector2f(p1_->GetPosition().x + (p1_->GetSprite().getGlobalBounds().width/6),
                         p1_->GetPosition().y+ p1_->GetSprite().getGlobalBounds().height/6),
-                        projectile_velocity, proj_dmg, false, gametexture_));
+                        projectile_velocity, proj_dmg, false, gametexture_)));
                     //set the player reload time, reload must finish before firing
                     p1_->Attack();
                 }
@@ -144,7 +144,7 @@ void Game::update()
             d->update(elapsed);
         }
 
-        for(auto i : p1_->GetRoom()->GetProjectiles()){
+        for(auto& i : p1_->GetRoom()->GetProjectiles()){
             sf::Vector2f Ppos = i->GetPosition();
         
             if(i->isActive()){
@@ -192,18 +192,14 @@ void Game::render()
     window_->clear(sf::Color::Black);
 
     //draw the room
-    // sf::Sprite roomsprite(gametexture_, sf::IntRect(0,90,64,48));
     sf::Vector2f roomSize = p1_->GetRoom()->GetSize();
     sf::RectangleShape room(sf::Vector2f((roomSize.x+16)*3,(roomSize.y+16)*3));
     room.setTexture(&gametexture_);
     room.setTextureRect(sf::IntRect(0,90,64,48));
-    // room.setFillColor(sf::Color::White);
-    // roomsprite.setScale(sf::Vector2f(6, 6));
     window_->draw(room);
-    // window_->draw(roomsprite);
 
     //draw all active projectiles
-    for(auto x : p1_->GetRoom()->GetProjectiles()){
+    for(auto& x : p1_->GetRoom()->GetProjectiles()){
         if(x->isActive()){
             x->Draw(window_);
         }

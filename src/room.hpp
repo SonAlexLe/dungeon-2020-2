@@ -33,13 +33,13 @@ public:
 
     std::list<std::shared_ptr<Item>>& GetItems();
     
-    std::list<std::shared_ptr<Projectile>>& GetProjectiles();
+    std::list<std::unique_ptr<Projectile>>& GetProjectiles();
 
     void CheckProjectiles();
 
-    void AddProjectile(std::shared_ptr<Projectile>);
+    void AddProjectile(std::unique_ptr<Projectile>);
 
-    void RemoveProjectile(std::shared_ptr<Projectile>);
+    void RemoveProjectile(std::unique_ptr<Projectile>);
 
     //A room is considered cleared when all monsters in it are inactive
     bool IsClear();
@@ -84,7 +84,7 @@ protected:
 
     std::string type_;
 
-    std::list<std::shared_ptr<Projectile>> projectiles_;
+    std::list<std::unique_ptr<Projectile>> projectiles_;
 
     //Rooms neighbors
     Room* Nconn_;

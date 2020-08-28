@@ -49,5 +49,5 @@ private:
     std::unique_ptr<Map> dungeon_;
 
     std::shared_ptr<Player> p1_;
-    std::shared_ptr<Inventory> inventory_;
+    std::unique_ptr<Inventory> inventory_;
 };

@@ -11,7 +11,7 @@ std::list<std::unique_ptr<Monster>>& Room::GetEnemies() {
 
 void Room::AddEnemy(std::unique_ptr<Monster> e) { enemies_.push_back(std::move(e)); }
 
-void Room::AddProjectile(std::shared_ptr<Projectile> pew){ projectiles_.push_back(pew); }
+void Room::AddProjectile(std::unique_ptr<Projectile> pew){ projectiles_.push_back(std::move(pew)); }
 
 void Room::AddItem(std::shared_ptr<Item> i) { items_.push_back(i); }
 
@@ -21,7 +21,7 @@ std::list<std::shared_ptr<Connection>>& Room::GetConnections() {return connectio
 
 void Room::AddConnection(std::shared_ptr<Connection> c) { connections_.push_back(c); }
 
-std::list<std::shared_ptr<Projectile>>& Room::GetProjectiles() { return projectiles_; }
+std::list<std::unique_ptr<Projectile>>& Room::GetProjectiles() { return projectiles_; }
 
 bool Room::IsClear() {
     for (auto const& m : enemies_) {

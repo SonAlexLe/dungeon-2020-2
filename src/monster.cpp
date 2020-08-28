@@ -62,9 +62,9 @@ void Monster::setActive(bool x) {active_ = x;}
 void Monster::AdjustSpawn() {
     auto bounds = sprite_.getGlobalBounds();
     if (currPos_.x+bounds.width/3 > 300)
-        currPos_ = sf::Vector2f(p_->GetRoom()->GetWidth()-bounds.width/3, currPos_.y);
+        currPos_ = sf::Vector2f(300-bounds.width/3, currPos_.y);
     if (currPos_.y+bounds.height/3 > 300)
-        currPos_ = sf::Vector2f(currPos_.x, p_->GetRoom()->GetHeight()-bounds.height/3);
+        currPos_ = sf::Vector2f(currPos_.x, 300-bounds.height/3);
 }
 
 //subclass orc, patrols from one corner to the opposite one.
@@ -165,10 +165,10 @@ void Boss::update(sf::Time dt) {
             sf::Vector2f projectile_velocity(projectile_direction.x/vlength*projectilespeed,
                                             projectile_direction.y/vlength*projectilespeed);
             //create new projectile, the creation point is the middle of the boss instead of the top-left corner, the coefficient is 6 because graphics are scaled 3 times from the actual game logic.
-            p_->GetRoom()->AddProjectile(std::make_shared<Projectile>(
+            p_->GetRoom()->AddProjectile(std::move(std::make_unique<Projectile>(
                 sf::Vector2f(currPos_.x + (sprite_.getGlobalBounds().width/6),
                 currPos_.y+ sprite_.getGlobalBounds().height/6),
-                projectile_velocity, proj_dmg, true, p_->GetTexture()));
+                projectile_velocity, proj_dmg, true, p_->GetTexture())));
             volley_--;
             if(volley_ == 0) {
                 cooldown_ = BOSS_COOLDOWN * ((float)hp_/10);

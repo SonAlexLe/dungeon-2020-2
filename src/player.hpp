@@ -17,8 +17,8 @@ public:
     ~Player() {}
 
     //inventory management methods
-    std::shared_ptr<Inventory> GetInventory() { return inventory_; }
-    void SetInventory(std::shared_ptr<Inventory> inventory) { inventory_ = inventory; }
+    Inventory* GetInventory() { return inventory_; }
+    void SetInventory(Inventory* inventory) { inventory_ = inventory; }
 
     //Getters for interfacing
     Room* GetRoom();
@@ -59,7 +59,7 @@ public:
 
 private:
     //player's inventory
-    std::shared_ptr<Inventory> inventory_;
+    Inventory* inventory_;
     //current room of the player
     Room* room_;
 

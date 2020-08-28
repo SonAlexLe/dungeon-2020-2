@@ -9,9 +9,11 @@
 class Armor : public Item
 {
 public:
-    Armor(float x, float y, sf::Vector2f vector, const std::string name, std::shared_ptr<Player> player, int value);
+    Armor(float x, float y, sf::Vector2f vector, const std::string name, Player* player, int value);
 
     Armor() = delete;
+
+    virtual std::unique_ptr<Item> clone() const;
 
     const std::string GetSpriteName() const { return "armorOnTheGround.png"; }
 
@@ -22,9 +24,11 @@ public:
 class Weapon : public Item
 {
 public:
-    Weapon(float x, float y, sf::Vector2f vector, const std::string name, std::shared_ptr<Player> player, int value);
+    Weapon(float x, float y, sf::Vector2f vector, const std::string name, Player* player, int value);
 
     Weapon() = delete;
+
+    virtual std::unique_ptr<Item> clone() const;
 
     const std::string GetSpriteName() const { return "weaponOnTheGround.png"; }
 
@@ -38,9 +42,11 @@ private:
 class HealingPotion : public Item // Single use item that heals the player to full hp.
 {
 public:
-    HealingPotion(float x, float y, sf::Vector2f vector, const std::string name, std::shared_ptr<Player> player, int value);
+    HealingPotion(float x, float y, sf::Vector2f vector, const std::string name, Player* player, int value);
 
     HealingPotion() = delete;
+
+    virtual std::unique_ptr<Item> clone() const;
 
     const std::string GetSpriteName() const { return "consumableOnTheGround.png"; }
 

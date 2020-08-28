@@ -14,11 +14,11 @@ public:
 
     Map() {}
 
-    Map(int difficulty, std::shared_ptr<Player> p);
+    Map(int difficulty, Player* p);
 
     ~Map() {}
 
-    std::shared_ptr<Room> GetStartingRoom();
+    Room* GetStartingRoom();
 
 
 private:
@@ -26,13 +26,13 @@ private:
 // Helper functions to break down constructing a map
     void map_init();
 
-    std::shared_ptr<Room> room_init();
+    std::unique_ptr<Room> room_init();
 
     int difficulty_;
 
-    std::list<std::shared_ptr<Room>> rooms_;
+    std::list<std::unique_ptr<Room>> rooms_;
 
-    std::shared_ptr<Player> p_;
+    Player* p_;
 
 
 };

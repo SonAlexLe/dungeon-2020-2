@@ -16,7 +16,7 @@ class Connection : public Entity {
 public:
     Connection();
 
-    Connection(float x, float y, std::string f, std::shared_ptr<Player> p);
+    Connection(float x, float y, std::string f, Player* p);
     
     void update(sf::Time dt);
 
@@ -34,6 +34,6 @@ private:
 
     sf::Sprite sprite_;
 
-    std::shared_ptr<Player> player_;
+    Player* player_;
 };
 

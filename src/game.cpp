@@ -11,15 +11,14 @@ Game::Game(sf::RenderWindow *window) : window_(window)
         std::cout << "sprite error" << std::endl;
     }
     //Generate a new dungeon floor as the starting map
-    std::shared_ptr<Room> room = std::make_shared<Room>();
-    p1_ = std::make_shared<Player>(room, gametexture_);
-    dungeon_ = std::make_unique<Map>(p1_->GetDifficulty(), p1_);
+    p1_ = std::make_unique<Player>(gametexture_);
+    dungeon_ = std::make_unique<Map>(p1_->GetDifficulty(), p1_.get());
     p1_->SetRoom(dungeon_->GetStartingRoom());
     //create an enemy for the starting room
-    p1_->GetRoom()->AddEnemy(std::make_shared<Orc>(100, 100, p1_));
+    p1_->GetRoom()->AddEnemy(std::move(std::make_unique<Orc>(100, 100, p1_.get())));
     //Create an inventory
-    inventory_ = std::make_shared<Inventory>(p1_);
-    p1_->SetInventory(inventory_);
+    inventory_ = std::make_unique<Inventory>(p1_.get());
+    p1_->SetInventory(inventory_.get());
     //Start the dT timer
     clock_.restart();
     //Game is now running, moving to the main loop.
@@ -66,7 +65,7 @@ void Game::input()
                 if(!DEBUGGING){
                     break;
                 }
-                for(auto i : p1_->GetRoom()->GetEnemies()){
+                for(auto& i : p1_->GetRoom()->GetEnemies()){
                     i->setActive(false);
                 }
 
@@ -112,10 +111,10 @@ void Game::input()
                     sf::Vector2f projectile_velocity(projectile_direction.x/vlength*projectilespeed,
                                                     projectile_direction.y/vlength*projectilespeed);
                     //create new projectile, the creation point is the middle of player instead of the top-left corner, the coefficient is 6 because graphics are scaled 3 times from the actual game logic.
-                    p1_->GetRoom()->AddProjectile(std::make_shared<Projectile>(
+                    p1_->GetRoom()->AddProjectile(std::move(std::make_unique<Projectile>(
                         sf::Vector2f(p1_->GetPosition().x + (p1_->GetSprite().getGlobalBounds().width/6),
                         p1_->GetPosition().y+ p1_->GetSprite().getGlobalBounds().height/6),
-                        projectile_velocity, proj_dmg, false, gametexture_));
+                        projectile_velocity, proj_dmg, false, gametexture_)));
                     //set the player reload time, reload must finish before firing
                     p1_->Attack();
                 }
@@ -137,18 +136,18 @@ void Game::update()
         //update player
         p1_->update(elapsed);
         //update all enemies within the active room
-        for(auto i : p1_->GetRoom()->GetEnemies()) {
+        for(auto& i : p1_->GetRoom()->GetEnemies()) {
             if(i->isActive())
                 {i->update(elapsed);}
         }
         //update all projectiles, bounds is used for checking projectile collision with walls
         sf::Vector2f bounds = p1_->GetRoom()->GetSize();
 
-        for(auto d: p1_->GetRoom()->GetItems()){
+        for(auto& d: p1_->GetRoom()->GetItems()){
             d->update(elapsed);
         }
 
-        for(auto i : p1_->GetRoom()->GetProjectiles()){
+        for(auto& i : p1_->GetRoom()->GetProjectiles()){
             sf::Vector2f Ppos = i->GetPosition();
         
             if(i->isActive()){
@@ -157,7 +156,7 @@ void Game::update()
                     i->setActive(false);
                     p1_->TakeDamage(i->GetDamage());
                 }
-                for(auto j : p1_->GetRoom()->GetEnemies()){
+                for(auto& j : p1_->GetRoom()->GetEnemies()){
                 
                 //check projectile collision with an enemy. projectile disappears on hitting an enemy.
                     if(!i->isHostile() && j->GetHP()>0 && i->GetSprite().getGlobalBounds().intersects(j->GetSprite().getGlobalBounds())){
@@ -173,7 +172,7 @@ void Game::update()
             }
         }
         if (p1_->GetRoom()->IsClear()) {
-            for(auto x : p1_->GetRoom()->GetConnections()) {
+            for(auto& x : p1_->GetRoom()->GetConnections()) {
                 x->update(elapsed);
             }
             if(p1_->GetRoom()->GetType() == "Boss") {
@@ -181,7 +180,7 @@ void Game::update()
                 portal.setPosition(p1_->GetRoom()->GetWidth()/2 * 3, p1_->GetRoom()->GetHeight()/2 * 3);
                 if(p1_->GetSprite().getGlobalBounds().intersects(portal.getGlobalBounds())){
                     p1_->IncreaseDifficulty();
-                    dungeon_.reset(std::make_unique<Map>(p1_->GetDifficulty(),p1_).release());
+                    dungeon_.reset(std::make_unique<Map>(p1_->GetDifficulty(),p1_.get()).release());
                     p1_->SetRoom(dungeon_->GetStartingRoom());
                     p1_->SetPosition(sf::Vector2f(p1_->GetRoom()->GetWidth()/2, p1_->GetRoom()->GetHeight()/2));
                 }
@@ -196,25 +195,21 @@ void Game::render()
     window_->clear(sf::Color::Black);
 
     //draw the room
-    // sf::Sprite roomsprite(gametexture_, sf::IntRect(0,90,64,48));
     sf::Vector2f roomSize = p1_->GetRoom()->GetSize();
     sf::RectangleShape room(sf::Vector2f((roomSize.x+16)*3,(roomSize.y+16)*3));
     room.setTexture(&gametexture_);
     room.setTextureRect(sf::IntRect(0,90,64,48));
-    // room.setFillColor(sf::Color::White);
-    // roomsprite.setScale(sf::Vector2f(6, 6));
     window_->draw(room);
-    // window_->draw(roomsprite);
 
     //draw all active projectiles
-    for(auto x : p1_->GetRoom()->GetProjectiles()){
+    for(auto& x : p1_->GetRoom()->GetProjectiles()){
         if(x->isActive()){
             x->Draw(window_);
         }
     }
     //draw all connectors if there are no enemies present
     if (p1_->GetRoom()->IsClear()) {
-        for(auto x : p1_->GetRoom()->GetConnections()) {
+        for(auto& x : p1_->GetRoom()->GetConnections()) {
         x->draw(window_);
         }
         if(p1_->GetRoom()->GetType() == "Boss"){
@@ -226,7 +221,7 @@ void Game::render()
         
     }
     //draw items
-    for(auto i : p1_->GetRoom()->GetItems()){
+    for(auto& i : p1_->GetRoom()->GetItems()){
         i->draw(window_);
     }
     
@@ -235,7 +230,7 @@ void Game::render()
     int charsize = 20;
     int counter = 0;
     //draw all enemies with more than 0hp
-    for(auto i : p1_->GetRoom()->GetEnemies()) { 
+    for(auto const& i : p1_->GetRoom()->GetEnemies()) { 
         if (i->isActive()) {
             i->Draw(window_, gamefont_);
         }

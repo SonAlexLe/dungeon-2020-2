@@ -2,12 +2,12 @@
 #include "map.hpp"
 
 
-Map::Map(int difficulty, std::shared_ptr<Player> p) : difficulty_(difficulty), p_(p) {
+Map::Map(int difficulty, Player* p) : difficulty_(difficulty), p_(p) {
     map_init();
 }
-//for placing the player in a fresh map
-std::shared_ptr<Room> Map::GetStartingRoom() {
-    return rooms_.front();
+
+Room* Map::GetStartingRoom() {
+    return rooms_.front().get();
 }
 
 //Creates the rooms within the map, populates them accordingly and creates connections between them
@@ -17,13 +17,13 @@ void Map::map_init() {
     int nofRooms = 5 + difficulty_;
 
     //Init helper layout
-    std::shared_ptr<Room> map[5][5] = { {nullptr} };
-    std::shared_ptr<Room> start = std::make_shared<Room>();
+    Room* map[5][5] = { {nullptr} };
+    std::unique_ptr<Room> start = std::make_unique<Room>();
     double size = start->GetHeight();
 
     //Set starting room in the middle of the layout
-    map[2][2] = start;
-    rooms_.push_back(start);
+    map[2][2] = start.get();
+    rooms_.push_back(std::move(start));
 
     //Create a random seed
     srand(time(nullptr));
@@ -54,8 +54,8 @@ void Map::map_init() {
 
             //Check if the amount of neighbors is valid if so create a special room or a default room
             if(neighbors.size() >= 1 && neighbors.size() < 3) {
-
-                std::shared_ptr<Room> room = std::make_shared<Room>();
+                //A new room
+                std::unique_ptr<Room> room = std::make_unique<Room>();
                 //Create an item room
                 if (nofRooms == 3) {
 
@@ -74,18 +74,11 @@ void Map::map_init() {
                 //Create a boss room
                 else if (nofRooms == 1) {
                     room->SetType("Boss");
-                    room->AddEnemy(std::make_shared<Boss>(225.f, 225.f, p_));
-
+                    room->AddEnemy(std::move(std::make_unique<Boss>(225.f, 225.f, p_)));
                 }
 
                 //Create a default room             
                 else { room = room_init(); }
-
-                //Add created room to the layout and rooms_ container
-                map[x][y] = room;
-                rooms_.push_back(room); 
-
-                nofRooms--;
 
                 /*After creating a room its connections to its neighboring rooms must be setup
                 One on the just created room connected to the neighbor and another created in the neighbor connected to the new room
@@ -94,46 +87,51 @@ void Map::map_init() {
                 for (auto it = neighbors.begin(); it != neighbors.end(); it++) {
 
                     if (*it == 1 ) {
-                            std::shared_ptr<Room> neighbor = map[x - 1][y];
+                            Room* neighbor = map[x - 1][y];
 
-                            room->AddConnection(std::make_shared<Connection>(size / 2, 0.0, "north", p_));
+                            room->AddConnection(std::move(std::make_unique<Connection>(size / 2, 0.0, "north", p_)));
                             room->SetNConn(neighbor);
 
-                            neighbor->AddConnection(std::make_shared<Connection>(size / 2, size, "south", p_));
-                            neighbor->SetSConn(room);
+                            neighbor->AddConnection(std::move(std::make_unique<Connection>(size / 2, size, "south", p_)));
+                            neighbor->SetSConn(room.get());
 
                         }
                     if (*it == 2) {
-                            std::shared_ptr<Room> neighbor = map[x][y + 1];
+                            Room* neighbor = map[x][y + 1];
 
-                            room->AddConnection(std::make_shared<Connection>(size, size / 2, "east", p_));
+                            room->AddConnection(std::move(std::make_unique<Connection>(size, size / 2, "east", p_)));
                             room->SetEConn(neighbor);
 
-                            neighbor->AddConnection(std::make_shared<Connection>(0.0, size / 2, "west", p_));
-                            neighbor->SetWConn(room);
+                            neighbor->AddConnection(std::move(std::make_unique<Connection>(0.0, size / 2, "west", p_)));
+                            neighbor->SetWConn(room.get());
                         }
                     if (*it == 3) {
-                            std::shared_ptr<Room> neighbor = map[x + 1][y];
+                            Room* neighbor = map[x + 1][y];
 
-                            room->AddConnection(std::make_shared<Connection>(size / 2, size, "south", p_));
+                            room->AddConnection(std::move(std::make_unique<Connection>(size / 2, size, "south", p_)));
                             room->SetSConn(neighbor);
 
-                            neighbor->AddConnection(std::make_shared<Connection>(size / 2, 0.0, "north", p_));
-                            neighbor->SetNConn(room);
+                            neighbor->AddConnection(std::move(std::make_unique<Connection>(size / 2, 0.0, "north", p_)));
+                            neighbor->SetNConn(room.get());
                         }
                     if (*it == 4) {
                         {
-                            std::shared_ptr<Room> neighbor = map[x][y - 1];
+                            Room* neighbor = map[x][y - 1];
 
-                            room->AddConnection(std::make_shared<Connection>(0.0, size / 2, "west", p_));
+                            room->AddConnection(std::move(std::make_unique<Connection>(0.0, size / 2, "west", p_)));
                             room->SetWConn(neighbor);
 
-                            neighbor->AddConnection(std::make_shared<Connection>(size, size / 2, "east", p_));
-                            neighbor->SetEConn(room);
+                            neighbor->AddConnection(std::move(std::make_unique<Connection>(size, size / 2, "east", p_)));
+                            neighbor->SetEConn(room.get());
                         }
                     }
                 }
                 neighbors.clear();
+                //Add created room to the layout and rooms_ container
+                map[x][y] = room.get();
+                rooms_.push_back(std::move(room)); 
+
+                nofRooms--;
             }
             else { neighbors.clear(); }
         }
@@ -161,12 +159,12 @@ void Map::map_init() {
 
 }
 //Initializer for default rooms. Fills a room randomly with monsters and returns it
-std::shared_ptr<Room> Map::room_init() {
+std::unique_ptr<Room> Map::room_init() {
 
     int size = rooms_.front()->GetWidth();
     srand(time(nullptr));
 
-    std::shared_ptr<Room> room = std::make_shared<Room>();
+    std::unique_ptr<Room> room = std::make_unique<Room>();
 
     //Pick a monster randomly from monsters and place them randomly into the room
     //O for Orc and G for Orge
@@ -182,11 +180,11 @@ std::shared_ptr<Room> Map::room_init() {
         char tmp = monsters[rand() % 2];
 
             if (tmp == 'O') {
-               room->AddEnemy(std::make_shared<Orc>(pos.x, pos.y, p_));
+               room->AddEnemy(std::move(std::make_unique<Orc>(pos.x, pos.y, p_)));
             }
 
             else if (tmp == 'G') {
-                room->AddEnemy(std::make_shared<Orge>(pos.x, pos.y, p_));
+                room->AddEnemy(std::move(std::make_unique<Orge>(pos.x, pos.y, p_)));
             }    
     }
     return room;

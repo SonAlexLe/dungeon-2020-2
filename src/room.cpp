@@ -5,27 +5,27 @@ Room::Room() : size_(300, 300), type_("default"), Nconn_(nullptr), Sconn_(nullpt
 
 Room::~Room() {};
 
-std::list<std::shared_ptr<Monster>>& Room::GetEnemies() {
+std::list<std::unique_ptr<Monster>>& Room::GetEnemies() {
     return enemies_;
 }
 
-void Room::AddEnemy(std::shared_ptr<Monster> e) { enemies_.push_back(e); }
+void Room::AddEnemy(std::unique_ptr<Monster> e) { enemies_.push_back(std::move(e)); }
 
-void Room::AddProjectile(std::shared_ptr<Projectile> pew){ projectiles_.push_back(pew); }
+void Room::AddProjectile(std::unique_ptr<Projectile> pew){ projectiles_.push_back(std::move(pew)); }
 
-void Room::AddItem(std::shared_ptr<Item> i) { items_.push_back(i); }
+void Room::AddItem(std::unique_ptr<Item> i) { items_.push_back(std::move(i)); }
 
-std::list<std::shared_ptr<Item>>& Room::GetItems() { return items_; }
+std::list<std::unique_ptr<Item>>& Room::GetItems() { return items_; }
 
-std::list<std::shared_ptr<Connection>>& Room::GetConnections() {return connections_; }
+std::list<std::unique_ptr<Connection>>& Room::GetConnections() {return connections_; }
 
-void Room::AddConnection(std::shared_ptr<Connection> c) { connections_.push_back(c); }
+void Room::AddConnection(std::unique_ptr<Connection> c) { connections_.push_back(std::move(c)); }
 
-std::list<std::shared_ptr<Projectile>>& Room::GetProjectiles() { return projectiles_; }
+std::list<std::unique_ptr<Projectile>>& Room::GetProjectiles() { return projectiles_; }
 
 bool Room::IsClear() {
-    for (auto m : enemies_) {
-        if( m->isActive()) {return false;}
+    for (auto const& m : enemies_) {
+        if(m->isActive()) {return false;}
     }
     return true;
 }
@@ -40,18 +40,18 @@ double Room::GetWidth() { return size_.x; }
 
 double Room::GetHeight() { return size_.y; }
 
-void Room::SetNConn(std::shared_ptr<Room> r) { Nconn_ = r; }
+void Room::SetNConn(Room* r) { Nconn_ = r; }
 
-std::shared_ptr<Room> Room::GetNConn() { return Nconn_; }
+Room* Room::GetNConn() { return Nconn_; }
 
-void Room::SetSConn(std::shared_ptr<Room> r) { Sconn_ = r; }
+void Room::SetSConn(Room* r) { Sconn_ = r; }
 
-std::shared_ptr<Room> Room::GetSConn() { return Sconn_; }
+Room* Room::GetSConn() { return Sconn_; }
 
-void Room::SetWConn(std::shared_ptr<Room> r) { Wconn_ = r; }
+void Room::SetWConn(Room* r) { Wconn_ = r; }
 
-std::shared_ptr<Room> Room::GetWConn() { return Wconn_; }
+Room* Room::GetWConn() { return Wconn_; }
 
-void Room::SetEConn(std::shared_ptr<Room> r) { Econn_ = r; }
+void Room::SetEConn(Room* r) { Econn_ = r; }
 
-std::shared_ptr<Room> Room::GetEConn() { return Econn_; }
+Room* Room::GetEConn() { return Econn_; }

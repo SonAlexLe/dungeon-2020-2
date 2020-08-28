@@ -15,14 +15,7 @@ Game::Game(sf::RenderWindow *window) : window_(window)
     p1_ = std::make_shared<Player>(room, gametexture_);
     dungeon_ = std::make_unique<Map>(p1_->GetDifficulty(), p1_);
     p1_->SetRoom(dungeon_->GetStartingRoom());
-
-    //Create a player object and place them in the starting room of the map
-
-    //TODO move this into map gen
-    /*Orc* o = new Orc(100, 100, p1_);
-    o->SetHP(0);
-    p1_->GetRoom()->AddEnemy(o); */
-
+    //create an enemy for the starting room
     p1_->GetRoom()->AddEnemy(std::make_shared<Orc>(100, 100, p1_));
     //Create an inventory
     inventory_ = std::make_shared<Inventory>(p1_);
@@ -179,6 +172,16 @@ void Game::update()
         if (p1_->GetRoom()->IsClear()) {
             for(auto x : p1_->GetRoom()->GetConnections()) {
                 x->update(elapsed);
+            }
+            if(p1_->GetRoom()->GetType() == "Boss") {
+                sf::RectangleShape portal(sf::Vector2f(16,16));
+                portal.setPosition(p1_->GetRoom()->GetWidth()/2, p1_->GetRoom()->GetHeight()/2);
+                if(p1_->GetSprite().getGlobalBounds().intersects(portal.getGlobalBounds())){
+                    p1_->IncreaseDifficulty();
+                    dungeon_ = std::make_unique<Map>(p1_->GetDifficulty(),p1_);
+                    p1_->SetRoom(dungeon_->GetStartingRoom());
+                    p1_->SetPosition(sf::Vector2f(p1_->GetRoom()->GetWidth()/2, p1_->GetRoom()->GetHeight()/2));
+                }
             }
         }
         lastUpdate_ = time;

@@ -15,15 +15,15 @@ int main()
 {
     sf::RenderWindow window(sf::VideoMode(900, 900), "Dungeons 1.5");
     window.setPosition(sf::Vector2i(450, 50));
-    sf::Music music;
-    if (!music.openFromFile("src/sprites/main.ogg"))
-    {
-        std::cout << "music error" << std::endl;
-    }
+    // sf::Music music;
+    // if (!music.openFromFile("src/sprites/main.ogg"))
+    // {
+    //     std::cout << "music error" << std::endl;
+    // }
+    // music.play();
+    // music.setLoop(true);
     //create and initialize game object
     Game game(&window);
-    music.play();
-    music.setLoop(true);
     while(game.isRunning())
     {
         //handle player input

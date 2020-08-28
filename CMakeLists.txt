@@ -23,4 +23,4 @@ find_package(SFML 2.5.1 COMPONENTS system window graphics network audio)
 
 add_executable(dungeons ${SOURCES})
 
-target_link_libraries (dungeons sfml-graphics sfml-window sfml-system)
+target_link_libraries (dungeons sfml-graphics sfml-window sfml-system sfml-audio)

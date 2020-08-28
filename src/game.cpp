@@ -23,7 +23,7 @@ Game::Game(sf::RenderWindow *window) : difficulty_(0), window_(window)
     o->SetHP(0);
     p1_->GetRoom()->AddEnemy(o); */
 
-    p1_->GetRoom()->AddEnemy(std::make_shared<Boss>(100, 100, p1_));
+    p1_->GetRoom()->AddEnemy(std::make_shared<Orc>(100, 100, p1_));
     //Create an inventory
     inventory_ = std::make_shared<Inventory>(p1_);
     p1_->SetInventory(inventory_);
@@ -195,7 +195,9 @@ void Game::render()
         if (i->isActive()) {
             i->Draw(window_);
             std::stringstream ss;
-            ss << (dynamic_cast<Orc*>(i.get()) ? "Orc" : (dynamic_cast<Orge*>(i.get()) ? "Orge" : "Boss")) << " HP: " << i->GetHP();
+            ss << (std::dynamic_pointer_cast<Orc>(i) ?
+                "Orc" : (std::dynamic_pointer_cast<Orge>(i) ?
+                "Orge" : "Boss")) << " HP: " << i->GetHP();
             sf::Text hp;
             hp.setFont(gamefont_);
             hp.setString(ss.str());

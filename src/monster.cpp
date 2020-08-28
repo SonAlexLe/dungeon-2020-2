@@ -3,11 +3,11 @@
 #define ORGE_SPEED 5.f
 #define ORC_HP 5
 #define ORGE_HP 10
-#define BOSS_HP 30
+#define BOSS_HP 15
 #define BOSS_SPEED 100.f
 #define BOSS_DECCEL 30.f
 #define BOSS_COOLDOWN 1.5
-#define BOSS_RAGE_LIMIT 0.9
+#define BOSS_RAGE_LIMIT 0.2
 
 Monster::Monster() {}
 

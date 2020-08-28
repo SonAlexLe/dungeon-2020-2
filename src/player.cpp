@@ -3,7 +3,7 @@
 #define MAX_Y 50.f
 #define ACCEL_RATE 80.f
 #define DECCEL_RATE 20.f
-#define PLR_HP 30
+#define PLR_HP 15
 
 Player::Player(std::shared_ptr<Room> room, sf::Texture& t)
     : Entity(room->GetWidth()/2,room->GetHeight()/2, sf::Vector2f(0,0)), room_(room),

@@ -3,7 +3,7 @@
 
 Room::Room() : size_(300, 300), item_(nullptr), type_("default"), Nconn_(nullptr), Sconn_(nullptr), Wconn_(nullptr), Econn_(nullptr) {}
 
-Room::~Room() {}
+Room::~Room() = default;
 
 std::list<std::shared_ptr<Monster>>& Room::GetEnemies() {
     return enemies_;

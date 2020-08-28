@@ -97,53 +97,41 @@ void Map::map_init() {
                 for (auto it = neighbors.begin(); it != neighbors.end(); it++) {
 
                     if (*it == 1 ) {
-                            std::shared_ptr<Connection> c1 = std::make_shared<Connection>(size / 2, 0.0, "north", p_);
-                            std::shared_ptr<Connection> c2 = std::make_shared<Connection>(size / 2, size, "south", p_);
-
                             std::shared_ptr<Room> neighbor = map[x - 1][y];
 
-                            room->AddConnection(c1);
+                            room->AddConnection(std::make_shared<Connection>(size / 2, 0.0, "north", p_));
                             room->SetNConn(neighbor);
 
-                            neighbor->AddConnection(c2);
+                            neighbor->AddConnection(std::make_shared<Connection>(size / 2, size, "south", p_));
                             neighbor->SetSConn(room);
 
                         }
                     if (*it == 2) {
-                            std::shared_ptr<Connection> c1 = std::make_shared<Connection>(size, size / 2, "east", p_);
-                            std::shared_ptr<Connection> c2 = std::make_shared<Connection>(0.0, size / 2, "west", p_);
-
                             std::shared_ptr<Room> neighbor = map[x][y + 1];
 
-                            room->AddConnection(c1);
+                            room->AddConnection(std::make_shared<Connection>(size, size / 2, "east", p_));
                             room->SetEConn(neighbor);
 
-                            neighbor->AddConnection(c2);
+                            neighbor->AddConnection(std::make_shared<Connection>(0.0, size / 2, "west", p_));
                             neighbor->SetWConn(room);
                         }
                     if (*it == 3) {
-                            std::shared_ptr<Connection> c1 = std::make_shared<Connection>(size / 2, size, "south", p_);
-                            std::shared_ptr<Connection> c2 = std::make_shared<Connection>(size / 2, 0.0, "north", p_);
-
                             std::shared_ptr<Room> neighbor = map[x + 1][y];
 
-                            room->AddConnection(c1);
+                            room->AddConnection(std::make_shared<Connection>(size / 2, size, "south", p_));
                             room->SetSConn(neighbor);
 
-                            neighbor->AddConnection(c2);
+                            neighbor->AddConnection(std::make_shared<Connection>(size / 2, 0.0, "north", p_));
                             neighbor->SetNConn(room);
                         }
                     if (*it == 4) {
                         {
-                            std::shared_ptr<Connection> c1 = std::make_shared<Connection>(0.0, size / 2, "west", p_);
-                            std::shared_ptr<Connection> c2 = std::make_shared<Connection>(size, size / 2, "east", p_);
-
                             std::shared_ptr<Room> neighbor = map[x][y - 1];
 
-                            room->AddConnection(c1);
+                            room->AddConnection(std::make_shared<Connection>(0.0, size / 2, "west", p_));
                             room->SetWConn(neighbor);
 
-                            neighbor->AddConnection(c2);
+                            neighbor->AddConnection(std::make_shared<Connection>(size, size / 2, "east", p_));
                             neighbor->SetEConn(room);
                         }
                     }
@@ -182,7 +170,9 @@ void Map::map_init() {
         for (int j = 0; j < 5; j++) {
             if (map[i][j] != nullptr) { 
                 std::string tmp = map[i][j]->GetType();
-                if (tmp == "Boss") {std::cout << "B";} else if (tmp == "Item") { std::cout << "I"; } else { std::cout << "X"; }
+                if (tmp == "Boss") {std::cout << "B";}
+                else if (tmp == "Item") { std::cout << "I"; }
+                else { std::cout << "X"; }
             }
             else { std::cout << "#"; } 
         }
@@ -212,13 +202,11 @@ std::shared_ptr<Room> Map::room_init() {
         char tmp = monsters[rand() % 2];
 
             if (tmp == 'O') {
-                std::shared_ptr<Orc> orc = std::make_shared<Orc>(pos.x, pos.y, p_); 
-               room->AddEnemy(orc);
+               room->AddEnemy(std::make_shared<Orc>(pos.x, pos.y, p_));
             }
 
             else if (tmp == 'G') {
-                std::shared_ptr<Orge> orge = std::make_shared<Orge>(pos.x, pos.y, p_);
-                room->AddEnemy(orge);
+                room->AddEnemy(std::make_shared<Orge>(pos.x, pos.y, p_));
             }    
     }
     return room;

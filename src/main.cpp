@@ -11,7 +11,6 @@
 
 #include <iostream>
 
-
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(900, 900), "Dungeons 1.5");

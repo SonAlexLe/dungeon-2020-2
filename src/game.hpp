@@ -44,7 +44,7 @@ private:
     sf::Font gamefont_;
     sf::Texture gametexture_;
 
-//for determining deltatime
+//for determining delta-time
     sf::Clock clock_;
     sf::Time lastUpdate_;
 

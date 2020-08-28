@@ -16,7 +16,7 @@ public:
     sf::Sprite& GetSprite();
     int GetHP();
     void SetHP(int);
-
+//if not then it won't be drawn
     bool isActive();
 
     void SetPlayer(std::shared_ptr<Player>);

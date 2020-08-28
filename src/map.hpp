@@ -17,7 +17,7 @@ public:
 
     Map(int difficulty, std::shared_ptr<Player> p);
 
-    ~Map() {}
+    ~Map() = default;
 
     std::shared_ptr<Room> GetStartingRoom();
 

@@ -4,7 +4,7 @@
 
 Entity::Entity() {}
 
-Entity::~Entity() {}
+Entity::~Entity() = default;
 
 Entity::Entity(float x, float y, sf::Vector2f velocity) : currPos_(x, y) , velocity_(velocity){}
 

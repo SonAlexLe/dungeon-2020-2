@@ -210,19 +210,7 @@ void Game::render()
     //draw all enemies with more than 0hp
     for(auto i : p1_->GetRoom()->GetEnemies()) { 
         if (i->isActive()) {
-            i->Draw(window_);
-            std::stringstream ss;
-            ss << (std::dynamic_pointer_cast<Orc>(i) ?
-                "Orc" : (std::dynamic_pointer_cast<Orge>(i) ?
-                "Orge" : "Boss")) << " HP: " << i->GetHP();
-            sf::Text hp;
-            hp.setFont(gamefont_);
-            hp.setString(ss.str());
-            hp.setCharacterSize(charsize);
-            auto bounds = hp.getGlobalBounds();
-            hp.setPosition(roomSize.x*3-bounds.width-10,2+(charsize+5)*counter++);
-            hp.setFillColor(sf::Color::Yellow);
-            window_->draw(hp);
+            i->Draw(window_, gamefont_);
         }
     }
 

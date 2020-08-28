@@ -12,8 +12,8 @@ class Entity;
 class Connection;
 class Monster;
 
-/*
-
+/*Each room can have within it monsters, projectiles, connections and items.
+Besides these containers a room has pointers to its neighboring rooms and type-tag to tell if the room is special
 */
 class Room {
 public:
@@ -30,6 +30,8 @@ public:
     void AddConnection(std::shared_ptr<Connection>);
 
     void AddItem(std::shared_ptr<Item>);
+
+    std::list<std::shared_ptr<Item>>& GetItems();
     
     std::list<std::shared_ptr<Projectile>>& GetProjectiles();
 
@@ -39,6 +41,7 @@ public:
 
     void RemoveProjectile(std::shared_ptr<Projectile>);
 
+    //A room is considered cleared when all monsters in it are inactive
     bool IsClear();
 
     std::string GetType();
@@ -77,7 +80,7 @@ protected:
 
     std::list<std::shared_ptr<Connection>> connections_;
 
-    std::shared_ptr<Item> item_;
+    std::list<std::shared_ptr<Item>> items_;
 
     std::string type_;
 

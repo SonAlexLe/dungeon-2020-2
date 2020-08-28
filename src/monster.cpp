@@ -22,7 +22,8 @@ Monster::Monster(float x, float y, sf::Vector2f velocity, int hp, std::shared_pt
     : Entity(x, y, velocity), hp_(hp), p_(p), active_(true) {}
 
 //renders a monster onscreen
-void Monster::Draw(sf::RenderWindow* w, sf::Color c) {
+void Monster::Draw(sf::RenderWindow* w, sf::Font& f, sf::Color c) {
+    sf::Vector2f roomSize = p_->GetRoom()->GetSize();
     sf::FloatRect m_rec = sprite_.getGlobalBounds();
     sf::RectangleShape m_box(sf::Vector2f(m_rec.width, m_rec.height));
     m_box.setOutlineThickness(2);
@@ -32,6 +33,16 @@ void Monster::Draw(sf::RenderWindow* w, sf::Color c) {
     w->draw(m_box);
     sprite_.setPosition(sf::Vector2f(currPos_.x*3, currPos_.y*3));
     w->draw(sprite_);
+    std::stringstream ss;
+    ss << " HP: " << this->GetHP();
+    sf::Text hp;
+    hp.setFont(f);
+    hp.setString(ss.str());
+    hp.setCharacterSize(12);
+    auto bounds = hp.getGlobalBounds();
+    hp.setPosition(currPos_.x*3, currPos_.y*3-12);
+    hp.setFillColor(sf::Color::Yellow);
+    w->draw(hp);
 }
 
 //Getters and setters for managing members

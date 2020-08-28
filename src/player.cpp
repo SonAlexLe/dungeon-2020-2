@@ -28,6 +28,9 @@ void Player::Draw(sf::RenderWindow* w, sf::Color c) {
     w->draw(sprite_);
 }
 
+//method to prevent character from dying from prolonged contact with an enemy.
+//Player becomes unkillable for one second
+//The damage the player takes is reduced by the armor value of the player.
 void Player::TakeDamage(int dmg) {
     hp_ -= std::max(1,difficulty_ + dmg - inventory_->getArmorValue());
     Immortal();
@@ -37,10 +40,14 @@ void Player::TakeDamage(int dmg) {
 sf::Sprite& Player::GetSprite() { return sprite_; }
 
 void Player::SetRoom(std::shared_ptr<Room> r) { room_ = r; }
-
 std::shared_ptr<Room> Player::GetRoom() { return room_; }
 
 float Player::GetReload() {return reload_; }
+void Player::Attack() 
+{
+    //set the player reload time
+    reload_ = 0.5;
+}
 
 /**
  * Formulas used: (for each component of the vector)
@@ -116,12 +123,6 @@ void Player::update(sf::Time dt) {
         currPos_ = sf::Vector2f(currPos_.x, GetRoom()->GetHeight()-bounds.height/3);
         velocity_.y = 0;
     }
-}
-
-void Player::Attack() 
-{
-    //set the player reload time
-    reload_ = 0.5;
 }
 
 //input handling methods

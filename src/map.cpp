@@ -5,7 +5,7 @@
 Map::Map(int difficulty, std::shared_ptr<Player> p) : difficulty_(difficulty), p_(p) {
     map_init();
 }
-
+//for placing the player in a fresh map
 std::shared_ptr<Room> Map::GetStartingRoom() {
     return rooms_.front();
 }
@@ -73,12 +73,7 @@ void Map::map_init() {
                 }
                 //Create a boss room
                 else if (nofRooms == 1) {
-
-                    //Set the room type to Boss (could be useful for win condition logic)
                     room->SetType("Boss");
-
-                    //For now init an ogre in the middle of the room, can be replaced by a boss
-
                     room->AddEnemy(std::make_shared<Boss>(225.f, 225.f, p_));
 
                 }
@@ -144,7 +139,7 @@ void Map::map_init() {
         }
     }
 
-
+//debugging, print map in default output stream
     std::cout << "Map layout:" << std::endl;
     std::cout << std::endl;
     for (int i = 0; i < 5; i++) {

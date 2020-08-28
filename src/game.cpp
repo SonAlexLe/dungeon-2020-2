@@ -282,7 +282,7 @@ void Game::render()
     window_->draw(DEF);
     //---Consumable
     std::stringstream ss5;
-    ss5 << "Cons: " << inventory_->GetConsumableName();
+    ss5 << "Consumable: " << inventory_->GetConsumableName();
     sf::Text Cons;
     Cons.setFont(gamefont_);
     Cons.setString(ss5.str());

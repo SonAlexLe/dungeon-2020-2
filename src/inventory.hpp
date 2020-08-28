@@ -19,7 +19,7 @@ public:
 private: // Player is able to hold one weapon, one armor and one consumable.
     Inventory& operator=(const Inventory&) = delete;
 
-    std::shared_ptr<Player> player_;
+    std::weak_ptr<Player> player_;
     std::shared_ptr<Item> armor_;
     std::shared_ptr<Item> weapon_;
     std::shared_ptr<Item> heldConsumable_;

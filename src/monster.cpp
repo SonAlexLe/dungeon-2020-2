@@ -1,13 +1,13 @@
 #include "monster.hpp"
 #define ORC_SPEED 30.f
-#define ORGE_SPEED 5.f
+#define ORGE_SPEED 10.f
 #define ORC_HP 5
 #define ORGE_HP 10
 #define BOSS_HP 15
 #define BOSS_SPEED 100.f
 #define BOSS_DECCEL 50.f
 #define BOSS_COOLDOWN 1.5
-#define BOSS_RAGE_LIMIT 0.2
+#define BOSS_RAGE_LIMIT 0.4
 
 Monster::Monster() {}
 
@@ -154,8 +154,8 @@ void Boss::update(sf::Time dt) {
         float radius = std::sqrt(accdir.x*accdir.x + accdir.y*accdir.y);
         float elapsed = clock_.getElapsedTime().asSeconds();
         currPos_ = center + sf::Vector2f(std::cos(BOSS_SPEED/radius*elapsed), std::sin(BOSS_SPEED/radius*elapsed))*radius;
-        int proj_dmg = 5;
-        float projectilespeed = 200;
+        int proj_dmg = 4;
+        float projectilespeed = 170;
         if(cooldown_ == 0 &&volley_ > 0){
             //calculate the direction of the projectile with the linear combination of boss and player location vectors. 
             sf::Vector2f projectile_direction = p_->GetPosition() + p_->GetVelocity() *( dt.asSeconds() * 100) - currPos_;

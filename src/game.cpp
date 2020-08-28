@@ -140,7 +140,7 @@ void Game::update()
         //update all projectiles, bounds is used for checking projectile collision with walls
         sf::Vector2f bounds = p1_->GetRoom()->GetSize();
 
-        for(auto d: p1_->GetRoom()->GetItems()){
+        for(auto& d: p1_->GetRoom()->GetItems()){
             d->update(elapsed);
         }
 
@@ -218,7 +218,7 @@ void Game::render()
         
     }
     //draw items
-    for(auto i : p1_->GetRoom()->GetItems()){
+    for(auto& i : p1_->GetRoom()->GetItems()){
         i->draw(window_);
     }
     

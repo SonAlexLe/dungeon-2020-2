@@ -11,8 +11,17 @@ void Armor::load() {
     sprite_ = sf::Sprite(player_->GetTexture(), sf::IntRect(80, 145, 16, 16));
     sprite_.setScale(sf::Vector2f(2, 2));
 }
+std::unique_ptr<Item> Armor::clone() const {
+    return std::make_unique<Armor>(*this);
+}
 
+std::unique_ptr<Item> Weapon::clone() const {
+    return std::make_unique<Weapon>(*this);
+}
 
+std::unique_ptr<Item> HealingPotion::clone() const {
+    return std::make_unique<HealingPotion>(*this);
+}
 
 Weapon::Weapon(float x, float y, sf::Vector2f vector, const std::string name, std::shared_ptr<Player> player, int value)
     : Item(x, y, vector, name, player, value)

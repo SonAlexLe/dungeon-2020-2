@@ -3,80 +3,80 @@
 
 Inventory::Inventory(std::shared_ptr<Player> player) : player_(player)
 {
-    armor_ = std::make_shared<Armor>(0.f, 0.f, sf::Vector2f(0.f, 0.f), "T-shirt", player, 1);
-    weapon_ = std::make_shared<Weapon>(0.f, 0.f, sf::Vector2f(0.f, 0.f), "Stick", player, 1);
+    armor_ = std::make_unique<Armor>(0.f, 0.f, sf::Vector2f(0.f, 0.f), "T-shirt", player, 1);
+    weapon_ = std::make_unique<Weapon>(0.f, 0.f, sf::Vector2f(0.f, 0.f), "Stick", player, 1);
 }
 std::string Inventory::GetConsumableName() const {
-    if (heldConsumable_ != nullptr) {
+    if (heldConsumable_) {
         return heldConsumable_->getName();
     }
     return "";
 }
 
 int Inventory::getArmorValue() {
-    if (armor_ == nullptr) {
+    if (!armor_) {
         return 0;
     }
     return armor_->getValue();
 }
 
 int Inventory::getDmgValue() {
-    if (weapon_ == nullptr) {
+    if (!weapon_) {
         return 0;
     }
     return weapon_->getValue();
 }
 
 bool Inventory::hasConsumable() {
-    if (heldConsumable_ == nullptr) {
+    if (!heldConsumable_) {
         return false;
     }
     return true;
 }
 
-void Inventory::addItem(const std::shared_ptr<Item>& newItem)
+void Inventory::addItem(std::unique_ptr<Item> newItem)
 {
     auto p_room = player_->GetRoom();
     switch (newItem->getType())
     {
     case weapon:
-        if (weapon_ == nullptr)
+        if (!weapon_)
         {
-            weapon_ = newItem;
+            weapon_.reset(newItem.release());
         }
         else
         {
             weapon_->setUnequipped();
             weapon_->SetPosition(Drop());
             weapon_->GetSprite().setPosition(Drop());
-            p_room->AddItem(weapon_);
-            weapon_ = newItem;
+            p_room->AddItem(std::move(weapon_));
+            weapon_.reset(newItem.release());
         }
         p_room = nullptr;
         break;
     case armor:
-        if (this->armor_ == nullptr) {
-            this->armor_ = newItem;
+        if (!armor_) {
+            armor_.reset(newItem.release());
         }
         else {
             armor_->setUnequipped();
             armor_->SetPosition(Drop());
             armor_->GetSprite().setPosition(Drop());
-            p_room->AddItem(armor_);
-            armor_ = newItem;
+            p_room->AddItem(std::move(armor_));
+            armor_.reset(newItem.release());
         }
         p_room = nullptr;
         break;
     case consumable:
-        if (this->heldConsumable_ == nullptr) {
-            this->heldConsumable_ = newItem;
+        if (!heldConsumable_) {
+            heldConsumable_.reset(newItem.release());
         }
         else {
             heldConsumable_->setUnequipped();
             heldConsumable_->SetPosition(Drop());
             heldConsumable_->GetSprite().setPosition(Drop());
-            p_room->AddItem(heldConsumable_);
-            heldConsumable_ = newItem;
+            p_room->AddItem(std::move(heldConsumable_));
+            heldConsumable_.reset(newItem.release());
         }
         p_room = nullptr;
         break;

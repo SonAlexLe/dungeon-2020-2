@@ -20,7 +20,7 @@ class Inventory;
 class Item:public std::enable_shared_from_this<Item> , public Entity { //Inherits from the entity class.
 public:
     Item(float x, float y, sf::Vector2f vector, const std::string name, std::shared_ptr<Player> player, int value);
-
+    virtual std::unique_ptr<Item> clone() const = 0;
     std::string getName() const;
     int getType() const;
     int getValue() const;
@@ -54,8 +54,8 @@ public:
     itemGenerator() { gameLvl_ = 1; };
     ~itemGenerator() {};
 
-    std::shared_ptr<Item> createEquipment(float x, float y, std::shared_ptr<Player> player); // Need to give the position for the created item and the player.
-    std::shared_ptr<Item> createConsumable(float x, float y, std::shared_ptr<Player> player); // Creates a random consumable.
+    std::unique_ptr<Item> createEquipment(float x, float y, std::shared_ptr<Player> player); // Need to give the position for the created item and the player.
+    std::unique_ptr<Item> createConsumable(float x, float y, std::shared_ptr<Player> player); // Creates a random consumable.
 private:
     itemGenerator(const itemGenerator&) = delete;
     std::vector<std::string> quality_ = { "Poor", "Good", "Great" }; // Strings to determine the equipment.

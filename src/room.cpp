@@ -13,9 +13,9 @@ void Room::AddEnemy(std::unique_ptr<Monster> e) { enemies_.push_back(std::move(e
 
 void Room::AddProjectile(std::unique_ptr<Projectile> pew){ projectiles_.push_back(std::move(pew)); }
 
-void Room::AddItem(std::shared_ptr<Item> i) { items_.push_back(i); }
+void Room::AddItem(std::unique_ptr<Item> i) { items_.push_back(std::move(i)); }
 
-std::list<std::shared_ptr<Item>>& Room::GetItems() { return items_; }
+std::list<std::unique_ptr<Item>>& Room::GetItems() { return items_; }
 
 std::list<std::shared_ptr<Connection>>& Room::GetConnections() {return connections_; }
 

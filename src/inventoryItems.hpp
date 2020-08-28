@@ -13,6 +13,8 @@ public:
 
     Armor() = delete;
 
+    virtual std::unique_ptr<Item> clone() const;
+
     const std::string GetSpriteName() const { return "armorOnTheGround.png"; }
 
     void load(); //Creates a texture that shows the armor on the ground. Loads the picture form a file named "armorOnTheGround.png".
@@ -25,6 +27,8 @@ public:
     Weapon(float x, float y, sf::Vector2f vector, const std::string name, std::shared_ptr<Player> player, int value);
 
     Weapon() = delete;
+
+    virtual std::unique_ptr<Item> clone() const;
 
     const std::string GetSpriteName() const { return "weaponOnTheGround.png"; }
 
@@ -41,6 +45,8 @@ public:
     HealingPotion(float x, float y, sf::Vector2f vector, const std::string name, std::shared_ptr<Player> player, int value);
 
     HealingPotion() = delete;
+
+    virtual std::unique_ptr<Item> clone() const;
 
     const std::string GetSpriteName() const { return "consumableOnTheGround.png"; }
 

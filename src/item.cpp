@@ -38,9 +38,10 @@ void Item::setEquipped() {
     equipped_ = true;
 }
 void Item::update(sf::Time dt) {
-    if (equipped_ == false && this->sprite_.getGlobalBounds().intersects(this->player_->GetSprite().getGlobalBounds())) { //Checks for collision with the player.
+    if (equipped_ == false && this->sprite_.getGlobalBounds().intersects(this->player_->GetSprite().getGlobalBounds())) {
+        //Checks for collision with the player.
         this->equipped_ = true;
-        this->player_->GetInventory()->addItem(shared_from_this());
+        this->player_->GetInventory()->addItem(std::move(clone()));
     }
 }
 
@@ -63,7 +64,7 @@ void Item::draw(sf::RenderWindow* window) { //Now only draws the sprite but it a
 // ------------------------------
 // itemGenerator functions below.
 
-std::shared_ptr<Item> itemGenerator::createEquipment(float x, float y, std::shared_ptr<Player> player) { // Creates randomly an armor or a weapon for the item room.
+std::unique_ptr<Item> itemGenerator::createEquipment(float x, float y, std::shared_ptr<Player> player) { // Creates randomly an armor or a weapon for the item room.
     int armorWeapon = (rand() % static_cast<int>(1 - 0 + 1));
     int quality = rand() % 2 + 0;
     int material = gameLvl_;
@@ -73,20 +74,17 @@ std::shared_ptr<Item> itemGenerator::createEquipment(float x, float y, std::shar
     sf::Vector2f v1(0.f, 0.f);
     if (armorWeapon == 0) {
         name += "weapon";
-        std::shared_ptr<Weapon> new_item = std::make_shared<Weapon>(x, y, v1, name, player, equipmentValue);
-        return new_item;
+        return std::make_unique<Weapon>(x, y, v1, name, player, equipmentValue);
     }
     else {
         name += "armor";
-        std::shared_ptr<Armor> new_item = std::make_shared<Armor>(x, y, v1, name, player, equipmentValue);
-        return new_item;
+        return std::make_unique<Armor>(x, y, v1, name, player, equipmentValue);
     }
 }
 
-std::shared_ptr<Item> itemGenerator::createConsumable(float x, float y, std::shared_ptr<Player> player) { //At the moment this function can only create healing potions so the two lines are commented.
+std::unique_ptr<Item> itemGenerator::createConsumable(float x, float y, std::shared_ptr<Player> player) { //At the moment this function can only create healing potions so the two lines are commented.
     //srand((unsigned int)time(NULL)); 
     //int random_cons = rand() % 1 + 0;
     sf::Vector2f v1(0.f, 0.f);
-    std::shared_ptr<HealingPotion> new_cons = std::make_shared<HealingPotion>(x, y, v1, "HPotion", player, 0);
-    return new_cons;
+    return std::make_unique<HealingPotion>(x, y, v1, "HPotion", player, 0);
 }

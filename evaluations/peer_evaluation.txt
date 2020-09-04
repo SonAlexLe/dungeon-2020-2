@@ -1,0 +1,13 @@
+Design: 4
+-Code nicely moved away from main to different classes. Different classes contain all needed information for that entity while staying clear, not too much unnecessarily "inter-class" functions. Documentation in code lacking, taken down quite much, for example describing what the class does, not going too much into details making it quite hard to follow (couple classes had better documentation, while others were a bit worse). 
+-Moving all enemy type classes into monster.hpp/cpp made it quite hard to find certain attributes, making them separate files (orc.hpp, orge.hpp, boss.hpp). A couple of classes used inheritance, for example creating an entity, which created a monster which created specific monsters. This was a smart way of also minimizing work. Algorithms for different enemy types nice (movement, behavior), boss was a pleasant surprise. Future additions seem quite easy to implement as much was not "hard coded in" but made easy for future changes
+
+Working practices: 3
+-The commits had small messages like ("added comments", "more comments") but some of them earlier on had a clear massage on them. 
+
+Implementation: 2
+-The make/Cmake didn't work for us (we had to write our own g++ command and add every *.cpp file in the command, along with the -lsfml commands). However no errors or anything like that occurred, apart from when we had to tweak the rows where the textures where opened, to even be able to see anything (The message that something in the file opening helped to locate the problem).
+
+Features: 5
+-The features was very well thought through. The item switch, in were the armor was picked up, and previous armor was dropped. Also, the map on the terminal was clever. Also the textures worked very well with the environment and "dungeon crawler" theme, and the game had working music.
+

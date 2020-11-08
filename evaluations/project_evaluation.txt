@@ -1,0 +1,20 @@
+Design: 5
+- The use of libraries and class inheritance is justified and well executed
+- Some advanced c++ constructs are used such as inheritance and partially abstract classes
+- Code is largely well documented 
+
+Working practices: 5
+- Work appears evenly distributed
+- Use of git is appropriate and some work has been done with separate branches.
+- Testing is thorough
+
+Implementation: 4
+- Building software was fairly painless, although a recent rename of a folder caused some include problems
+- Basic operation works without crashing, but there are some read/write errors .
+- Cmake works well in the latest versions of debian and appears to be set up for WSL
+
+Features: 5
+-Basic features (combat, movement, collectibles) and some form of progression
+-Randomly generated dungeons and numbers of monsters/items
+-Music during gameplay
+

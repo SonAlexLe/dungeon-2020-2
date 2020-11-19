@@ -1,7 +1,7 @@
 # dungeon-2020-2
 
 A project for the course ELEC-A7151 Object-oriented programming with C++ at Aalto University. 
-A roguelike dungeon crawler game built with C++ and SFML libraries.
+A roguelike dungeon crawler game built using C++ and SFML libraries.
 
 ## Contributors
 
